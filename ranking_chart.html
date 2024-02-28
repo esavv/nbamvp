@@ -1,0 +1,31 @@
+<!-- Usage for testing                                                  -->
+<!-- In my nbamvp directory:                                            -->
+<!-- > python3 -m http.server                                           -->
+<!--                                                                    -->
+<!-- In my browser, open this URL:                                      -->
+<!-- http://localhost:8000/ranking_chart.html                           -->
+<!--                                                                    -->
+<!-- To stop testing:                                                   -->
+<!-- 1. Ctrl + Z in terminal                                            -->
+<!-- 2. Get the process PID (the number immeditaely after my username)  -->
+<!--    > ps aux | grep http.server                                     -->
+<!-- 3  Kill the process:                                               -->
+<!--    > kill 12345                                                    -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>2024 NBA MVP Week-to-Week Rankings</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    <body>
+        <!-- Player Image -->
+        <!-- <img src="data/player_img_test/Nikola Jokić.jpg" alt="Jokic"> -->
+        <p>
+            <canvas id="mvpChart" width="800" height="400"></canvas>
+            <script src="ranking_chart.js"></script>
+        </p>
+    </body>
+</html>
