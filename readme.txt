@@ -1,5 +1,3 @@
-Welcome to the readme for this silly app
-
 You're probably here before the next NBA season begins. Here are
 some things you should do to get ready:
 
@@ -28,6 +26,13 @@ some things you should do to get ready:
 
  - How to SSH into my ec2 instance:
     > ssh -i "nbamvp_ec2.pem" root@ec2-3-230-84-20.compute-1.amazonaws.com
+
+ - Once I'm in there:
+ -- How to view my cronjob:
+    > vi /etc/cron.d/mycron
+ -- How to view my cronjob logs:
+    > vi /var/log/job1.log
+    > vi /var/log/job2.log
 
  - How to manually zip my source for beanstalk deployment:
     > zip -r nbamvp_20240404_07.zip .ebextensions/ data/ crontab.txt email_body.html email_template.html eval_2021.py generate_data.py mvp_model.py nba_email.py predict_mvp.py preprocess_data.py prod_emails.csv pull_images.py pw.csv rank_progress.py ranking_chart.html ranking_chart.js readme.txt requirements.txt test_emails.csv
