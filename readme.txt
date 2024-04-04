@@ -25,3 +25,9 @@ some things you should do to get ready:
     and saves MVP predictions as dev files instead of production files.
 
  - TODO - Oct 3 2022: Verify that predict_mvp.py works for target year before the new year.
+
+ - How to SSH into my ec2 instance:
+    > ssh -i "nbamvp_ec2.pem" root@ec2-3-230-84-20.compute-1.amazonaws.com
+
+ - How to manually zip my source for beanstalk deployment:
+    > zip -r nbamvp_20240404_07.zip .ebextensions/ data/ crontab.txt email_body.html email_template.html eval_2021.py generate_data.py mvp_model.py nba_email.py predict_mvp.py preprocess_data.py prod_emails.csv pull_images.py pw.csv rank_progress.py ranking_chart.html ranking_chart.js readme.txt requirements.txt test_emails.csv
