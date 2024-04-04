@@ -10,7 +10,7 @@ def prep_the_data(train_start, train_end, target_year, to_scale):
   train = pd.DataFrame()
   for year in range(train_end - train_start + 1):
     train_year = ppd.preprocess_season_stats_and_results(train_start + year)
-    train = train.append(train_year)
+    train = pd.concat([train, train_year], ignore_index=True)
 
   ## Prep the X & y inputs 
   X = train.drop(['positions','team','name','Actual Votes','games_played_actual'], inplace=False, axis=1)
