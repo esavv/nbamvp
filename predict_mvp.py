@@ -59,7 +59,7 @@ def main():
   #   If so, exit - don't bother predicting again and definitely don't ping the basketball reference API unnecessarily
   #   Except, generate predictions if we're in dev mode (for testing)
   filestring = 'predictions_' + str(target_year) + '_wk' + week_str 
-  for file in os.listdir('/Users/eriksavage/Documents/nbamvp/data/mvp_predictions/' + str(target_year)):
+  for file in os.listdir('data/mvp_predictions/' + str(target_year)):
     if (file.startswith(filestring) and args.mode == 'prod'):        # confirm we're in 'prod' mode here
       print('Prediction for this week already exists! Exiting...')
       exit()
