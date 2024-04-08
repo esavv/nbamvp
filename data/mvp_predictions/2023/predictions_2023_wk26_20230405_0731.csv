@@ -1,0 +1,533 @@
+Rank,Player,Team,Predicted Votes,GP,PTS,REB,AST,TS %,Win %
+1.0,Joel Embiid,Philadelphia 76ers,574.0,65,33.3,10.2,4.2,0.654,0.658
+2.0,Nikola Jokić,Denver Nuggets,560.0,68,24.8,11.9,9.8,0.702,0.658
+3.0,Giannis Antetokounmpo,Milwaukee Bucks,481.0,63,31.1,11.8,5.7,0.605,0.722
+4.0,Luka Dončić,Dallas Mavericks,390.0,64,32.8,8.7,8.1,0.61,0.468
+5.0,Shai Gilgeous-Alexander,Oklahoma City Thunder,252.0,67,31.5,4.8,5.4,0.628,0.475
+6.0,Jayson Tatum,Boston Celtics,240.0,73,30.2,8.8,4.6,0.607,0.684
+7.0,Jimmy Butler,Miami Heat,150.0,63,22.9,5.9,5.3,0.645,0.532
+8.0,Damian Lillard,Portland Trail Blazers,140.0,58,32.2,4.8,7.3,0.645,0.418
+9.0,Domantas Sabonis,Sacramento Kings,122.0,77,19.2,12.4,7.2,0.667,0.608
+10.0,Donovan Mitchell,Cleveland Cavaliers,91.0,68,28.3,4.2,4.4,0.614,0.625
+11.0,Kevin Durant,Phoenix Suns,55.0,46,29.1,6.7,5.0,0.677,0.557
+12.0,Stephen Curry,Golden State Warriors,54.0,54,29.6,6.1,6.3,0.653,0.525
+13.0,LeBron James,Los Angeles Lakers,51.0,52,28.9,8.4,6.8,0.581,0.519
+14.0,Julius Randle,New York Knicks,46.0,77,25.1,10.0,4.1,0.581,0.582
+15.0,Jaylen Brown,Boston Celtics,45.0,66,26.7,6.8,3.4,0.585,0.684
+16.0,Anthony Davis,Los Angeles Lakers,41.0,53,26.5,12.4,2.6,0.632,0.519
+17.0,Trae Young,Atlanta Hawks,35.0,71,26.2,3.0,9.9,0.57,0.506
+18.0,Tyrese Haliburton,Indiana Pacers,34.0,56,20.7,3.7,10.4,0.624,0.43
+19.0,Devin Booker,Phoenix Suns,25.0,52,28.0,4.6,5.5,0.602,0.557
+19.0,Ja Morant,Memphis Grizzlies,25.0,60,26.4,5.8,8.1,0.557,0.633
+21.0,De'Aaron Fox,Sacramento Kings,21.0,71,25.1,4.2,6.1,0.601,0.608
+21.0,DeMar DeRozan,Chicago Bulls,21.0,72,24.9,4.7,5.1,0.595,0.481
+23.0,Anthony Edwards,Minnesota Timberwolves,20.0,77,24.5,5.7,4.5,0.564,0.5
+24.0,Zach LaVine,Chicago Bulls,17.0,75,25.1,4.5,4.2,0.611,0.481
+25.0,Lauri Markkanen,Utah Jazz,14.0,66,25.6,8.6,1.9,0.64,0.456
+26.0,Kyrie Irving,Dallas Mavericks,13.0,59,27.0,5.1,5.5,0.613,0.468
+27.0,James Harden,Philadelphia 76ers,12.0,57,21.1,6.1,10.8,0.608,0.658
+28.0,Darius Garland,Cleveland Cavaliers,11.0,69,21.6,2.7,7.8,0.587,0.625
+29.0,Jalen Brunson,New York Knicks,6.0,68,24.0,3.5,6.2,0.597,0.582
+29.0,Kristaps Porziņģis,Washington Wizards,6.0,65,23.2,8.4,2.7,0.627,0.43
+31.0,Zion Williamson,New Orleans Pelicans,5.0,29,26.0,7.0,4.6,0.652,0.506
+32.0,Klay Thompson,Golden State Warriors,4.0,67,21.8,4.2,2.4,0.572,0.525
+33.0,Buddy Hield,Indiana Pacers,3.0,77,16.8,5.0,2.8,0.607,0.43
+34.0,Pascal Siakam,Oronto Raptors,2.0,69,24.2,7.9,5.9,0.563,0.506
+34.0,Jalen Green,Houston Rockets,2.0,74,22.2,3.8,3.7,0.539,0.25
+34.0,Bam Adebayo,Miami Heat,2.0,73,20.7,9.3,3.3,0.592,0.532
+34.0,Jordan Poole,Golden State Warriors,2.0,80,20.6,2.7,4.5,0.573,0.525
+34.0,Deandre Ayton,Phoenix Suns,2.0,66,18.0,10.0,1.7,0.615,0.557
+34.0,Nikola Vučević,Chicago Bulls,2.0,79,17.7,11.1,3.3,0.596,0.481
+40.0,Kawhi Leonard,Los Angeles Clippers,1.0,49,23.7,6.3,3.9,0.624,0.519
+40.0,Dejounte Murray,Atlanta Hawks,1.0,72,20.5,5.3,6.1,0.538,0.506
+40.0,Karl-Anthony Towns,Minnesota Timberwolves,1.0,27,20.4,8.1,4.8,0.616,0.5
+40.0,Mikal Bridges,Brooklyn Nets,1.0,80,20.3,4.4,3.3,0.59,0.544
+40.0,Tyler Herro,Miami Heat,1.0,65,20.3,5.5,4.2,0.565,0.532
+40.0,Jrue Holiday,Milwaukee Bucks,1.0,66,19.2,5.0,7.3,0.586,0.722
+40.0,Skylar Mays,Portland Trail Blazers,1.0,3,17.0,4.3,7.3,0.743,0.418
+40.0,Evan Mobley,Cleveland Cavaliers,1.0,78,16.3,9.1,2.9,0.592,0.625
+40.0,Russell Westbrook,Los Angeles Clippers,1.0,70,15.7,5.8,7.6,0.511,0.519
+40.0,Harrison Barnes,Sacramento Kings,1.0,79,15.0,4.5,1.6,0.63,0.608
+40.0,Bobby Portis,Milwaukee Bucks,1.0,68,13.9,9.6,1.5,0.572,0.722
+40.0,Chris Paul,Phoenix Suns,1.0,58,13.7,4.2,9.0,0.549,0.557
+40.0,Nic Claxton,Brooklyn Nets,1.0,74,12.5,9.2,1.9,0.687,0.544
+53.0,Brandon Ingram,New Orleans Pelicans,0.0,42,24.5,5.3,5.6,0.583,0.506
+53.0,Paul George,Los Angeles Clippers,0.0,56,23.8,6.1,5.1,0.588,0.519
+53.0,LaMelo Ball,Charlotte Hornets,0.0,36,23.3,6.4,8.4,0.541,0.325
+53.0,Bradley Beal,Washington Wizards,0.0,50,23.2,3.9,5.4,0.593,0.43
+53.0,Keldon Johnson,San Antonio Spurs,0.0,62,22.0,5.0,2.9,0.553,0.253
+53.0,Desmond Bane,Memphis Grizzlies,0.0,56,21.6,5.0,4.3,0.607,0.633
+53.0,Bojan Bogdanović,Detroit Pistons,0.0,59,21.6,3.8,2.6,0.627,0.203
+53.0,Kyle Kuzma,Washington Wizards,0.0,64,21.2,7.2,3.7,0.544,0.43
+53.0,Terry Rozier,Charlotte Hornets,0.0,63,21.1,4.1,5.1,0.517,0.325
+53.0,Anfernee Simons,Portland Trail Blazers,0.0,62,21.1,2.6,4.1,0.581,0.418
+53.0,Jordan Clarkson,Utah Jazz,0.0,61,20.8,4.0,4.4,0.558,0.456
+53.0,CJ McCollum,New Orleans Pelicans,0.0,72,20.7,4.3,5.8,0.539,0.506
+53.0,Jerami Grant,Portland Trail Blazers,0.0,63,20.5,4.5,2.4,0.606,0.418
+53.0,Tyrese Maxey,Philadelphia 76ers,0.0,60,20.3,2.9,3.5,0.605,0.658
+53.0,Kelly Oubre Jr.,Charlotte Hornets,0.0,48,20.2,5.2,1.1,0.534,0.325
+53.0,Paolo Banchero,Orlando Magic,0.0,72,20.0,6.9,3.7,0.529,0.43
+53.0,Jamal Murray,Denver Nuggets,0.0,64,20.0,4.0,6.2,0.569,0.658
+53.0,Cade Cunningham,Detroit Pistons,0.0,12,19.9,6.2,6.0,0.492,0.203
+53.0,Fred VanVleet,Oronto Raptors,0.0,67,19.6,4.1,7.2,0.544,0.506
+53.0,RJ Barrett,New York Knicks,0.0,71,19.5,5.1,2.7,0.532,0.582
+53.0,Kevin Porter Jr.,Houston Rockets,0.0,58,19.0,5.4,5.7,0.562,0.25
+53.0,Franz Wagner,Orlando Magic,0.0,78,18.8,4.1,3.6,0.59,0.43
+53.0,Devin Vassell,San Antonio Spurs,0.0,38,18.5,3.9,3.6,0.55,0.253
+53.0,Jaren Jackson Jr.,Memphis Grizzlies,0.0,61,18.0,6.8,0.9,0.608,0.633
+53.0,Myles Turner,Indiana Pacers,0.0,62,18.0,7.5,1.4,0.651,0.43
+53.0,D'Angelo Russell,Los Angeles Lakers,0.0,68,17.8,3.0,6.2,0.603,0.519
+53.0,Gary Trent Jr.,Oronto Raptors,0.0,63,17.7,2.7,1.6,0.561,0.506
+53.0,Spencer Dinwiddie,Brooklyn Nets,0.0,77,17.6,3.4,6.3,0.58,0.544
+53.0,Michael Porter Jr.,Denver Nuggets,0.0,61,17.5,5.5,1.0,0.622,0.658
+53.0,Andrew Wiggins,Golden State Warriors,0.0,37,17.1,5.0,2.3,0.564,0.525
+53.0,OG Anunoby,Oronto Raptors,0.0,65,17.0,5.0,2.0,0.593,0.506
+53.0,Christian Wood,Dallas Mavericks,0.0,66,16.7,7.4,1.8,0.627,0.468
+53.0,Josh Giddey,Oklahoma City Thunder,0.0,75,16.6,7.9,6.1,0.533,0.475
+53.0,Bennedict Mathurin,Indiana Pacers,0.0,75,16.6,4.0,1.4,0.566,0.43
+53.0,Norman Powell,Los Angeles Clippers,0.0,57,16.5,2.9,1.8,0.612,0.519
+53.0,Aaron Gordon,Denver Nuggets,0.0,67,16.3,6.6,3.0,0.616,0.658
+53.0,Jaden Ivey,Detroit Pistons,0.0,71,16.0,3.9,5.1,0.53,0.203
+53.0,Brook Lopez,Milwaukee Bucks,0.0,77,15.8,6.7,1.3,0.632,0.722
+53.0,P.J. Washington,Charlotte Hornets,0.0,73,15.7,4.9,2.4,0.542,0.325
+53.0,Scottie Barnes,Oronto Raptors,0.0,74,15.5,6.8,4.8,0.526,0.506
+53.0,Wendell Carter Jr.,Orlando Magic,0.0,56,15.5,8.8,2.3,0.624,0.43
+53.0,Khris Middleton,Milwaukee Bucks,0.0,32,15.5,4.3,5.1,0.555,0.722
+53.0,De'Andre Hunter,Atlanta Hawks,0.0,65,15.4,4.3,1.4,0.562,0.506
+53.0,Cameron Johnson,Brooklyn Nets,0.0,40,15.4,4.4,1.9,0.615,0.544
+53.0,Kevin Huerter,Sacramento Kings,0.0,73,15.3,3.3,2.9,0.619,0.608
+53.0,Alperen Şengün,Houston Rockets,0.0,73,14.8,8.8,3.9,0.6,0.25
+53.0,Malcolm Brogdon,Boston Celtics,0.0,66,14.7,4.2,3.7,0.614,0.684
+53.0,Tobias Harris,Philadelphia 76ers,0.0,73,14.7,5.7,2.5,0.601,0.658
+53.0,Gordon Hayward,Charlotte Hornets,0.0,50,14.7,4.3,4.1,0.563,0.325
+53.0,Jarrett Allen,Cleveland Cavaliers,0.0,67,14.4,9.9,1.7,0.671,0.625
+53.0,Jonas Valančiūnas,New Orleans Pelicans,0.0,76,14.4,10.1,1.8,0.614,0.506
+53.0,Immanuel Quickley,New York Knicks,0.0,78,14.3,4.1,3.3,0.573,0.582
+53.0,Collin Sexton,Utah Jazz,0.0,48,14.3,2.2,2.9,0.616,0.456
+53.0,Dillon Brooks,Memphis Grizzlies,0.0,71,14.2,3.3,2.6,0.492,0.633
+53.0,Markelle Fultz,Orlando Magic,0.0,58,14.2,4.0,5.8,0.565,0.43
+53.0,Tim Hardaway Jr.,Dallas Mavericks,0.0,70,14.2,3.5,1.8,0.55,0.468
+53.0,Bogdan Bogdanović,Atlanta Hawks,0.0,53,14.1,3.1,2.8,0.585,0.506
+53.0,Jalen Williams,Oklahoma City Thunder,0.0,74,14.1,4.5,3.3,0.603,0.475
+53.0,Trey Murphy III,New Orleans Pelicans,0.0,76,14.0,3.6,1.4,0.647,0.506
+53.0,Saddiq Bey,Atlanta Hawks,0.0,74,13.9,4.7,1.5,0.566,0.506
+53.0,Luguentz Dort,Oklahoma City Thunder,0.0,73,13.8,4.6,2.1,0.515,0.475
+53.0,Malik Monk,Sacramento Kings,0.0,75,13.7,2.6,3.9,0.591,0.608
+53.0,Rudy Gobert,Minnesota Timberwolves,0.0,68,13.6,11.7,1.2,0.674,0.5
+53.0,Jusuf Nurkić,Portland Trail Blazers,0.0,52,13.3,9.1,2.9,0.589,0.418
+53.0,Cole Anthony,Orlando Magic,0.0,59,13.0,4.7,3.9,0.573,0.43
+53.0,John Collins,Atlanta Hawks,0.0,69,12.9,6.5,1.2,0.584,0.506
+53.0,Alec Burks,Detroit Pistons,0.0,51,12.8,3.1,2.2,0.602,0.203
+53.0,Austin Reaves,Los Angeles Lakers,0.0,61,12.8,3.0,3.3,0.681,0.519
+53.0,Eric Gordon,Los Angeles Clippers,0.0,66,12.7,2.0,2.7,0.595,0.519
+53.0,Tre Jones,San Antonio Spurs,0.0,65,12.7,3.5,6.4,0.528,0.253
+53.0,Kenyon Martin Jr.,Houston Rockets,0.0,80,12.7,5.5,1.5,0.638,0.25
+53.0,Jakob Poeltl,Oronto Raptors,0.0,69,12.7,9.2,2.8,0.638,0.506
+53.0,Dennis Schröder,Los Angeles Lakers,0.0,65,12.7,2.5,4.5,0.548,0.519
+53.0,Jabari Smith Jr.,Houston Rockets,0.0,77,12.7,7.3,1.3,0.51,0.25
+53.0,Malik Beasley,Los Angeles Lakers,0.0,78,12.6,3.5,1.5,0.526,0.519
+53.0,Derrick White,Boston Celtics,0.0,79,12.5,3.6,3.9,0.605,0.684
+53.0,Jaden McDaniels,Minnesota Timberwolves,0.0,77,12.2,3.9,1.9,0.608,0.5
+53.0,Keegan Murray,Sacramento Kings,0.0,77,12.2,4.6,1.2,0.601,0.608
+53.0,Kelly Olynyk,Utah Jazz,0.0,66,12.2,6.1,3.6,0.639,0.456
+53.0,Caris LeVert,Cleveland Cavaliers,0.0,74,12.1,3.8,3.9,0.546,0.625
+53.0,Marvin Bagley III,Detroit Pistons,0.0,40,12.0,6.4,0.9,0.589,0.203
+53.0,Clint Capela,Atlanta Hawks,0.0,63,12.0,11.2,0.9,0.655,0.506
+53.0,Bones Hyland,Los Angeles Clippers,0.0,53,11.8,2.3,3.1,0.534,0.519
+53.0,Lonnie Walker IV,Los Angeles Lakers,0.0,55,11.8,2.0,1.2,0.568,0.519
+53.0,Mike Conley,Minnesota Timberwolves,0.0,65,11.7,2.8,6.7,0.575,0.5
+53.0,Kris Dunn,Utah Jazz,0.0,19,11.7,3.9,4.9,0.578,0.456
+53.0,Max Strus,Miami Heat,0.0,77,11.7,3.3,2.1,0.556,0.532
+53.0,Zach Collins,San Antonio Spurs,0.0,62,11.5,6.3,2.8,0.596,0.253
+53.0,Naz Reid,Minnesota Timberwolves,0.0,68,11.5,4.9,1.1,0.617,0.5
+53.0,Marcus Smart,Boston Celtics,0.0,61,11.5,3.1,6.3,0.538,0.684
+53.0,Kyle Lowry,Miami Heat,0.0,53,11.4,4.1,5.1,0.561,0.532
+53.0,John Wall,Los Angeles Clippers,0.0,34,11.4,2.7,5.2,0.498,0.519
+53.0,Rui Hachimura,Los Angeles Lakers,0.0,60,11.3,4.5,0.9,0.56,0.519
+53.0,Isaiah Stewart,Detroit Pistons,0.0,50,11.3,8.1,1.4,0.56,0.203
+53.0,Bruce Brown,Denver Nuggets,0.0,78,11.2,4.1,3.3,0.568,0.658
+53.0,Marcus Morris,Los Angeles Clippers,0.0,65,11.2,4.0,1.8,0.534,0.519
+53.0,Mason Plumlee,Los Angeles Clippers,0.0,76,11.0,9.1,3.2,0.693,0.519
+53.0,Jeremy Sochan,San Antonio Spurs,0.0,56,11.0,5.3,2.5,0.509,0.253
+53.0,Corey Kispert,Washington Wizards,0.0,71,10.9,2.8,1.2,0.656,0.43
+53.0,Jaylen Nowell,Minnesota Timberwolves,0.0,65,10.8,2.6,2.0,0.527,0.5
+53.0,Kentavious Caldwell-Pope,Denver Nuggets,0.0,75,10.7,2.8,2.4,0.594,0.658
+53.0,Quentin Grimes,New York Knicks,0.0,68,10.7,3.2,2.1,0.61,0.582
+53.0,Talen Horton-Tucker,Utah Jazz,0.0,65,10.7,3.2,3.8,0.508,0.456
+53.0,Moritz Wagner,Orlando Magic,0.0,56,10.6,4.6,1.5,0.637,0.43
+53.0,Ivica Zubac,Los Angeles Clippers,0.0,73,10.6,9.9,1.0,0.658,0.519
+53.0,Grayson Allen,Milwaukee Bucks,0.0,72,10.4,3.3,2.3,0.612,0.722
+53.0,Cameron Payne,Phoenix Suns,0.0,46,10.4,2.3,4.5,0.514,0.557
+53.0,Tyus Jones,Memphis Grizzlies,0.0,78,10.3,2.5,5.1,0.544,0.633
+53.0,Monte Morris,Washington Wizards,0.0,62,10.3,3.4,5.3,0.579,0.43
+53.0,Josh Richardson,New Orleans Pelicans,0.0,62,10.3,2.7,2.8,0.556,0.506
+53.0,Doug McDermott,San Antonio Spurs,0.0,64,10.2,2.2,1.4,0.59,0.253
+53.0,De'Anthony Melton,Philadelphia 76ers,0.0,76,10.2,4.1,2.6,0.568,0.658
+53.0,Patrick Williams,Chicago Bulls,0.0,79,10.2,3.9,1.2,0.58,0.481
+53.0,Malaki Branham,San Antonio Spurs,0.0,63,10.1,2.7,2.0,0.527,0.253
+53.0,Brandon Clarke,Memphis Grizzlies,0.0,56,10.0,5.5,1.3,0.682,0.633
+53.0,Killian Hayes,Detroit Pistons,0.0,73,10.0,2.8,6.2,0.448,0.203
+53.0,Reggie Jackson,Denver Nuggets,0.0,65,10.0,2.1,3.4,0.508,0.658
+53.0,Aaron Nesmith,Indiana Pacers,0.0,70,10.0,3.8,1.4,0.56,0.43
+53.0,Victor Oladipo,Miami Heat,0.0,40,10.0,3.1,3.4,0.5,0.532
+53.0,Cam Thomas,Brooklyn Nets,0.0,56,10.0,1.7,1.4,0.558,0.544
+53.0,James Wiseman,Detroit Pistons,0.0,42,10.0,5.9,0.7,0.609,0.203
+53.0,Onyeka Okongwu,Atlanta Hawks,0.0,77,9.9,7.2,1.0,0.685,0.506
+53.0,Thomas Bryant,Denver Nuggets,0.0,58,9.8,5.7,0.5,0.657,0.658
+53.0,Josh Hart,New York Knicks,0.0,73,9.8,7.7,3.8,0.633,0.582
+53.0,Al Horford,Boston Celtics,0.0,62,9.8,6.2,3.0,0.63,0.684
+53.0,Jonathan Kuminga,Golden State Warriors,0.0,65,9.8,3.4,1.8,0.589,0.525
+53.0,Caleb Martin,Miami Heat,0.0,68,9.8,4.9,1.6,0.576,0.532
+53.0,Cam Reddish,Portland Trail Blazers,0.0,40,9.7,2.2,1.4,0.56,0.418
+53.0,Jalen Suggs,Orlando Magic,0.0,50,9.7,2.9,3.0,0.525,0.43
+53.0,Gabe Vincent,Miami Heat,0.0,65,9.7,2.2,2.4,0.54,0.532
+53.0,Shaedon Sharpe,Portland Trail Blazers,0.0,78,9.6,2.9,1.1,0.57,0.418
+53.0,Chris Boucher,Oronto Raptors,0.0,73,9.5,5.6,0.4,0.593,0.506
+53.0,Coby White,Chicago Bulls,0.0,71,9.5,2.8,2.7,0.567,0.481
+53.0,Kyle Anderson,Minnesota Timberwolves,0.0,67,9.4,5.3,4.9,0.584,0.5
+53.0,Isaiah Joe,Oklahoma City Thunder,0.0,72,9.4,2.4,1.2,0.629,0.475
+53.0,Herbert Jones,New Orleans Pelicans,0.0,63,9.4,4.0,2.4,0.556,0.506
+53.0,Seth Curry,Brooklyn Nets,0.0,59,9.3,1.6,1.6,0.589,0.544
+53.0,Hamidou Diallo,Detroit Pistons,0.0,56,9.3,3.5,1.0,0.593,0.203
+53.0,Donte DiVincenzo,Golden State Warriors,0.0,70,9.3,4.5,3.4,0.587,0.525
+53.0,Naji Marshall,New Orleans Pelicans,0.0,74,9.3,3.7,2.5,0.539,0.506
+53.0,Jalen McDaniels,Philadelphia 76ers,0.0,77,9.3,4.3,1.6,0.556,0.658
+53.0,Jalen Smith,Indiana Pacers,0.0,67,9.3,5.8,1.0,0.559,0.43
+53.0,Deni Avdija,Washington Wizards,0.0,76,9.2,6.4,2.8,0.535,0.43
+53.0,Tari Eason,Houston Rockets,0.0,80,9.2,6.0,1.0,0.525,0.25
+53.0,Walker Kessler,Utah Jazz,0.0,74,9.2,8.4,0.9,0.702,0.456
+53.0,Andrew Nembhard,Indiana Pacers,0.0,72,9.2,2.6,4.3,0.526,0.43
+53.0,Santi Aldama,Memphis Grizzlies,0.0,76,9.1,4.9,1.3,0.594,0.633
+53.0,Keita Bates-Diop,San Antonio Spurs,0.0,64,9.1,3.6,1.4,0.604,0.253
+53.0,Jalen Duren,Detroit Pistons,0.0,64,9.1,8.7,1.1,0.652,0.203
+53.0,Josh Green,Dallas Mavericks,0.0,59,9.1,2.9,1.7,0.641,0.468
+53.0,Luke Kennard,Memphis Grizzlies,0.0,58,9.1,2.7,1.5,0.671,0.633
+53.0,Jae'Sean Tate,Houston Rockets,0.0,31,9.1,3.8,2.7,0.546,0.25
+53.0,Jose Alvarado,New Orleans Pelicans,0.0,61,9.0,2.3,3.0,0.525,0.506
+53.0,Bol Bol,Orlando Magic,0.0,67,9.0,5.8,0.9,0.622,0.43
+53.0,Precious Achiuwa,Oronto Raptors,0.0,52,8.9,5.8,0.9,0.544,0.506
+53.0,Terance Mann,Los Angeles Clippers,0.0,78,8.9,3.5,2.3,0.619,0.519
+53.0,Royce O'Neale,Brooklyn Nets,0.0,74,8.8,5.0,3.7,0.539,0.544
+53.0,Taurean Prince,Minnesota Timberwolves,0.0,52,8.8,2.4,1.6,0.595,0.5
+53.0,Dennis Smith Jr.,Charlotte Hornets,0.0,54,8.8,3.1,4.8,0.475,0.325
+53.0,Daniel Gafford,Washington Wizards,0.0,76,8.7,5.5,1.0,0.729,0.43
+53.0,AJ Griffin,Atlanta Hawks,0.0,70,8.7,2.1,1.0,0.575,0.506
+53.0,Landry Shamet,Phoenix Suns,0.0,37,8.7,1.6,2.2,0.539,0.557
+53.0,Steven Adams,Memphis Grizzlies,0.0,42,8.6,11.5,2.3,0.564,0.633
+53.0,Cedi Osman,Cleveland Cavaliers,0.0,75,8.6,2.3,1.5,0.575,0.625
+53.0,Mark Williams,Charlotte Hornets,0.0,41,8.6,6.9,0.4,0.646,0.325
+53.0,Ayo Dosunmu,Chicago Bulls,0.0,77,8.5,2.7,2.6,0.569,0.481
+53.0,Draymond Green,Golden State Warriors,0.0,71,8.5,7.3,6.9,0.593,0.525
+53.0,Jaden Hardy,Dallas Mavericks,0.0,45,8.5,1.8,1.3,0.577,0.468
+53.0,T.J. McConnell,Indiana Pacers,0.0,74,8.5,3.1,5.2,0.587,0.43
+53.0,Jordan Nwora,Indiana Pacers,0.0,59,8.5,3.7,1.4,0.548,0.43
+53.0,Dorian Finney-Smith,Brooklyn Nets,0.0,65,8.4,4.8,1.5,0.522,0.544
+53.0,Gary Harris,Orlando Magic,0.0,48,8.3,2.0,1.2,0.62,0.43
+53.0,Grant Williams,Boston Celtics,0.0,76,8.3,4.7,1.7,0.614,0.684
+53.0,Damion Lee,Phoenix Suns,0.0,72,8.2,3.0,1.4,0.612,0.557
+53.0,Kevin Love,Miami Heat,0.0,60,8.2,6.5,1.9,0.547,0.532
+53.0,Nick Richards,Charlotte Hornets,0.0,63,8.2,6.4,0.6,0.673,0.325
+53.0,Terrence Ross,Phoenix Suns,0.0,60,8.2,2.4,1.4,0.547,0.557
+53.0,Shake Milton,Philadelphia 76ers,0.0,73,8.1,2.5,2.8,0.58,0.658
+53.0,Aleksej Pokusevski,Oklahoma City Thunder,0.0,34,8.1,4.7,1.9,0.522,0.475
+53.0,Georges Niang,Philadelphia 76ers,0.0,76,8.0,2.3,1.0,0.604,0.658
+53.0,Jarred Vanderbilt,Los Angeles Lakers,0.0,75,8.0,7.6,2.4,0.604,0.519
+53.0,Kemba Walker,Dallas Mavericks,0.0,9,8.0,1.8,2.1,0.543,0.468
+53.0,Kenrich Williams,Oklahoma City Thunder,0.0,53,8.0,4.9,2.0,0.585,0.475
+53.0,Robert Williams,Boston Celtics,0.0,33,8.0,8.3,1.4,0.743,0.684
+53.0,Jevon Carter,Milwaukee Bucks,0.0,78,7.9,2.5,2.4,0.559,0.722
+53.0,Chris Duarte,Indiana Pacers,0.0,46,7.9,2.5,1.4,0.496,0.43
+53.0,Duane Washington Jr.,Phoenix Suns,0.0,31,7.9,1.2,2.0,0.458,0.557
+53.0,Jeff Green,Denver Nuggets,0.0,54,7.8,2.6,1.2,0.572,0.658
+53.0,Pat Connaughton,Milwaukee Bucks,0.0,61,7.6,4.6,1.3,0.531,0.722
+53.0,Trey Lyles,Sacramento Kings,0.0,71,7.6,4.0,0.9,0.611,0.608
+53.0,Tre Mann,Oklahoma City Thunder,0.0,65,7.6,2.2,1.7,0.486,0.475
+53.0,Ochai Agbaji,Utah Jazz,0.0,56,7.5,2.1,1.0,0.585,0.456
+53.0,Joe Harris,Brooklyn Nets,0.0,72,7.5,2.2,1.4,0.615,0.544
+53.0,T.J. Warren,Phoenix Suns,0.0,42,7.5,2.9,1.0,0.537,0.557
+53.0,Devonte' Graham,San Antonio Spurs,0.0,73,7.4,1.7,2.7,0.549,0.253
+53.0,Reggie Bullock,Dallas Mavericks,0.0,76,7.3,3.7,1.3,0.577,0.468
+53.0,Torrey Craig,Phoenix Suns,0.0,76,7.3,5.5,1.5,0.557,0.557
+53.0,Delon Wright,Washington Wizards,0.0,49,7.3,3.5,3.9,0.579,0.43
+53.0,Julian Champagnie,San Antonio Spurs,0.0,14,7.2,2.9,0.4,0.512,0.253
+53.0,Josh Okogie,Phoenix Suns,0.0,69,7.2,3.4,1.4,0.534,0.557
+53.0,Mitchell Robinson,New York Knicks,0.0,57,7.2,9.1,0.9,0.674,0.582
+53.0,Luka Šamanić,Utah Jazz,0.0,4,7.2,4.2,1.8,0.613,0.456
+53.0,Edmond Sumner,Brooklyn Nets,0.0,51,7.2,1.5,1.3,0.594,0.544
+53.0,Troy Brown Jr.,Los Angeles Lakers,0.0,73,7.1,4.0,1.2,0.56,0.519
+53.0,Isaiah Jackson,Indiana Pacers,0.0,60,7.1,4.3,0.8,0.593,0.43
+53.0,Romeo Langford,San Antonio Spurs,0.0,40,7.1,2.8,1.2,0.527,0.253
+53.0,Kevon Looney,Golden State Warriors,0.0,80,7.1,9.2,2.4,0.639,0.525
+53.0,Shaquille Harrison,Portland Trail Blazers,0.0,3,7.0,4.0,3.7,0.512,0.418
+53.0,Joe Ingles,Milwaukee Bucks,0.0,44,7.0,2.9,3.2,0.619,0.722
+53.0,Eugene Omoruyi,Detroit Pistons,0.0,39,7.0,2.8,0.7,0.533,0.203
+53.0,Joshua Primo,San Antonio Spurs,0.0,4,7.0,3.2,4.5,0.467,0.253
+53.0,Daniel Theis,Indiana Pacers,0.0,7,7.0,3.1,1.3,0.497,0.43
+53.0,Xavier Tillman Sr.,Memphis Grizzlies,0.0,60,7.0,5.0,1.6,0.622,0.633
+53.0,Willy Hernangómez,New Orleans Pelicans,0.0,38,6.9,4.7,0.9,0.61,0.506
+53.0,Ty Jerome,Golden State Warriors,0.0,45,6.9,1.7,3.0,0.594,0.525
+53.0,Larry Nance Jr.,New Orleans Pelicans,0.0,62,6.9,5.5,1.8,0.645,0.506
+53.0,Kendrick Nunn,Washington Wizards,0.0,67,6.9,1.5,1.2,0.534,0.43
+53.0,Jeremiah Robinson-Earl,Oklahoma City Thunder,0.0,41,6.9,4.2,1.0,0.558,0.475
+53.0,Ben Simmons,Brooklyn Nets,0.0,42,6.9,6.3,6.1,0.559,0.544
+53.0,Trendon Watford,Portland Trail Blazers,0.0,59,6.9,3.8,2.0,0.621,0.418
+53.0,Mo Bamba,Los Angeles Lakers,0.0,47,6.8,4.7,1.0,0.602,0.519
+53.0,Will Barton,Oronto Raptors,0.0,53,6.8,2.5,2.1,0.489,0.506
+53.0,Brandon Boston Jr.,Los Angeles Clippers,0.0,21,6.8,1.4,0.9,0.519,0.519
+53.0,Anthony Lamb,Golden State Warriors,0.0,60,6.8,3.5,1.6,0.606,0.525
+53.0,Dwight Powell,Dallas Mavericks,0.0,74,6.8,4.1,0.9,0.737,0.468
+53.0,Justise Winslow,Portland Trail Blazers,0.0,29,6.8,5.0,3.4,0.466,0.418
+53.0,Terence Davis,Sacramento Kings,0.0,62,6.7,2.2,1.0,0.583,0.608
+53.0,Isaiah Livers,Detroit Pistons,0.0,52,6.7,2.8,0.8,0.567,0.203
+53.0,Aaron Wiggins,Oklahoma City Thunder,0.0,68,6.7,3.0,1.1,0.603,0.475
+53.0,Luka Garza,Minnesota Timberwolves,0.0,27,6.6,2.2,0.7,0.661,0.5
+53.0,Cory Joseph,Detroit Pistons,0.0,59,6.6,1.6,3.4,0.558,0.203
+53.0,Nassir Little,Portland Trail Blazers,0.0,54,6.6,2.6,0.9,0.555,0.418
+53.0,David Roddy,Memphis Grizzlies,0.0,67,6.6,2.7,0.7,0.527,0.633
+53.0,Obi Toppin,New York Knicks,0.0,64,6.6,2.7,0.8,0.546,0.582
+53.0,Evan Fournier,New York Knicks,0.0,24,6.5,2.0,1.5,0.487,0.582
+53.0,JaMychal Green,Golden State Warriors,0.0,56,6.5,3.6,0.9,0.651,0.525
+53.0,Drew Eubanks,Portland Trail Blazers,0.0,77,6.4,5.3,1.3,0.661,0.418
+53.0,Jock Landale,Phoenix Suns,0.0,66,6.4,4.0,1.0,0.595,0.557
+53.0,Isaac Okoro,Cleveland Cavaliers,0.0,76,6.4,2.5,1.1,0.614,0.625
+53.0,Jordan Goodwin,Washington Wizards,0.0,59,6.3,3.2,2.6,0.531,0.43
+53.0,Nicolas Batum,Los Angeles Clippers,0.0,75,6.2,3.9,1.5,0.599,0.519
+53.0,Patrick Beverley,Chicago Bulls,0.0,65,6.2,3.7,2.8,0.532,0.481
+53.0,Dario Šarić,Oklahoma City Thunder,0.0,56,6.2,3.5,1.3,0.581,0.475
+53.0,Robert Covington,Los Angeles Clippers,0.0,46,6.1,3.4,1.2,0.577,0.519
+53.0,Théo Maledon,Charlotte Hornets,0.0,42,6.1,2.7,3.3,0.499,0.325
+53.0,Duncan Robinson,Miami Heat,0.0,39,6.1,1.6,1.0,0.533,0.532
+53.0,Nickeil Alexander-Walker,Minnesota Timberwolves,0.0,57,6.0,1.8,1.8,0.559,0.5
+53.0,Oshae Brissett,Indiana Pacers,0.0,62,6.0,3.3,0.6,0.525,0.43
+53.0,Goran Dragić,Milwaukee Bucks,0.0,56,6.0,1.3,2.6,0.503,0.722
+53.0,Andre Drummond,Chicago Bulls,0.0,65,6.0,6.6,0.5,0.609,0.481
+53.0,R.J. Hampton,Detroit Pistons,0.0,44,6.0,1.7,1.1,0.549,0.203
+53.0,Maxi Kleber,Dallas Mavericks,0.0,36,6.0,3.7,1.4,0.595,0.468
+53.0,Patty Mills,Brooklyn Nets,0.0,39,6.0,1.1,1.4,0.562,0.544
+53.0,Svi Mykhailiuk,Charlotte Hornets,0.0,30,6.0,1.4,1.4,0.66,0.325
+53.0,Sam Hauser,Boston Celtics,0.0,77,5.9,2.4,0.8,0.629,0.684
+53.0,Jae Crowder,Milwaukee Bucks,0.0,15,5.8,3.9,1.3,0.619,0.722
+53.0,Simone Fontecchio,Utah Jazz,0.0,49,5.8,1.4,0.7,0.492,0.456
+53.0,Stanley Johnson,San Antonio Spurs,0.0,30,5.8,3.2,2.2,0.625,0.253
+53.0,Kevin Knox,Portland Trail Blazers,0.0,60,5.8,2.7,0.5,0.576,0.418
+53.0,Jaylin Williams,Oklahoma City Thunder,0.0,48,5.8,4.9,1.5,0.555,0.475
+53.0,Cody Zeller,Miami Heat,0.0,13,5.8,4.2,0.5,0.623,0.532
+53.0,Charles Bassey,San Antonio Spurs,0.0,35,5.7,5.5,1.3,0.658,0.253
+53.0,Josh Christopher,Houston Rockets,0.0,62,5.7,1.1,1.1,0.528,0.25
+53.0,Alex Caruso,Chicago Bulls,0.0,65,5.6,3.0,2.9,0.587,0.481
+53.0,Wenyen Gabriel,Los Angeles Lakers,0.0,65,5.6,4.2,0.5,0.629,0.519
+53.0,Davion Mitchell,Sacramento Kings,0.0,78,5.6,1.3,2.3,0.555,0.608
+53.0,Mike Muscala,Boston Celtics,0.0,60,5.6,3.0,0.8,0.585,0.684
+53.0,Derrick Rose,New York Knicks,0.0,27,5.6,1.5,1.7,0.463,0.582
+53.0,Yuta Watanabe,Brooklyn Nets,0.0,55,5.6,2.4,0.9,0.64,0.544
+53.0,Jarrell Brantley,Utah Jazz,0.0,4,5.5,1.5,0.8,0.739,0.456
+53.0,Nikola Jović,Miami Heat,0.0,15,5.5,2.1,0.7,0.53,0.532
+53.0,Sandro Mamukelashvili,San Antonio Spurs,0.0,40,5.5,4.0,1.3,0.479,0.253
+53.0,Rodney McGruder,Detroit Pistons,0.0,33,5.5,2.2,0.8,0.566,0.203
+53.0,Otto Porter Jr.,Oronto Raptors,0.0,8,5.5,2.4,1.0,0.656,0.506
+53.0,Jeenathan Williams,Portland Trail Blazers,0.0,2,5.5,3.0,1.5,0.458,0.418
+53.0,James Bouknight,Charlotte Hornets,0.0,32,5.4,2.1,1.2,0.474,0.325
+53.0,Javonte Green,Chicago Bulls,0.0,31,5.3,2.7,0.7,0.656,0.481
+53.0,Montrezl Harrell,Philadelphia 76ers,0.0,54,5.3,2.6,0.6,0.626,0.658
+53.0,Jalen Johnson,Atlanta Hawks,0.0,67,5.3,4.0,1.1,0.553,0.506
+53.0,Rudy Gay,Utah Jazz,0.0,56,5.2,2.9,1.0,0.475,0.456
+53.0,Ricky Rubio,Cleveland Cavaliers,0.0,31,5.2,2.0,3.3,0.458,0.625
+53.0,Lamar Stevens,Cleveland Cavaliers,0.0,60,5.2,3.3,0.5,0.53,0.625
+53.0,Ziaire Williams,Memphis Grizzlies,0.0,36,5.2,2.1,0.7,0.503,0.633
+53.0,Saben Lee,Phoenix Suns,0.0,23,5.1,1.7,2.4,0.545,0.557
+53.0,Lindy Waters III,Oklahoma City Thunder,0.0,39,5.1,1.8,0.7,0.57,0.475
+53.0,Darius Bazley,Phoenix Suns,0.0,41,5.0,3.1,0.9,0.516,0.557
+53.0,MarJon Beauchamp,Milwaukee Bucks,0.0,49,5.0,2.1,0.6,0.516,0.722
+53.0,Dewayne Dedmon,Philadelphia 76ers,0.0,36,5.0,3.4,0.5,0.557,0.658
+53.0,Jaxson Hayes,New Orleans Pelicans,0.0,47,5.0,2.8,0.7,0.605,0.506
+53.0,Jonathan Isaac,Orlando Magic,0.0,11,5.0,4.0,0.5,0.483,0.43
+53.0,Cody Martin,Charlotte Hornets,0.0,7,5.0,3.4,1.6,0.448,0.325
+53.0,Zeke Nnaji,Denver Nuggets,0.0,50,5.0,2.5,0.3,0.635,0.658
+53.0,Xavier Sneed,Charlotte Hornets,0.0,3,5.0,1.3,1.3,0.856,0.325
+53.0,Vlatko Čančar,Denver Nuggets,0.0,57,4.9,2.1,1.4,0.613,0.658
+53.0,Isaiah Hartenstein,New York Knicks,0.0,79,4.9,6.6,1.1,0.566,0.582
+53.0,Derrick Jones Jr.,Chicago Bulls,0.0,61,4.9,2.3,0.6,0.604,0.481
+53.0,DeAndre Jordan,Denver Nuggets,0.0,37,4.9,4.9,0.8,0.717,0.658
+53.0,John Konchar,Memphis Grizzlies,0.0,69,4.9,4.1,1.3,0.537,0.633
+53.0,Austin Rivers,Minnesota Timberwolves,0.0,52,4.9,1.6,1.4,0.564,0.5
+53.0,Jay Huff,Washington Wizards,0.0,5,4.8,2.6,1.0,0.732,0.43
+53.0,George Hill,Indiana Pacers,0.0,44,4.7,1.8,2.3,0.591,0.43
+53.0,Keon Johnson,Portland Trail Blazers,0.0,40,4.7,1.1,1.5,0.482,0.418
+53.0,Johnny Juzang,Utah Jazz,0.0,15,4.7,2.0,0.5,0.428,0.456
+53.0,Bryce McGowens,Charlotte Hornets,0.0,44,4.7,1.9,1.1,0.507,0.325
+53.0,Payton Pritchard,Boston Celtics,0.0,46,4.7,1.5,1.0,0.503,0.684
+53.0,Johnny Davis,Washington Wizards,0.0,25,4.6,1.8,0.6,0.471,0.43
+53.0,Ousmane Dieng,Oklahoma City Thunder,0.0,37,4.6,2.6,1.0,0.497,0.475
+53.0,Kira Lewis Jr.,New Orleans Pelicans,0.0,25,4.6,1.3,0.9,0.584,0.506
+53.0,Garrison Mathews,Atlanta Hawks,0.0,52,4.6,1.3,0.5,0.572,0.506
+53.0,Chimezie Metu,Sacramento Kings,0.0,64,4.6,3.0,0.6,0.639,0.608
+53.0,Day'Ron Sharpe,Brooklyn Nets,0.0,45,4.6,4.1,0.7,0.581,0.544
+53.0,TyTy Washington Jr.,Houston Rockets,0.0,30,4.6,1.4,1.6,0.423,0.25
+53.0,Blake Wesley,San Antonio Spurs,0.0,34,4.6,2.0,2.5,0.375,0.253
+53.0,A.J. Green,Milwaukee Bucks,0.0,33,4.5,1.2,0.6,0.628,0.722
+53.0,Moses Moody,Golden State Warriors,0.0,61,4.5,1.6,0.8,0.59,0.525
+53.0,Chuma Okeke,Orlando Magic,0.0,24,4.5,3.4,1.1,0.508,0.43
+53.0,Dean Wade,Cleveland Cavaliers,0.0,42,4.5,3.4,0.8,0.546,0.625
+53.0,Christian Braun,Denver Nuggets,0.0,73,4.4,2.3,0.8,0.563,0.658
+53.0,Jamal Cain,Miami Heat,0.0,15,4.4,2.6,0.6,0.579,0.532
+53.0,Jarrett Culver,Atlanta Hawks,0.0,10,4.4,3.8,0.6,0.452,0.506
+53.0,Malachi Flynn,Oronto Raptors,0.0,51,4.4,1.4,1.3,0.465,0.506
+53.0,Danuel House Jr.,Philadelphia 76ers,0.0,53,4.4,1.6,0.7,0.611,0.658
+53.0,JaVale McGee,Dallas Mavericks,0.0,40,4.4,2.6,0.3,0.639,0.468
+53.0,Gary Payton II,Golden State Warriors,0.0,20,4.4,2.8,1.3,0.695,0.525
+53.0,Thaddeus Young,Oronto Raptors,0.0,54,4.4,3.1,1.4,0.573,0.506
+53.0,Bismack Biyombo,Phoenix Suns,0.0,59,4.3,4.3,0.9,0.555,0.557
+53.0,Moses Brown,Brooklyn Nets,0.0,36,4.3,3.9,0.1,0.573,0.544
+53.0,Blake Griffin,Boston Celtics,0.0,38,4.3,3.8,1.4,0.587,0.684
+53.0,Haywood Highsmith,Miami Heat,0.0,51,4.3,3.3,0.7,0.52,0.532
+53.0,Justin Holiday,Dallas Mavericks,0.0,44,4.3,1.1,0.9,0.505,0.468
+53.0,Dalano Banton,Oronto Raptors,0.0,29,4.2,1.3,1.0,0.491,0.506
+53.0,Ish Wainright,Phoenix Suns,0.0,57,4.2,2.3,0.9,0.536,0.557
+53.0,Dāvis Bertāns,Dallas Mavericks,0.0,43,4.1,1.0,0.5,0.606,0.468
+53.0,Goga Bitadze,Orlando Magic,0.0,35,4.1,3.1,1.0,0.576,0.43
+53.0,Serge Ibaka,Milwaukee Bucks,0.0,16,4.1,2.8,0.2,0.553,0.722
+53.0,Isaiah Roby,San Antonio Spurs,0.0,42,4.1,2.5,0.9,0.497,0.253
+53.0,Matisse Thybulle,Portland Trail Blazers,0.0,71,4.1,2.0,0.7,0.545,0.418
+53.0,Dyson Daniels,New Orleans Pelicans,0.0,57,4.0,3.2,2.3,0.51,0.506
+53.0,Meyers Leonard,Milwaukee Bucks,0.0,6,4.0,2.2,0.0,0.761,0.722
+53.0,Daishen Nix,Houston Rockets,0.0,56,4.0,1.7,2.3,0.45,0.25
+53.0,Admiral Schofield,Orlando Magic,0.0,34,4.0,1.6,0.8,0.612,0.43
+53.0,Patrick Baldwin Jr.,Golden State Warriors,0.0,29,3.9,1.3,0.3,0.55,0.525
+53.0,Aaron Holiday,Atlanta Hawks,0.0,60,3.9,1.2,1.3,0.532,0.506
+53.0,Paul Reed,Philadelphia 76ers,0.0,66,3.9,3.7,0.4,0.619,0.658
+53.0,Orlando Robinson,Miami Heat,0.0,29,3.9,4.1,0.7,0.572,0.532
+53.0,Darius Days,Houston Rockets,0.0,4,3.8,1.5,0.2,0.582,0.25
+53.0,Nathan Knight,Minnesota Timberwolves,0.0,36,3.7,1.5,0.4,0.656,0.5
+53.0,Luke Kornet,Boston Celtics,0.0,66,3.7,2.8,0.7,0.719,0.684
+53.0,Jordan McLaughlin,Minnesota Timberwolves,0.0,41,3.7,1.4,3.3,0.51,0.5
+53.0,Matt Ryan,Minnesota Timberwolves,0.0,33,3.7,0.8,0.5,0.558,0.5
+53.0,JT Thor,Charlotte Hornets,0.0,67,3.7,2.1,0.5,0.515,0.325
+53.0,Bruno Fernando,Atlanta Hawks,0.0,37,3.6,3.4,0.8,0.564,0.506
+53.0,Bryn Forbes,Minnesota Timberwolves,0.0,25,3.6,0.6,0.7,0.497,0.5
+53.0,P.J. Tucker,Philadelphia 76ers,0.0,74,3.6,3.9,0.8,0.566,0.658
+53.0,Jabari Walker,Portland Trail Blazers,0.0,53,3.6,2.3,0.6,0.502,0.418
+53.0,Amir Coffey,Los Angeles Clippers,0.0,49,3.5,1.1,1.1,0.498,0.519
+53.0,Quenton Jackson,Washington Wizards,0.0,6,3.5,0.5,1.0,0.567,0.43
+53.0,Furkan Korkmaz,Philadelphia 76ers,0.0,34,3.5,1.0,0.6,0.556,0.658
+53.0,Dru Smith,Brooklyn Nets,0.0,12,3.5,1.6,1.3,0.506,0.544
+53.0,McKinley Wright IV,Dallas Mavericks,0.0,25,3.5,1.6,2.0,0.543,0.468
+53.0,Gorgui Dieng,San Antonio Spurs,0.0,29,3.4,3.1,1.6,0.478,0.253
+53.0,Taj Gibson,Washington Wizards,0.0,49,3.4,1.9,0.7,0.585,0.43
+53.0,Caleb Houstan,Orlando Magic,0.0,48,3.4,2.0,0.5,0.501,0.43
+53.0,Wesley Matthews,Milwaukee Bucks,0.0,49,3.4,2.1,0.6,0.53,0.722
+53.0,Miles McBride,New York Knicks,0.0,61,3.4,0.8,1.1,0.48,0.582
+53.0,Jericho Sims,New York Knicks,0.0,50,3.4,4.6,0.5,0.774,0.582
+53.0,Max Christie,Los Angeles Lakers,0.0,39,3.3,1.9,0.5,0.566,0.519
+53.0,David Duke Jr.,Brooklyn Nets,0.0,20,3.3,1.0,0.8,0.486,0.544
+53.0,Kevon Harris,Orlando Magic,0.0,31,3.3,1.9,0.4,0.532,0.43
+53.0,Damian Jones,Utah Jazz,0.0,38,3.3,2.9,0.3,0.702,0.456
+53.0,Kai Jones,Charlotte Hornets,0.0,44,3.3,2.8,0.3,0.607,0.325
+53.0,Kenneth Lofton Jr.,Memphis Grizzlies,0.0,21,3.3,1.5,0.8,0.538,0.633
+53.0,Josh Minott,Minnesota Timberwolves,0.0,14,3.3,1.8,0.3,0.613,0.5
+53.0,Markieff Morris,Dallas Mavericks,0.0,33,3.3,1.9,0.8,0.573,0.468
+53.0,Dominick Barlow,San Antonio Spurs,0.0,25,3.2,3.0,0.8,0.552,0.253
+53.0,Anthony Gill,Washington Wizards,0.0,56,3.2,1.6,0.5,0.631,0.43
+53.0,Jason Preston,Los Angeles Clippers,0.0,13,3.2,1.7,2.1,0.489,0.519
+53.0,Usman Garuba,Houston Rockets,0.0,73,3.1,4.1,0.9,0.582,0.25
+53.0,Jordan Hall,San Antonio Spurs,0.0,9,3.1,1.3,1.2,0.438,0.253
+53.0,Christian Koloko,Oronto Raptors,0.0,55,3.1,3.0,0.5,0.509,0.506
+53.0,Jamaree Bouyea,Washington Wizards,0.0,5,3.0,1.2,0.8,0.432,0.43
+53.0,Jared Butler,Oklahoma City Thunder,0.0,4,3.0,0.2,1.0,0.545,0.475
+53.0,Tyler Dorsey,Dallas Mavericks,0.0,3,3.0,0.7,0.0,0.9,0.468
+53.0,Danny Green,Cleveland Cavaliers,0.0,9,3.0,0.8,0.2,0.618,0.625
+53.0,Richaun Holmes,Sacramento Kings,0.0,40,3.0,1.9,0.2,0.705,0.608
+53.0,Jake LaRavia,Memphis Grizzlies,0.0,35,3.0,1.8,0.6,0.531,0.633
+53.0,Boban Marjanović,Houston Rockets,0.0,29,3.0,1.8,0.3,0.705,0.25
+53.0,Raul Neto,Cleveland Cavaliers,0.0,46,3.0,0.9,1.4,0.636,0.625
+53.0,Trevelin Queen,Indiana Pacers,0.0,7,3.0,2.4,0.9,0.337,0.43
+53.0,Neemias Queta,Sacramento Kings,0.0,4,3.0,2.2,0.2,0.676,0.608
+53.0,Juancho Hernangómez,Oronto Raptors,0.0,42,2.9,2.9,0.6,0.504,0.506
+53.0,Juan Toscano-Anderson,Utah Jazz,0.0,49,2.9,2.3,1.1,0.547,0.456
+53.0,Udoka Azubuike,Utah Jazz,0.0,33,2.8,2.9,0.3,0.762,0.456
+53.0,Kessler Edwards,Sacramento Kings,0.0,33,2.8,1.7,0.6,0.468,0.608
+53.0,Micah Potter,Utah Jazz,0.0,5,2.8,0.6,0.6,0.875,0.456
+53.0,Moussa Diabaté,Los Angeles Clippers,0.0,21,2.7,2.3,0.2,0.537,0.519
+53.0,Robin Lopez,Cleveland Cavaliers,0.0,35,2.7,1.3,0.4,0.691,0.625
+53.0,A.J. Lawson,Dallas Mavericks,0.0,13,2.6,0.8,0.1,0.638,0.468
+53.0,Frank Ntilikina,Dallas Mavericks,0.0,45,2.6,1.3,1.2,0.461,0.468
+53.0,Terry Taylor,Chicago Bulls,0.0,29,2.6,1.4,0.3,0.575,0.481
+53.0,Peyton Watson,Denver Nuggets,0.0,20,2.6,1.2,0.2,0.606,0.658
+53.0,Trent Forrest,Atlanta Hawks,0.0,21,2.5,1.6,1.5,0.47,0.506
+53.0,Jeff Dowtin,Oronto Raptors,0.0,25,2.4,0.9,1.2,0.5,0.506
+53.0,James Johnson,Indiana Pacers,0.0,16,2.4,1.4,0.7,0.47,0.43
+53.0,Jared Rhoden,Detroit Pistons,0.0,11,2.4,1.9,0.3,0.528,0.203
+53.0,Frank Kaminsky,Houston Rockets,0.0,35,2.3,1.3,0.8,0.638,0.25
+53.0,Scotty Pippen Jr.,Los Angeles Lakers,0.0,6,2.3,0.7,0.3,0.439,0.519
+53.0,Ish Smith,Denver Nuggets,0.0,40,2.3,1.2,2.1,0.412,0.658
+53.0,Khem Birch,Oronto Raptors,0.0,20,2.2,1.2,0.4,0.629,0.506
+53.0,Kennedy Chandler,Memphis Grizzlies,0.0,34,2.2,1.0,1.7,0.437,0.633
+53.0,Andre Iguodala,Golden State Warriors,0.0,8,2.1,2.1,2.4,0.521,0.525
+53.0,Nerlens Noel,Brooklyn Nets,0.0,17,2.1,2.7,0.6,0.421,0.544
+53.0,Davon Reed,Los Angeles Lakers,0.0,42,2.1,1.4,0.5,0.496,0.519
+53.0,Buddy Boeheim,Detroit Pistons,0.0,8,2.0,0.6,0.4,0.322,0.203
+53.0,Justin Champagnie,Oronto Raptors,0.0,3,2.0,1.3,0.3,1.0,0.506
+53.0,Olivier Sarr,Oklahoma City Thunder,0.0,7,2.0,2.3,0.4,0.429,0.475
+53.0,Jay Scrubb,Orlando Magic,0.0,1,2.0,1.0,0.0,1.0,0.43
+53.0,Chris Silva,Dallas Mavericks,0.0,1,2.0,0.0,0.0,1.0,0.468
+53.0,Garrett Temple,New Orleans Pelicans,0.0,25,2.0,0.7,0.5,0.535,0.506
+53.0,Stanley Umude,Detroit Pistons,0.0,1,2.0,0.0,0.0,0.532,0.203
+53.0,Omer Yurtseven,Miami Heat,0.0,6,2.0,1.5,0.0,0.581,0.532
+53.0,Ryan Rollins,Golden State Warriors,0.0,12,1.9,1.0,0.5,0.508,0.525
+53.0,Greg Brown III,Portland Trail Blazers,0.0,16,1.8,1.2,0.2,0.421,0.418
+53.0,Mamadi Diakite,Cleveland Cavaliers,0.0,20,1.8,1.0,0.2,0.473,0.625
+53.0,Trevor Hudgins,Houston Rockets,0.0,5,1.8,0.0,0.6,0.436,0.25
+53.0,Alize Johnson,San Antonio Spurs,0.0,4,1.8,2.5,0.2,0.509,0.253
+53.0,Dalen Terry,Chicago Bulls,0.0,35,1.8,0.9,0.6,0.519,0.481
+53.0,Xavier Cooks,Washington Wizards,0.0,7,1.7,1.3,0.4,0.857,0.43
+53.0,Xavier Moon,Los Angeles Clippers,0.0,3,1.7,1.0,1.7,0.313,0.519
+53.0,Theo Pinson,Dallas Mavericks,0.0,38,1.7,1.1,0.8,0.486,0.468
+53.0,Kobi Simmons,Charlotte Hornets,0.0,3,1.7,0.3,0.7,0.425,0.325
+53.0,Dylan Windler,Cleveland Cavaliers,0.0,3,1.7,0.0,0.3,0.833,0.625
+53.0,Tony Bradley,Chicago Bulls,0.0,12,1.6,0.9,0.1,0.69,0.481
+53.0,Keon Ellis,Sacramento Kings,0.0,14,1.6,0.6,0.4,0.768,0.608
+53.0,Alex Len,Sacramento Kings,0.0,23,1.6,1.7,0.4,0.594,0.608
+53.0,Jaden Springer,Philadelphia 76ers,0.0,14,1.6,0.9,0.4,0.467,0.658
+53.0,Lindell Wigginton,Milwaukee Bucks,0.0,5,1.6,0.2,0.4,0.405,0.722
+53.0,Kendall Brown,Indiana Pacers,0.0,6,1.5,1.0,0.5,0.571,0.43
+53.0,Matthew Dellavedova,Sacramento Kings,0.0,32,1.5,0.4,1.3,0.443,0.608
+53.0,Wendell Moore Jr.,Minnesota Timberwolves,0.0,27,1.5,0.6,0.7,0.452,0.5
+53.0,Jordan Schakel,Washington Wizards,0.0,2,1.5,0.0,0.5,0.75,0.43
+53.0,Cole Swider,Los Angeles Lakers,0.0,6,1.5,1.2,0.7,0.5,0.519
+53.0,John Butler,Portland Trail Blazers,0.0,16,1.4,0.8,0.2,0.355,0.418
+53.0,Ron Harper Jr.,Oronto Raptors,0.0,7,1.4,0.4,0.3,0.556,0.506
+53.0,Ryan Arcidiacono,Portland Trail Blazers,0.0,20,1.3,0.8,1.2,0.327,0.418
+53.0,Braxton Key,Detroit Pistons,0.0,3,1.3,0.3,0.0,1.064,0.203
+53.0,Vit Krejci,Atlanta Hawks,0.0,27,1.3,0.7,0.5,0.516,0.506
+53.0,KZ Okpala,Sacramento Kings,0.0,35,1.3,1.0,0.4,0.554,0.608
+53.0,Joe Wieskamp,Oronto Raptors,0.0,7,1.3,0.4,0.1,0.563,0.506
+53.0,Facundo Campazzo,Dallas Mavericks,0.0,8,1.2,0.2,1.1,0.36,0.468
+53.0,Jack White,Denver Nuggets,0.0,16,1.2,0.6,0.2,0.548,0.658
+53.0,JD Davison,Boston Celtics,0.0,10,1.1,0.6,0.6,0.423,0.684
+53.0,Tyrese Martin,Atlanta Hawks,0.0,14,1.1,0.4,0.1,0.444,0.506
+53.0,Noah Vonleh,Boston Celtics,0.0,23,1.1,2.1,0.3,0.502,0.684
+53.0,Michael Carter-Williams,Orlando Magic,0.0,1,1.0,0.0,0.0,0.568,0.43
+53.0,Malcolm Hill,Chicago Bulls,0.0,5,1.0,0.6,0.0,0.625,0.481
+53.0,Mfiondu Kabengele,Boston Celtics,0.0,2,1.0,2.5,0.0,0.5,0.684
+53.0,Trevor Keels,New York Knicks,0.0,3,1.0,0.7,0.0,0.375,0.582
+53.0,Isaiah Mobley,Cleveland Cavaliers,0.0,11,1.0,1.1,0.0,0.55,0.625
+53.0,Chima Moneke,Sacramento Kings,0.0,2,1.0,1.0,0.5,0.347,0.608
+53.0,Justin Jackson,Boston Celtics,0.0,23,0.9,0.7,0.4,0.359,0.684
+53.0,PJ Dozier,Sacramento Kings,0.0,14,0.8,0.6,0.1,0.367,0.608
+53.0,Carlik Jones,Chicago Bulls,0.0,4,0.8,0.8,0.5,0.171,0.481
+53.0,Dereon Seabron,New Orleans Pelicans,0.0,5,0.8,0.2,0.0,0.4,0.506
+53.0,Vince Williams Jr.,Memphis Grizzlies,0.0,12,0.8,0.6,0.2,0.333,0.633
+53.0,Thanasis Antetokounmpo,Milwaukee Bucks,0.0,34,0.7,0.9,0.2,0.387,0.722
+53.0,Sam Merrill,Cleveland Cavaliers,0.0,3,0.7,0.3,0.3,0.25,0.625
+53.0,Vernon Carey Jr.,Washington Wizards,0.0,11,0.5,1.0,0.3,0.338,0.43
+53.0,Devon Dotson,Washington Wizards,0.0,6,0.5,1.7,1.3,0.15,0.43
+53.0,Udonis Haslem,Miami Heat,0.0,6,0.5,1.3,0.0,0.116,0.532
+53.0,Lester Quinones,Golden State Warriors,0.0,2,0.5,0.5,0.0,0.174,0.525
+53.0,Isaiah Todd,Washington Wizards,0.0,4,0.5,0.0,0.0,0.25,0.43
+53.0,Leandro Bolmaro,Utah Jazz,0.0,14,0.4,0.5,0.5,0.15,0.456
+53.0,Marko Simonovic,Chicago Bulls,0.0,5,0.4,0.2,0.0,0.25,0.481
+53.0,Sterling Brown,Los Angeles Lakers,0.0,4,0.0,2.0,0.5,0.0,0.519
+53.0,Deonte Burton,Sacramento Kings,0.0,2,0.0,0.0,0.0,0.0,0.608
+53.0,Michael Foster Jr.,Philadelphia 76ers,0.0,1,0.0,0.0,0.0,0.0,0.658
+53.0,Frank Jackson,Utah Jazz,0.0,1,0.0,2.0,1.0,0.0,0.456
+53.0,Alondes Williams,Brooklyn Nets,0.0,1,0.0,1.0,0.0,0.0,0.544
+53.0,Donovan Williams,Atlanta Hawks,0.0,1,0.0,1.0,0.0,0.0,0.506
