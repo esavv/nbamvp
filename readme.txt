@@ -36,3 +36,8 @@ some things you should do to get ready:
 
  - How to manually zip my source for beanstalk deployment:
     > zip -r nbamvp_20240404_07.zip .ebextensions/ data/ crontab.txt email_body.html email_template.html eval_2021.py generate_data.py mvp_model.py nba_email.py predict_mvp.py preprocess_data.py prod_emails.csv pull_images.py pw.csv rank_progress.py ranking_chart.html ranking_chart.js readme.txt requirements.txt test_emails.csv
+
+ - How to copy predictions in AWS back to local directory (which I'll need to do before I deploy updated source code to AWS, to make source
+     my local source code has the most up-to-date predictions)
+     Note: in the command below, I need to update the source pattern ('...2024_wk23*') to target the right files
+    > scp -i "nbamvp_ec2.pem" root@ec2-3-230-84-20.compute-1.amazonaws.com:'/var/app/current/data/mvp_predictions/2024/predictions_2024_wk23*' data/mvp_predictions/2024/
