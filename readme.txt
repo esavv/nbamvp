@@ -12,13 +12,8 @@ Various instructions for managing this app:
      Go to "Share & Export" -> "Get table as CSV (for Excel)"
 
  - Update the season schedule in predict_mvp.py:
-        > 13 target_year  = 2023			# UPDATE!
-        > 14 season_start = date(2022, 10, 19)		# UPDATE!
-        > 15 season_end   = date(2023,  4,  9)		# UPDATE!
-        > 16 delta = datetime.timedelta(weeks=1)
-        > 17 
-        > 18 train_start = 2000
-        > 19 train_end   = 2021 			# UPDATE!
+        > 28 season_start = date(2022, 10, 19)		# UPDATE!
+        > 29 season_end   = date(2023,  4,  9)		# UPDATE!
      Get this information from wikipedia. Example: https://en.wikipedia.org/wiki/2022-23_NBA_season
 
  - As of Nov 27, 2023: To do any testing, you can now run the application in development mode! Just do this:

@@ -25,13 +25,13 @@ def main():
     is_prod_email      = False
 
   today = date.today()
-  target_year  = 2024
   season_start = date(2023, 10, 24)
   season_end   = date(2024,  4, 14)
+  target_year  = season_end.year
   delta = datetime.timedelta(weeks=1)
 
   train_start = 2000
-  train_end   = 2023 #TODO Update this every season
+  train_end   = target_year-1 #TODO Ensure training data actually goes up to this season
 
   # Are we in season? (Wait 1 week following the start of the season, and
   # run a prediction in the week following the end of the season to ensure
@@ -48,6 +48,7 @@ def main():
   # What week of the season is it?
   season_days = (today - season_start).days
   season_week = math.ceil(season_days / 7) - 1
+  is_last_week = today > season_end
 
   # Create a string version of season_week and prepend a '0' if it's a single-digit week, to ensure
   # that file ordering in /data/mvp_predictions makes sense.
@@ -130,7 +131,7 @@ def main():
   results.to_csv(pred_file, index=False)
 
   # Email the results
-  em.send_nba_email(pred_file, target_year, season_week, is_prod_email)
+  em.send_nba_email(pred_file, target_year, season_week, is_prod_email, is_last_week)
 
 # Set up command-line arguments & configure 'prod' and 'dev' modes (via an environment variable).
 parser = argparse.ArgumentParser(description='Toggle between prod and dev modes.')
