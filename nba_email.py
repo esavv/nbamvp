@@ -9,7 +9,7 @@ import pandas as pd
 # Issue from 10/28/2022: https://stackoverflow.com/questions/72478573/how-to-send-an-email-using-python-after-googles-policy-update-on-not-allowing-j
 #   Update: Fixed on 11/13/2022
 
-def send_nba_email(prediction_file, year, week, is_prod_email):
+def send_nba_email(prediction_file, year, week, is_prod_email, is_last_week):
   port = 465  # For SSL
   smtp_server = "smtp.gmail.com"
   sender_email = "eriksmvppredictions@gmail.com"
@@ -20,12 +20,15 @@ def send_nba_email(prediction_file, year, week, is_prod_email):
   reader = csv.reader(open('pw.csv', 'r'))       # App Password for new email, generated on 11/14/2022
   password = next(reader)[0]
 
+  subject = str(year) + " NBA MVP Predictions - Week " + str(week)
+  if is_last_week:
+    subject = str(year) + " NBA MVP Predictions - Final Week (Week " + str(week) + ")"
+    
   if is_prod_email:     
     # Example subject: "2022 NBA MVP Predictions - Week 12"
-    subject = str(year) + " NBA MVP Predictions - Week " + str(week)
     email_list = 'prod_emails.csv'
   else:
-    subject = "[TEST] " + str(year) + " NBA MVP Predictions - Week " + str(week)
+    subject = "[TEST] " + subject
     email_list = 'test_emails.csv'
 
   # Generate the email list
