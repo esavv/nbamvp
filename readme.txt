@@ -1,6 +1,11 @@
-You're probably here before the next NBA season begins. Here are
-some things you should do to get ready:
+How this app works:
+ - predict_mvp.py: Contains the main() function that runs the app, which is scheduled to run weekly. Calls the other scripts
+ - generate_data.py: Pulls the latest NBA stats from the basketball_reference_web_scraper library.
+ - mvp_model.py: Trains the models used to make MVP predictions
+ - preprocess_data.py: Is called by mvp_model.py to do some data wrangling before model training
+ - nba_email.py: Emails the prediction results to users
 
+Various instructions for managing this app:
  - Add last season's voting results to /data/mvp_results/results_YYYY.csv
      To do this, go to this URL: https://www.basketball-reference.com/awards/awards_2022.html#mvp
      Replace '2022' in the URL with the last season end year
@@ -21,8 +26,6 @@ some things you should do to get ready:
 
     This ensures we email test_emails.csv instead of the actual user list, keeps the model run count low,
     and saves MVP predictions as dev files instead of production files.
-
- - TODO - Oct 3 2022: Verify that predict_mvp.py works for target year before the new year.
 
  - How to SSH into my ec2 instance:
     > ssh -i "nbamvp_ec2.pem" root@ec2-3-230-84-20.compute-1.amazonaws.com
