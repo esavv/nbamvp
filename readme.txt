@@ -33,6 +33,7 @@ Some instructions for managing this app:
     > vi /var/log/job2.log
 
  - How to manually zip my source for beanstalk deployment:
+   Note: Update "data/mvp_predictions/2024/predictions*" for the current NBA season year
     > zip -r nbamvp_20240412_01.zip .ebextensions/ data/adv_stats/ data/mvp_predictions/2024/predictions* data/mvp_results/ data/per_game_stats/ data/standings/ data/stats/ crontab.txt email_body.html email_template.html eval_2021.py generate_data.py mvp_model.py nba_email.py predict_mvp.py preprocess_data.py prod_emails.csv pull_images.py pw.csv rank_progress.py ranking_chart.html ranking_chart.js readme.txt requirements.txt test_emails.csv
 
  - How to copy predictions in AWS back to local directory (which I'll need to do before I deploy updated source code to AWS, to make sure my local source code has the most up-to-date predictions)
