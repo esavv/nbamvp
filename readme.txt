@@ -25,6 +25,14 @@ Some instructions for managing this app:
  - How to SSH into my ec2 instance:
     > ssh -i "nbamvp_ec2.pem" root@ec2-3-230-84-20.compute-1.amazonaws.com
 
+ - How to set up ec2 instance for SSH access:
+    - After creating an EC2 keypair and having it auto-downloaded, run this comman locally:
+      > ssh-keygen -y -f your_key.pem
+    - Copy the output of that command and log into your instance via EC2 Instance Connect (via the EC2 web console)
+    - Open this file on your ec2 instance:
+      > vi .ssh/authorized_keys
+    - And paste the output you copied earlier into the first line of the file (above any pre-existing content)
+
  - Once I'm in there:
  -- How to view my cronjob:
     > vi /etc/cron.d/mycron
@@ -34,7 +42,7 @@ Some instructions for managing this app:
 
  - How to manually zip my source for beanstalk deployment:
    Note: Update "data/mvp_predictions/2024/predictions*" for the current NBA season year
-    > zip -r nbamvp_20240412_01.zip .ebextensions/ data/adv_stats/ data/mvp_predictions/2024/predictions* data/mvp_results/ data/per_game_stats/ data/standings/ data/stats/ crontab.txt email_body.html email_template.html eval_2021.py generate_data.py mvp_model.py nba_email.py predict_mvp.py preprocess_data.py prod_emails.csv pull_images.py pw.csv rank_progress.py ranking_chart.html ranking_chart.js readme.txt requirements.txt test_emails.csv
+    > zip -r nbamvp_20240416_01.zip .ebextensions/ data/adv_stats/ data/mvp_predictions/2024/predictions* data/mvp_results/ data/per_game_stats/ data/standings/ data/stats/ crontab.txt email_body.html email_template.html eval_2021.py generate_data.py mvp_model.py nba_email.py predict_mvp.py preprocess_data.py prod_emails.csv pull_images.py pw.csv rank_progress.py ranking_chart.html ranking_chart.js readme.txt requirements.txt test_emails.csv
 
  - How to copy predictions in AWS back to local directory (which I'll need to do before I deploy updated source code to AWS, to make sure my local source code has the most up-to-date predictions)
    Note: in the command below, I need to update the source pattern ('...2024_wk23*') to target the right files
