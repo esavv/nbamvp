@@ -25,8 +25,8 @@ def main():
     is_prod_email      = False
 
   today = date.today()
-  season_start = date(2023, 10, 24)
-  season_end   = date(2024,  4, 14)
+  season_start = date(2024, 10, 22)
+  season_end   = date(2025,  4, 13)
   target_year  = season_end.year
   delta = datetime.timedelta(weeks=1)
 
