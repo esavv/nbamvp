@@ -34,6 +34,8 @@ Some instructions for managing this app:
     - And paste the output you copied earlier into the first line of the file (above any pre-existing content)
 
  - Once I'm in there:
+ -- How to view my source code:
+    > cd /var/app/current
  -- How to view my cronjob:
     > vi /etc/cron.d/mycron
  -- How to view my cronjob logs:
