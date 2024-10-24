@@ -33,22 +33,51 @@ def main():
   train_start = 2000
   train_end   = target_year-1 #TODO Ensure training data actually goes up to this season
 
-  # Are we in season? (Wait 1 week following the start of the season, and
-  # run a prediction in the week following the end of the season to ensure
-  # we have the full season's data.
-  if today >= (season_start + delta) and today <= (season_end + delta):
-    print("We're in season! Continuing...")
-  else:
-    print("We're not in season, or it's too early into the season, so there's no analysis to do yet.")
-    print("Today is:             " + str(today))
-    print("The season starts on: " + str(season_start))
-    print("The season ends on:   " + str(season_end))
-    exit()
-
-  # What week of the season is it?
+  # What week of the season is it? (this is useful for preseason notifications,
+  # so we do this before checking if we're in season)
   season_days = (today - season_start).days
   season_week = math.ceil(season_days / 7) - 1
   is_last_week = today > season_end
+
+  # Are we in season? (Wait 1 week following the start of the season, and
+  # run a prediction in the week following the end of the season to ensure
+  # we have the full season's data.
+  before_season = today < (season_start + delta)
+  after_season = today > (season_end + delta)
+
+  if before_season:
+    print("The season either hasn't started yet, or it's too early, so there's no analysis to do.")
+    print("Today is:             " + str(today))
+    print("The season starts on: " + str(season_start))
+    print("The season ends on:   " + str(season_end) + "\n")
+
+    # Figure out how many weeks until the first MVP prediction
+    weeks_til_start = 1 - season_week
+    if weeks_til_start == 1:
+      print("The season is starting in about " + str(weeks_til_start) + " week!")
+    else:
+      print("The season is starting in about " + str(weeks_til_start) + " weeks!")
+
+    # If we're in prod, find out when the 1st real prediction will happen & notify if we're close
+    if mode == 'prod':
+      # Figure out when we'll perform the first prediction
+      predict_start_date = today + datetime.timedelta(weeks=weeks_til_start)
+      print("The first prediction will be sent on this date: " + str(predict_start_date))
+
+      # Notify the admin that we're getting close to the season
+      if weeks_til_start <= 3:
+        # send email
+        em.send_preseason_email(target_year, today, season_start, season_end, weeks_til_start, predict_start_date)
+    
+    exit()
+  elif after_season:
+    print("The season either ended or is about to, so there's no analysis to do.")
+    print("Today is:             " + str(today))
+    print("The season starts on: " + str(season_start))
+    print("The season ends on:   " + str(season_end) + '\n')
+    exit()
+  else:
+    print("We're in season! Continuing...")
 
   # Create a string version of season_week and prepend a '0' if it's a single-digit week, to ensure
   # that file ordering in /data/mvp_predictions makes sense.
