@@ -67,7 +67,7 @@ def main():
       # Notify the admin that we're getting close to the season
       if weeks_til_start <= 3:
         # send email
-        em.send_preseason_email(target_year, today, season_start, season_end, weeks_til_start, predict_start_date)
+        em.send_preseason_email(target_year, season_start, season_end, weeks_til_start, predict_start_date)
     
     exit()
   elif after_season:
