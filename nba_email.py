@@ -9,6 +9,48 @@ import pandas as pd
 # Issue from 10/28/2022: https://stackoverflow.com/questions/72478573/how-to-send-an-email-using-python-after-googles-policy-update-on-not-allowing-j
 #   Update: Fixed on 11/13/2022
 
+def send_preseason_email(year, today, season_start, season_end, weeks_til_start, predict_start_date):
+  print("\nEmail execution goes here!\n")
+  port = 465  # For SSL
+  smtp_server = "smtp.gmail.com"
+  sender_email = "eriksmvppredictions@gmail.com"
+  reader = csv.reader(open('pw.csv', 'r'))       # App Password for new email, generated on 11/14/2022
+  password = next(reader)[0]
+  subject = str(year) + " NBA MVP Predictions - Preseason"
+  # Generate the email list
+  email_list = 'test_emails.csv'
+  reader = csv.reader(open(email_list, 'r'))
+  bcc_emails = [row[0] for row in reader]
+
+  # Create a multipart message and set headers
+  message = MIMEMultipart() # MIMEMultipart("alternative")
+  message["From"] = "Erik's MVP Predictions <" + sender_email + ">"
+  message["Subject"] = subject
+
+  # Get the empty email body template 
+  with open('email_template_preseason.html', 'r') as template_file:
+    html_template = template_file.read()
+
+  # TODO: Populate the template with variables
+  #html = html_template.format(table_html=table_html)
+
+  # Add body to email
+  body = MIMEText(html_template, "html")
+  message.attach(body)
+
+  # Convert message to string
+  msg_body = message.as_string()
+
+  # Do some SSL stuff
+  context = ssl.create_default_context()
+  context.check_hostname = False
+  context.verify_mode = ssl.CERT_NONE
+
+  # Send the email
+  with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+    server.login(sender_email, password)
+    server.sendmail(sender_email, bcc_emails, msg_body)
+
 def send_nba_email(prediction_file, year, week, is_prod_email, is_last_week):
   port = 465  # For SSL
   smtp_server = "smtp.gmail.com"
