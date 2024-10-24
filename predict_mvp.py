@@ -6,20 +6,23 @@ import nba_email as em
 
 # Standard module imports
 from datetime import date
-import argparse, datetime, math, os
+import argparse, datetime, math, os, pytz
 import pandas as pd
 
 def main():
   # Get the development mode from an environment variable
   mode = os.getenv('MODE', 'dev') # default to dev mode
 
+  est = pytz.timezone('US/Eastern')
+  current_time = datetime.now(est).strftime('%Y-%m-%d %H:%M:%S %Z')
+
   if mode == 'prod':
-    print("Running in production mode.")
+    print(current_time + ": Running in production mode.")
     runs               = 100 
     pred_filename_stub = 'predictions_'
     is_prod_email      = True
   elif mode == 'dev':
-    print("Running in development mode.")
+    print(current_time + ": Running in development mode.")
     runs               = 3
     pred_filename_stub = 'dev_predictions_'
     is_prod_email      = False
@@ -54,9 +57,9 @@ def main():
     # Figure out how many weeks until the first MVP prediction
     weeks_til_start = 1 - season_week
     if weeks_til_start == 1:
-      print("The season is starting in about " + str(weeks_til_start) + " week!")
+      print("The season is starting in about " + str(weeks_til_start) + " week!\n")
     else:
-      print("The season is starting in about " + str(weeks_til_start) + " weeks!")
+      print("The season is starting in about " + str(weeks_til_start) + " weeks!\n")
 
     # If we're in prod, find out when the 1st real prediction will happen & notify if we're close
     if mode == 'prod':
