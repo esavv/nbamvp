@@ -39,11 +39,11 @@ Some instructions for managing this app:
  -- How to view my cronjob:
     > vi /etc/cron.d/mycron
  -- How to view my cronjob logs:
-    > vi /var/log/job1.log
-    > vi /var/log/job2.log
+    > vi /var/log/dev_job.log
+    > vi /var/log/prod_job.log
 
  - How to manually zip my source for beanstalk deployment:
-   Note: Update "data/mvp_predictions/2024/predictions*" for the current NBA season year
+   Note: Update "data/mvp_predictions/2025/predictions*" for the current NBA season year
     > zip -r nbamvp_20241024_01.zip .ebextensions/ data/adv_stats/ data/mvp_predictions/2025/predictions* data/mvp_results data/per_game_stats/ data/standings/ data/stats/ img/ crontab.txt email_body.html email_template_preseason.html email_template.html eval_2021.py generate_data.py index.html mvp_model.py nba_email.py predict_mvp.py preprocess_data.py Procfile prod_emails.csv pull_images.py pw.csv rank_progress.py ranking_chart.html ranking_chart.js readme.txt requirements.txt test_emails.csv webapp.py
 
  - How to copy predictions in AWS back to local directory (which I'll need to do before I deploy updated source code to AWS, to make sure my local source code has the most up-to-date predictions)
