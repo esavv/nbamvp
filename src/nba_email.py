@@ -9,15 +9,12 @@ import pandas as pd
 # Issue from 10/28/2022: https://stackoverflow.com/questions/72478573/how-to-send-an-email-using-python-after-googles-policy-update-on-not-allowing-j
 #   Update: Fixed on 11/13/2022
 
-current_dir = os.getcwd()
-parent_dir = os.path.dirname(current_dir)
-
 port = 465  # For SSL
 smtp_server = "smtp.gmail.com"
 sender_email = "eriksmvppredictions@gmail.com"
 # sender_email = "eriksmvppredictor@gmail.com"  # The old email
 # reader = csv.reader(open('pw_old.csv', 'r'))  # App Password for old email, generated on 11/13/2022
-pw_file = os.path.join(parent_dir, 'data/email/pw.csv')
+pw_file = '../data/email/pw.csv'
 reader = csv.reader(open(pw_file, 'r'))       # App Password for new email, generated on 11/14/2022
 password = next(reader)[0]
 
@@ -28,10 +25,10 @@ def send_nba_email(prediction_file, year, week, is_prod_email, is_last_week):
     
   if is_prod_email:     
     # Example subject: "2022 NBA MVP Predictions - Week 12"
-    email_list = os.path.join(parent_dir, 'data/email/prod_emails.csv')
+    email_list = '../data/email/prod_emails.csv'
   else:
     subject = "[TEST] " + subject
-    email_list = os.path.join(parent_dir, 'data/email/test_emails.csv')
+    email_list = '../data/email/test_emails.csv'
 
   # Generate the email list
   reader = csv.reader(open(email_list, 'r'))
@@ -55,7 +52,7 @@ def send_nba_email(prediction_file, year, week, is_prod_email, is_last_week):
   table_html = pretty_html_table.build_table(df, 'blue_light')
 
   # Get the empty email body template 
-  email_template_path = os.path.join(parent_dir, 'static/html/email_template.html')
+  email_template_path = '../static/html/email_template.html'
   with open(email_template_path, 'r') as template_file:
     html_template = template_file.read()
 
@@ -63,7 +60,7 @@ def send_nba_email(prediction_file, year, week, is_prod_email, is_last_week):
   html = html_template.format(table_html=table_html)
 
   # Save the table-populated hmtl for debugging & browser preview
-  email_body_path = os.path.join(parent_dir, 'static/html/email_body.html')
+  email_body_path = '../static/html/email_body.html'
   with open(email_body_path, 'w') as html_file:
     html_file.write(html)
 
@@ -108,7 +105,7 @@ def send_preseason_email(year, season_start, season_end, weeks_til_start, predic
   else: 
     subject = str(year) + " NBA MVP Preseason: First Prediction in " + str(weeks_til_start) + " Weeks!"
   # Generate the email list
-  email_list = os.path.join(parent_dir, 'data/email/test_emails.csv')
+  email_list = '../data/email/test_emails.csv'
   reader = csv.reader(open(email_list, 'r'))
   bcc_emails = [row[0] for row in reader]
 
@@ -118,7 +115,7 @@ def send_preseason_email(year, season_start, season_end, weeks_til_start, predic
   message["Subject"] = subject
 
   # Get the empty email body template 
-  email_template_preseason_path = os.path.join(parent_dir, 'static/html/email_template_preseason.html')
+  email_template_preseason_path = '../static/html/email_template_preseason.html'
   with open(email_template_preseason_path, 'r') as template_file:
     html_template = template_file.read()
 

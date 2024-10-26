@@ -2,9 +2,6 @@ from basketball_reference_web_scraper import client as br
 import pandas as pd
 import os
 
-current_dir = os.getcwd()
-parent_dir = os.path.dirname(current_dir)
-
 # Get all player "slugs" according to Basketball Reference taxonomy
 # For example, Jimmy Butler's slug is "butleji01"
 # Save to ~/data/player_slugs.csv
@@ -14,7 +11,7 @@ def pull_slugs(year):
   stats_dict = br.players_season_totals(season_end_year=year)
   stats_df = pd.DataFrame.from_dict(stats_dict)
   slugs = stats_df['slug']
-  filename = os.path.join(parent_dir, 'data/player_slugs.csv')
+  filename = '../data/player_slugs.csv'
   slugs.to_csv(filename, index=False, header=None)
 
 def generate_data(year):
@@ -91,10 +88,10 @@ def generate_data(year):
   pg_stats_df.drop(['slug'], inplace=True, axis=1)
 
   # Save the data as CSVs
-  stats_path     = os.path.join(parent_dir, 'data/stats/stats_' + str(year) + '.csv')
-  adv_path       = os.path.join(parent_dir, 'data/adv_stats/adv_stats_' + str(year) + '.csv')
-  pg_stats_path  = os.path.join(parent_dir, 'data/per_game_stats/pg_stats_' + str(year) + '.csv')
-  standings_path = os.path.join(parent_dir, 'data/standings/standings_' + str(year) + '.csv')
+  stats_path     = '../data/stats/stats_' + str(year) + '.csv'
+  adv_path       = '../data/adv_stats/adv_stats_' + str(year) + '.csv'
+  pg_stats_path  = '../data/per_game_stats/pg_stats_' + str(year) + '.csv'
+  standings_path = '../data/standings/standings_' + str(year) + '.csv'
 
   stats_df.to_csv(stats_path, index=False)
   adv_df.to_csv(adv_path, index=False)

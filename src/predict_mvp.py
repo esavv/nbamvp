@@ -28,9 +28,6 @@ def main():
     pred_filename_stub = 'dev_predictions_'
     is_prod_email      = False
 
-  current_dir = os.getcwd()
-  parent_dir = os.path.dirname(current_dir)
-
   today = date.today()
   season_start = date(2024, 10, 12)
   season_end   = date(2025,  4, 13)
@@ -96,7 +93,7 @@ def main():
   #   If so, exit - don't bother predicting again and definitely don't ping the basketball reference API unnecessarily
   #   Except, generate predictions if we're in dev mode (for testing)
   prediction_prefix = 'predictions_' + str(target_year) + '_wk' + week_str 
-  prediction_path = os.path.join(parent_dir, 'data/mvp_predictions/' + str(target_year))
+  prediction_path = '../data/mvp_predictions/' + str(target_year)
   if args.mode == 'prod':                     # confirm we're in 'prod' mode here
     for file in os.listdir(prediction_path):
       if file.startswith(prediction_prefix):
@@ -112,10 +109,10 @@ def main():
     else:
       print("    file <" + path + "> not found")
 
-  stat_file      = os.path.join(parent_dir, 'data/stats/stats_' + str(target_year) + '.csv')
-  pg_file        = os.path.join(parent_dir, 'data/per_game_stats/pg_stats_' + str(target_year) + '.csv')
-  adv_file       = os.path.join(parent_dir, 'data/adv_stats/adv_stats_' + str(target_year) + '.csv')
-  standings_file = os.path.join(parent_dir, 'data/standings/standings_' + str(target_year) + '.csv')
+  stat_file      = '../data/stats/stats_' + str(target_year) + '.csv'
+  pg_file        = '../data/per_game_stats/pg_stats_' + str(target_year) + '.csv'
+  adv_file       = '../data/adv_stats/adv_stats_' + str(target_year) + '.csv'
+  standings_file = '../data/standings/standings_' + str(target_year) + '.csv'
 
   print("Removing stale data from current season...")
   nba_delete_file(stat_file)
@@ -160,7 +157,7 @@ def main():
   # Some pre-work.
   print("Saving the results...")
   timestamp = now.strftime("%Y%m%d_%H%M") 
-  filepath = os.path.join(parent_dir, 'data/mvp_predictions/' + str(target_year))
+  filepath = '../data/mvp_predictions/' + str(target_year)
   # Check if the sub-directory (for the current season) already exists, and if not, create it.
   if not os.path.exists(filepath):
     os.makedirs(filepath)
