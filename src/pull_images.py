@@ -7,9 +7,6 @@ import csv, os
 from PIL import Image
 from io import BytesIO
 
-current_dir = os.getcwd()
-parent_dir = os.path.dirname(current_dir)
-
 # This function is intended to be invoked interactively from the /nbamvp/src directory.
 #
 # This function pulls profile images from a hardcoded image URL prefix. It's unwise to assume this prefix

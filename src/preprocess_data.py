@@ -4,14 +4,11 @@ import os
 # With the BR web scraper API, we no longer need the team mapping to map stats to standings
 #team_mapping = pd.read_csv('data/team_mapping.csv')
 
-current_dir = os.getcwd()
-parent_dir = os.path.dirname(current_dir)
-
 def preprocess_season_stats(year):
-  stats_path     = os.path.join(parent_dir, 'data/stats/stats_' + str(year) + '.csv')
-  adv_path       = os.path.join(parent_dir, 'data/adv_stats/adv_stats_' + str(year) + '.csv')
-  pg_stats_path  = os.path.join(parent_dir, 'data/per_game_stats/pg_stats_' + str(year) + '.csv')
-  standings_path = os.path.join(parent_dir, 'data/standings/standings_' + str(year) + '.csv')
+  stats_path     = '../data/stats/stats_' + str(year) + '.csv'
+  adv_path       = '../data/adv_stats/adv_stats_' + str(year) + '.csv'
+  pg_stats_path  = '../data/per_game_stats/pg_stats_' + str(year) + '.csv'
+  standings_path = '../data/standings/standings_' + str(year) + '.csv'
 
   # Read standard stats
   stats = pd.read_csv(stats_path)
@@ -61,7 +58,7 @@ def preprocess_season_stats_and_results(year):
   stats = preprocess_season_stats(year)  
 
   # Read the MVP voting results
-  result_path = os.path.join(parent_dir, 'data/mvp_results/results_' + str(year) + '.csv')
+  result_path = '../data/mvp_results/results_' + str(year) + '.csv'
   results = pd.read_csv(result_path)
   
   # Split "Player" field into "name" and "stub"
