@@ -18,7 +18,7 @@ handler.setFormatter(formatter)
 # add Handler to Logger
 logger.addHandler(handler)
 
-# index_html = open('index.html', 'r').read()
+# index_html = open('static/html/index.html', 'r').read()
 
 def application(environ, start_response):
     path = environ['PATH_INFO']
@@ -36,7 +36,7 @@ def application(environ, start_response):
             logger.warning('Error retrieving request body for async work.')
         response = ''
     else:
-        response = open('index.html', 'r').read()
+        response = open('static/html/index.html', 'r').read()
     start_response("200 OK", [
         ("Content-Type", "text/html"),
         ("Content-Length", str(len(response)))

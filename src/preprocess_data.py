@@ -1,24 +1,33 @@
 import pandas as pd
+import os
 
 # With the BR web scraper API, we no longer need the team mapping to map stats to standings
 #team_mapping = pd.read_csv('data/team_mapping.csv')
 
+current_dir = os.getcwd()
+parent_dir = os.path.dirname(current_dir)
+
 def preprocess_season_stats(year):
+  stats_path     = os.path.join(parent_dir, 'data/stats/stats_' + str(year) + '.csv')
+  adv_path       = os.path.join(parent_dir, 'data/adv_stats/adv_stats_' + str(year) + '.csv')
+  pg_stats_path  = os.path.join(parent_dir, 'data/per_game_stats/pg_stats_' + str(year) + '.csv')
+  standings_path = os.path.join(parent_dir, 'data/standings/standings_' + str(year) + '.csv')
+
   # Read standard stats
-  stats = pd.read_csv('data/stats/stats_' + str(year) + '.csv')
+  stats = pd.read_csv(stats_path)
 
   # Read advanced stats
-  adv = pd.read_csv('data/adv_stats/adv_stats_' + str(year) + '.csv')
+  adv = pd.read_csv(adv_path)
 
   stats = pd.merge(stats, adv, on = 'name', how = 'left')
 
   # Read per game stats
-  pg_stats = pd.read_csv('data/per_game_stats/pg_stats_' + str(year) + '.csv')
+  pg_stats = pd.read_csv(pg_stats_path)
 
   stats = pd.merge(stats, pg_stats, on = 'name', how = 'left')
 
   # Read team standings 
-  standings = pd.read_csv('data/standings/standings_' + str(year) + '.csv')
+  standings = pd.read_csv(standings_path)
   standings = standings[['team','Win Pct']]
 
   stats = pd.merge(stats, standings, on = 'team', how = 'left')
@@ -52,7 +61,8 @@ def preprocess_season_stats_and_results(year):
   stats = preprocess_season_stats(year)  
 
   # Read the MVP voting results
-  results = pd.read_csv('data/mvp_results/results_' + str(year) + '.csv')
+  result_path = os.path.join(parent_dir, 'data/mvp_results/results_' + str(year) + '.csv')
+  results = pd.read_csv(result_path)
   
   # Split "Player" field into "name" and "stub"
   # This if/else statement here was added on 10/28/2022 to accommodate

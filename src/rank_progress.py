@@ -13,8 +13,8 @@ import datetime
 def rank_progress_from_scratch(year):
 
     # Set things up
-    filepath = 'data/mvp_predictions/' + str(year)
-    raw_files = os.listdir(filepath)
+    pred_filepath = '../data/mvp_predictions/' + str(year)
+    raw_files = os.listdir(pred_filepath)
     prefix = 'predictions_' + str(year) + '_wk'
 
     # Get the list of prediction files 
@@ -27,7 +27,7 @@ def rank_progress_from_scratch(year):
     #  - Get the week #
     #  - Update the rank column with the week #
     file = files[0]
-    progression = pd.read_csv(filepath + '/' + file)
+    progression = pd.read_csv(os.path.join(pred_filepath, file))
     progression = progression[['Player','Rank']]
    
     week_no = file[len(prefix):file.find("_",len(prefix))]
@@ -36,13 +36,14 @@ def rank_progress_from_scratch(year):
     # Save the first file
     now = datetime.datetime.now()
     timestamp = now.strftime("%Y%m%d_%H%M")
-    prog_filepath = 'data/rank_progress/' + str(year) + '/' + 'progression' + str(year) + '_wk' + week_no + '_' + str(timestamp) + '.csv'
+    prog_file = 'progression_' + str(year) + '_wk' + week_no + '_' + str(timestamp) + '.csv'
+    prog_filepath = os.path.join('../data/rank_progress/' + str(year), prog_file)
     progression.to_csv(prog_filepath, index=False)
 
     # Loop through the remaining files to build the progression
     for file in files[1:]:
         # Extract the progression update from this week's file
-        prog_update = pd.read_csv(filepath + '/' + file)
+        prog_update = pd.read_csv(os.path.join(pred_filepath, file))
         prog_update = prog_update[['Player','Rank']]
         week_no = file[len(prefix):file.find("_",len(prefix))]
         prog_update.rename(columns={'Rank': 'Week ' + str(int(week_no))}, inplace=True)
@@ -51,7 +52,8 @@ def rank_progress_from_scratch(year):
         progression = pd.merge(progression, prog_update, on = 'Player', how = 'right')
 
         # Save a new file
-        prog_filepath = 'data/rank_progress/' + str(year) + '/' + 'progression' + str(year) + '_wk' + week_no + '_' + str(timestamp) + '.csv'
+        prog_file = 'progression_' + str(year) + '_wk' + week_no + '_' + str(timestamp) + '.csv'
+        prog_filepath = os.path.join('../data/rank_progress/' + str(year), prog_file)
         progression.to_csv(prog_filepath, index=False)
 
 
