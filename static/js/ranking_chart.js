@@ -6,7 +6,7 @@ const fetchCSV = async (csvFilePath) => {
 };
 
 // Load CSV file
-const csvFilePath = 'data/rank_progress/2024/progression2024_wk09_20231229_1023.csv';
+const csvFilePath = '../../data/rank_progress/2024/progression2024_wk09_20231229_1023.csv';
 
 // Parse CSV data
 fetchCSV(csvFilePath).then((csvData) => {
@@ -24,7 +24,7 @@ fetchCSV(csvFilePath).then((csvData) => {
     // Function to dynamically update pointStyle based on player name
     const getPointStyle = (playerName) => {
         // Construct the image path based on the player name
-        const imagePath = `data/player_img_test/${playerName}.jpg`;
+        const imagePath = `../../data/player_img_test/${playerName}.jpg`;
         // const imagePath = `data/player_img_test/Nikola Jokić.jpg`;
 
         console.log('Image Path: ', imagePath)

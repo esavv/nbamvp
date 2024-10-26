@@ -5,8 +5,8 @@ import mvp_model as mvp
 import nba_email as em
 
 # Standard module imports
-from datetime import date
-import argparse, datetime, math, os, pytz
+from datetime import date, datetime, timedelta
+import argparse, math, os, pytz
 import pandas as pd
 
 def main():
@@ -14,24 +14,28 @@ def main():
   mode = os.getenv('MODE', 'dev') # default to dev mode
 
   est = pytz.timezone('US/Eastern')
-  current_time = datetime.now(est).strftime('%Y-%m-%d %H:%M:%S %Z')
+  now = datetime.now(est)
+  current_time = now.strftime('%Y-%m-%d %H:%M:%S %Z')
 
   if mode == 'prod':
-    print(current_time + ": Running in production mode.")
+    print(current_time + ": Running in production mode.\n")
     runs               = 100 
     pred_filename_stub = 'predictions_'
     is_prod_email      = True
   elif mode == 'dev':
-    print(current_time + ": Running in development mode.")
+    print(current_time + ": Running in development mode.\n")
     runs               = 3
     pred_filename_stub = 'dev_predictions_'
     is_prod_email      = False
 
+  current_dir = os.getcwd()
+  parent_dir = os.path.dirname(current_dir)
+
   today = date.today()
-  season_start = date(2024, 10, 22)
+  season_start = date(2024, 10, 12)
   season_end   = date(2025,  4, 13)
   target_year  = season_end.year
-  delta = datetime.timedelta(weeks=1)
+  delta = timedelta(weeks=1)
 
   train_start = 2000
   train_end   = target_year-1 #TODO Ensure training data actually goes up to this season
@@ -91,25 +95,27 @@ def main():
   # Have we already generated predictions for this week?
   #   If so, exit - don't bother predicting again and definitely don't ping the basketball reference API unnecessarily
   #   Except, generate predictions if we're in dev mode (for testing)
-  filestring = 'predictions_' + str(target_year) + '_wk' + week_str 
-  for file in os.listdir('data/mvp_predictions/' + str(target_year)):
-    if (file.startswith(filestring) and args.mode == 'prod'):        # confirm we're in 'prod' mode here
-      print('Prediction for this week already exists! Exiting...')
-      exit()
+  prediction_prefix = 'predictions_' + str(target_year) + '_wk' + week_str 
+  prediction_path = os.path.join(parent_dir, 'data/mvp_predictions/' + str(target_year))
+  if args.mode == 'prod':                     # confirm we're in 'prod' mode here
+    for file in os.listdir(prediction_path):
+      if file.startswith(prediction_prefix):
+        print('Prediction for this week already exists! Exiting...')
+        exit()
 
   # Delete the current year's data
   # TODO - Check to see if this works before the new year. IE target year is 2023, but season starts in 2022.
   def nba_delete_file(path):
     if(os.path.exists(path) and os.path.isfile(path)):
       os.remove(path)
-      print("file <" + path + "> deleted")
+      print("    file <" + path + "> deleted")
     else:
-      print("file <" + path + "> not found")
+      print("    file <" + path + "> not found")
 
-  stat_file      = 'data/stats/stats_' + str(target_year) + '.csv'
-  pg_file        = 'data/per_game_stats/pg_stats_' + str(target_year) + '.csv'
-  adv_file       = 'data/adv_stats/adv_stats_' + str(target_year) + '.csv'
-  standings_file = 'data/standings/standings_' + str(target_year) + '.csv'
+  stat_file      = os.path.join(parent_dir, 'data/stats/stats_' + str(target_year) + '.csv')
+  pg_file        = os.path.join(parent_dir, 'data/per_game_stats/pg_stats_' + str(target_year) + '.csv')
+  adv_file       = os.path.join(parent_dir, 'data/adv_stats/adv_stats_' + str(target_year) + '.csv')
+  standings_file = os.path.join(parent_dir, 'data/standings/standings_' + str(target_year) + '.csv')
 
   print("Removing stale data from current season...")
   nba_delete_file(stat_file)
@@ -122,10 +128,12 @@ def main():
   gd.generate_data(target_year)
 
   # Predict
+  print("Making some predictions...")
   prediction = mvp.rforest_predict_mvp(train_start, train_end, target_year, runs)
   #prediction = mvp.neural_net_predict_mvp(train_start, train_end, target_year, 750, 'adam', 10, 10, 1)
   stats = ppd.preprocess_season_stats(target_year)
 
+  print("Cleaning things up...")
   # Display all rows 
   pd.set_option("display.max_rows", None, "display.max_columns", None)
   pd.set_option('display.max_columns', 500)
@@ -150,19 +158,19 @@ def main():
 
   # Save the predictions in a /data/mvp_predictions sub-directory
   # Some pre-work.
-  now = datetime.datetime.now()
+  print("Saving the results...")
   timestamp = now.strftime("%Y%m%d_%H%M") 
-  filepath = 'data/mvp_predictions/'
-  directory = str(target_year)
+  filepath = os.path.join(parent_dir, 'data/mvp_predictions/' + str(target_year))
   # Check if the sub-directory (for the current season) already exists, and if not, create it.
-  if not os.path.exists(filepath + directory):
-    os.makedirs(filepath + directory)
-    print(f"Directory '{filepath + directory}' created.")
+  if not os.path.exists(filepath):
+    os.makedirs(filepath)
+    print(f"Directory '{filepath}' created.")
   # Save the predictions.
-  pred_file = filepath + directory + '/' + pred_filename_stub + str(target_year) + '_wk' + week_str + '_' + str(timestamp) + '.csv'
+  pred_file = filepath + '/' + pred_filename_stub + str(target_year) + '_wk' + week_str + '_' + str(timestamp) + '.csv'
   results.to_csv(pred_file, index=False)
 
   # Email the results
+  print("Emailing the results...")
   em.send_nba_email(pred_file, target_year, season_week, is_prod_email, is_last_week)
 
 # Set up command-line arguments & configure 'prod' and 'dev' modes (via an environment variable).
