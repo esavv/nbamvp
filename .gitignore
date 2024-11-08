@@ -1,0 +1,10 @@
+__old_files/
+__pycache__/
+basketball_reference_web_scraper/
+data/email/
+data/player_images/
+data/player_img_test/
+nbamvp_ec2.pem
+older_models/
+src/__pycache__/
+*.zip
