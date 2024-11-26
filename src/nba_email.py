@@ -138,3 +138,44 @@ def send_preseason_email(year, season_start, season_end, weeks_til_start, predic
   with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
     server.login(sender_email, password)
     server.sendmail(sender_email, bcc_emails, msg_body)
+
+def send_error_email(year, week, traceback_str):
+  print("\nSending an error email notification!\n")
+
+  subject = "ERROR: " + str(year) + " NBA MVP Predictions - Week " + str(week)
+
+  # Generate the email list
+  email_list = '../data/email/test_emails.csv'
+  reader = csv.reader(open(email_list, 'r'))
+  bcc_emails = [row[0] for row in reader]
+
+  # Create a multipart message and set headers
+  message = MIMEMultipart() # MIMEMultipart("alternative")
+  message["From"] = "Erik's MVP Predictions <" + sender_email + ">"
+  message["Subject"] = subject
+
+  # Get the empty email body template 
+  email_template_preseason_path = '../static/html/email_template_error.html'
+  with open(email_template_preseason_path, 'r') as template_file:
+    html_template = template_file.read()
+
+  # Populate the template with variables
+  # html = html_template.format(traceback_str=traceback_str)
+  html = html_template.replace("{traceback_str}", traceback_str)
+
+  # Add body to email
+  body = MIMEText(html, "html")
+  message.attach(body)
+
+  # Convert message to string
+  msg_body = message.as_string()
+
+  # Do some SSL stuff
+  context = ssl.create_default_context()
+  context.check_hostname = False
+  context.verify_mode = ssl.CERT_NONE
+
+  # Send the email
+  with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+    server.login(sender_email, password)
+    server.sendmail(sender_email, bcc_emails, msg_body)

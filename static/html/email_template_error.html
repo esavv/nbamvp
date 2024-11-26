@@ -1,0 +1,14 @@
+<!-- This is read by nba_email.py to generate the email body for error notifications      -->
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>NBA MVP Error Email Body</title>
+    </head>
+    <body>
+        <p>An error was found while running MVP prediction:</p>
+        <pre style="background-color: #f4f4f4; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+{traceback_str}
+        </pre>
+    </body>
+</html>
