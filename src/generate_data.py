@@ -30,17 +30,17 @@ def generate_data(year):
   
   # Merge rows for traded players
   stats_df = stats_df.groupby(['slug','name'], as_index=False).agg({'positions':'first', 'team':'last', 'age':'min',
-           'games_played':'sum', 'games_started':'sum', 'minutes_played':'sum', 'made_field_goals':'sum',
-           'attempted_field_goals':'sum', 'made_three_point_field_goals':'sum', 'attempted_three_point_field_goals':'sum',
-           'made_free_throws':'sum', 'attempted_free_throws':'sum', 'offensive_rebounds':'sum', 'defensive_rebounds':'sum',
-           'assists':'sum', 'steals':'sum', 'blocks':'sum', 'turnovers':'sum', 'personal_fouls':'sum', 'points':'sum'})
+    'games_played':'sum', 'games_started':'sum', 'minutes_played':'sum', 'made_field_goals':'sum',
+    'attempted_field_goals':'sum', 'made_three_point_field_goals':'sum', 'attempted_three_point_field_goals':'sum',
+    'made_free_throws':'sum', 'attempted_free_throws':'sum', 'offensive_rebounds':'sum', 'defensive_rebounds':'sum',
+    'assists':'sum', 'steals':'sum', 'blocks':'sum', 'turnovers':'sum', 'personal_fouls':'sum', 'points':'sum'})
   
   adv_df.drop(['positions','age','team','minutes_played','player_efficiency_rating','three_point_attempt_rate',
               'free_throw_attempt_rate','offensive_rebound_percentage','defensive_rebound_percentage',
               'total_rebound_percentage','assist_percentage','steal_percentage','block_percentage','turnover_percentage',
               'usage_percentage','offensive_win_shares','defensive_win_shares','win_shares_per_48_minutes',
               'offensive_box_plus_minus','defensive_box_plus_minus','is_combined_totals'], inplace=True, axis=1)
-   
+
   # To merge advanced stats, I'm going to need a weighted average of:
   # - true_shooting_percentage
   # - box_plus_minus
