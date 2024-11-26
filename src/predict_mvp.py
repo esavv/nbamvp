@@ -6,7 +6,7 @@ import nba_email as em
 
 # Standard module imports
 from datetime import date, datetime, timedelta
-import argparse, math, os, pytz
+import argparse, math, os, pytz, traceback
 import pandas as pd
 
 def main():
@@ -122,7 +122,13 @@ def main():
 
   # Regenerate the current year's data
   print("Generating fresh data from current season...")
-  gd.generate_data(target_year)
+  try:
+    gd.generate_data(target_year)
+  except Exception as e:
+    # Print a clear error message and exit gracefully
+    print(f"ERROR: Data generaion failed.")
+    print(traceback.format_exc())
+    exit()
 
   # Predict
   print("Making some predictions...")
