@@ -71,7 +71,16 @@ def main():
       # Notify the admin that we're getting close to the season
       if weeks_til_start <= 3:
         # send email
-        em.send_preseason_email(target_year, season_start, season_end, weeks_til_start, predict_start_date)
+        print("Sending the preseason email...")
+        try:
+          em.send_preseason_email(target_year, season_start, season_end, weeks_til_start, predict_start_date)
+        except Exception:
+          # Print a clear error message and exit gracefully
+          print(f"ERROR: Sending preseason email failed.")
+          traceback_str = traceback.format_exc()
+          print(traceback_str)
+          em.send_error_email(target_year, season_week, traceback_str)
+          exit()
     
     exit()
   elif after_season:
@@ -124,7 +133,7 @@ def main():
   print("Generating fresh data from current season...")
   try:
     gd.generate_data(target_year)
-  except Exception as e:
+  except Exception:
     # Print a clear error message and exit gracefully
     print(f"ERROR: Data generation failed.")
     traceback_str = traceback.format_exc()
@@ -136,9 +145,9 @@ def main():
   print("Making some predictions...")
   try:
     prediction = mvp.rforest_predict_mvp(train_start, train_end, target_year, runs)
-  except Exception as e:
+  except Exception:
     # Print a clear error message and exit gracefully
-    print(f"ERROR: Data generation failed.")
+    print(f"ERROR: Model training & prediction failed.")
     traceback_str = traceback.format_exc()
     print(traceback_str)
     em.send_error_email(target_year, season_week, traceback_str)
@@ -146,47 +155,79 @@ def main():
 
   #prediction = mvp.neural_net_predict_mvp(train_start, train_end, target_year, 750, 'adam', 10, 10, 1)
   print("Prepocessing data for cleanup...")
-  stats = ppd.preprocess_season_stats(target_year)
+  try:
+    stats = ppd.preprocess_season_stats(target_year)
+  except Exception:
+    # Print a clear error message and exit gracefully
+    print(f"ERROR: Preprocessing for cleanup failed.")
+    traceback_str = traceback.format_exc()
+    print(traceback_str)
+    em.send_error_email(target_year, season_week, traceback_str)
+    exit()
 
   print("Cleaning things up...")
-  # Display all rows 
-  pd.set_option("display.max_rows", None, "display.max_columns", None)
-  pd.set_option('display.max_columns', 500)
-  pd.set_option('display.width', 1000)
+  try:
+    # Display all rows 
+    pd.set_option("display.max_rows", None, "display.max_columns", None)
+    pd.set_option('display.max_columns', 500)
+    pd.set_option('display.width', 1000)
 
-  # Vlookup the actual stats into the predicted results
-  results = pd.merge(prediction, stats[['name','games_played_actual','points_y','rebounds_y','assists_y',
-                                        'true_shooting_percentage','Win Pct','team']], on = 'name', how = 'left')
-  # Lots of formatting
-  results = results.fillna(0)
-  results = results.rename(columns={'name': 'Player', 'games_played_actual': 'GP', 'points_y': 'PTS', 'rebounds_y':'REB', 'assists_y':'AST', 'true_shooting_percentage':'TS %', 'Win Pct':'Win %', 'team':'Team'})
-  results = results.round({'Predicted Votes': 0, 'PTS': 1, 'REB': 1, 'AST': 1, 'TS %': 3, 'Win %': 3})
-  results = results.sort_values(by = ['Predicted Votes','PTS'], ascending = (False,False))
-  results['Rank'] = results['Predicted Votes'].rank(method = 'min', ascending = False) 
-  results = results[['Rank','Player','Team','Predicted Votes','GP','PTS','REB','AST','TS %','Win %']]
-  # Format the team names from "Team.DALLAS_MAVERICKS" to "Dallas Mavericks"
-  results['Team'] = results['Team'].str.replace('Team.', '', regex=False)
-  results['Team'] = results['Team'].str.replace('_',' ')
-  results['Team'] = results['Team'].str.lower()
-  results['Team'] = results['Team'].str.title()
-  results['Team'] = results['Team'].str.replace('76Ers','76ers')
+    # Vlookup the actual stats into the predicted results
+    results = pd.merge(prediction, stats[['name','games_played_actual','points_y','rebounds_y','assists_y',
+                                          'true_shooting_percentage','Win Pct','team']], on = 'name', how = 'left')
+    # Lots of formatting
+    results = results.fillna(0)
+    results = results.rename(columns={'name': 'Player', 'games_played_actual': 'GP', 'points_y': 'PTS', 'rebounds_y':'REB', 'assists_y':'AST', 'true_shooting_percentage':'TS %', 'Win Pct':'Win %', 'team':'Team'})
+    results = results.round({'Predicted Votes': 0, 'PTS': 1, 'REB': 1, 'AST': 1, 'TS %': 3, 'Win %': 3})
+    results = results.sort_values(by = ['Predicted Votes','PTS'], ascending = (False,False))
+    results['Rank'] = results['Predicted Votes'].rank(method = 'min', ascending = False) 
+    results = results[['Rank','Player','Team','Predicted Votes','GP','PTS','REB','AST','TS %','Win %']]
+    # Format the team names from "Team.DALLAS_MAVERICKS" to "Dallas Mavericks"
+    results['Team'] = results['Team'].str.replace('Team.', '', regex=False)
+    results['Team'] = results['Team'].str.replace('_',' ')
+    results['Team'] = results['Team'].str.lower()
+    results['Team'] = results['Team'].str.title()
+    results['Team'] = results['Team'].str.replace('76Ers','76ers')
+  except Exception:
+    # Print a clear error message and exit gracefully
+    print(f"ERROR: Data cleanup failed.")
+    traceback_str = traceback.format_exc()
+    print(traceback_str)
+    em.send_error_email(target_year, season_week, traceback_str)
+    exit()
 
   # Save the predictions in a /data/mvp_predictions sub-directory
   # Some pre-work.
   print("Saving the results...")
-  timestamp = now.strftime("%Y%m%d_%H%M") 
-  filepath = '../data/mvp_predictions/' + str(target_year)
-  # Check if the sub-directory (for the current season) already exists, and if not, create it.
-  if not os.path.exists(filepath):
-    os.makedirs(filepath)
-    print(f"Directory '{filepath}' created.")
-  # Save the predictions.
-  pred_file = filepath + '/' + pred_filename_stub + str(target_year) + '_wk' + week_str + '_' + str(timestamp) + '.csv'
-  results.to_csv(pred_file, index=False)
+  try:
+    timestamp = now.strftime("%Y%m%d_%H%M") 
+    filepath = '../data/mvp_predictions/' + str(target_year)
+    # Check if the sub-directory (for the current season) already exists, and if not, create it.
+    if not os.path.exists(filepath):
+      os.makedirs(filepath)
+      print(f"Directory '{filepath}' created.")
+    # Save the predictions.
+    pred_file = filepath + '/' + pred_filename_stub + str(target_year) + '_wk' + week_str + '_' + str(timestamp) + '.csv'
+    results.to_csv(pred_file, index=False)
+  except Exception:
+    # Print a clear error message and exit gracefully
+    print(f"ERROR: Saving the results failed.")
+    traceback_str = traceback.format_exc()
+    print(traceback_str)
+    em.send_error_email(target_year, season_week, traceback_str)
+    exit()
 
   # Email the results
   print("Emailing the results...")
-  em.send_nba_email(pred_file, target_year, season_week, is_prod_email, is_last_week)
+  try:
+    em.send_nba_email(pred_file, target_year, season_week, is_prod_email, is_last_week)
+  except Exception:
+    # Print a clear error message and exit gracefully
+    print(f"ERROR: Emailing the predictions failed.")
+    traceback_str = traceback.format_exc()
+    print(traceback_str)
+    em.send_error_email(target_year, season_week, traceback_str)
+    exit()
 
 # Set up command-line arguments & configure 'prod' and 'dev' modes (via an environment variable).
 parser = argparse.ArgumentParser(description='Toggle between prod and dev modes.')
