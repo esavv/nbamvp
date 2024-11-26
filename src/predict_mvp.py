@@ -126,8 +126,10 @@ def main():
     gd.generate_data(target_year)
   except Exception as e:
     # Print a clear error message and exit gracefully
-    print(f"ERROR: Data generaion failed.")
-    print(traceback.format_exc())
+    print(f"ERROR: Data generation failed.")
+    traceback_str = traceback.format_exc()
+    print(traceback_str)
+    em.send_error_email(target_year, season_week, traceback_str)
     exit()
 
   # Predict
