@@ -46,6 +46,11 @@ Some instructions for managing this app:
    Note: Update "data/mvp_predictions/2025/predictions*" for the current NBA season year
     > zip -r nbamvp_20241025_01.zip .ebextensions/ basketball_reference_web_scraper/ data/adv_stats/ data/email/ data/mvp_predictions/2025/predictions* data/mvp_results/ data/per_game_stats/ data/standings/ data/stats/ src/ static/ crontab.txt Procfile readme.txt requirements.txt webapp.py
 
+ - Note that when redeploying to AWS, you may need to manually reinstall / upgrade basketball_reference_web_scraper on the EB instance.
+   After logging in, run something like:
+    > pip install --upgrade basketball_reference_web_scraper
+   TODO: Try including the package in requirements.txt and see if EB installs it correctly
+
  - How to copy predictions in AWS back to local directory (which I'll need to do before I deploy updated source code to AWS, to make sure my local source code has the most up-to-date predictions)
    Note: in the command below, I need to update the source pattern ('...2024_wk23*') to target the right files
     > scp -i "nbamvp_ec2.pem" root@ec2-3-230-84-20.compute-1.amazonaws.com:'/var/app/current/data/mvp_predictions/2024/predictions_2024_wk23*' data/mvp_predictions/2024/
