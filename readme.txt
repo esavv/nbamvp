@@ -44,7 +44,7 @@ Some instructions for managing this app:
 
  - How to manually zip my source for beanstalk deployment:
    Note: Update "data/mvp_predictions/2025/predictions*" for the current NBA season year
-    > zip -r nbamvp_20241025_01.zip .ebextensions/ basketball_reference_web_scraper/ data/adv_stats/ data/email/ data/mvp_predictions/2025/predictions* data/mvp_results/ data/per_game_stats/ data/standings/ data/stats/ src/ static/ crontab.txt Procfile readme.txt requirements.txt webapp.py
+    > zip -r nbamvp_20241025_01.zip .ebextensions/ data/adv_stats/ data/email/ data/mvp_predictions/2025/predictions* data/mvp_results/ data/per_game_stats/ data/standings/ data/stats/ src/ static/ crontab.txt Procfile readme.txt requirements.txt webapp.py
 
  - How to copy predictions in AWS back to local directory (which I'll need to do before I deploy updated source code to AWS, to make sure my local source code has the most up-to-date predictions)
    Note: in the command below, I need to update the source pattern ('...2024_wk23*') to target the right files

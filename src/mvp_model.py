@@ -9,6 +9,7 @@ def prep_the_data(train_start, train_end, target_year, to_scale):
   ## Extract the 2000-2020 stats & MVP votes
   train = pd.DataFrame()
   for year in range(train_end - train_start + 1):
+    # print("  MVP Model: Preprocessing season data for year: " + str(year))
     train_year = ppd.preprocess_season_stats_and_results(train_start + year)
     train = pd.concat([train, train_year], ignore_index=True)
 

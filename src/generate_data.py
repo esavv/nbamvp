@@ -1,6 +1,5 @@
 from basketball_reference_web_scraper import client as br
 import pandas as pd
-import os
 
 # Get all player "slugs" according to Basketball Reference taxonomy
 # For example, Jimmy Butler's slug is "butleji01"
@@ -15,7 +14,7 @@ def pull_slugs(year):
   slugs.to_csv(filename, index=False, header=None)
 
 def generate_data(year):
-  # Check what files need to be created
+  # Check which files need to be created
   #TODO
 
   # Get the various datasets
@@ -41,13 +40,17 @@ def generate_data(year):
               'usage_percentage','offensive_win_shares','defensive_win_shares','win_shares_per_48_minutes',
               'offensive_box_plus_minus','defensive_box_plus_minus','is_combined_totals'], inplace=True, axis=1)
 
-  # To merge advanced stats, I'm going to need a weighted average of:
+  # In advanced stats, to merge multiple rows for the same player, find a weighted average for each of:
   # - true_shooting_percentage
   # - box_plus_minus
   # - value_over_replacement_player 
   # 
-  # To do that, I need to multiple each duplicate row stat for those 3 stats by games played, on merge sum the multiplied numbers, and then divide by total games played
-  adv_df['true_shooting_percentage'] = adv_df['true_shooting_percentage'] * adv_df['games_played']
+  # To do that, I multiply the 3 stats by games played, merge to sum the multiplied stats, and then divide by total games played
+  
+  # First, ensure that games_played is not 0 for any entry.
+  # This is a hack to deal with this potential bug: https://github.com/jaebradley/basketball_reference_web_scraper/issues/295
+  adv_df['games_played'] = adv_df['games_played'].clip(lower=1)
+
   adv_df['box_plus_minus'] = adv_df['box_plus_minus'] * adv_df['games_played']
   adv_df['value_over_replacement_player'] = adv_df['value_over_replacement_player'] * adv_df['games_played']
   
@@ -57,11 +60,6 @@ def generate_data(year):
   adv_df['true_shooting_percentage'] = adv_df['true_shooting_percentage'] / adv_df['games_played']
   adv_df['box_plus_minus'] = adv_df['box_plus_minus'] / adv_df['games_played']
   adv_df['value_over_replacement_player'] = adv_df['value_over_replacement_player'] / adv_df['games_played']
-  
-  # Display all rows 
-  #pd.set_option("display.max_rows", None, "display.max_columns", None)
-  #pd.set_option('display.max_columns', 500)
-  #pd.set_option('display.width', 1000)
   
   # Generate missing standard stats
   stats_df['FG%'] = stats_df['made_field_goals'].astype(int) / stats_df['attempted_field_goals'].astype(int)
