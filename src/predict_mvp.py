@@ -71,6 +71,7 @@ def main():
       # Notify the admin that we're getting close to the season
       if weeks_til_start <= 4:
         try:
+          print("\nSending a preseason email notification!\n")
           em.send_preseason_email(target_year, season_start, season_end, weeks_til_start, predict_start_date)
         except Exception:
           # Print a clear error message and exit gracefully
