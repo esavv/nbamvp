@@ -21,12 +21,10 @@ def main():
     print(current_time + ": Running in production mode.\n")
     runs               = 100 
     pred_filename_stub = 'predictions_'
-    is_prod_email      = True
   elif mode == 'dev':
     print(current_time + ": Running in development mode.\n")
     runs               = 3
     pred_filename_stub = 'dev_predictions_'
-    is_prod_email      = False
 
   today = date.today()
   season_start = date(2024, 10, 22)
@@ -63,15 +61,15 @@ def main():
       print("The season is starting in about " + str(weeks_til_start) + " weeks!\n")
 
     # If we're in prod, find out when the 1st real prediction will happen & notify if we're close
-    if mode == 'prod':
+    if mode == 'prod' or mode == 'dev':
       # Figure out when we'll perform the first prediction
-      predict_start_date = today + datetime.timedelta(weeks=weeks_til_start)
+      wednesday = 2
+      days_until_predict = (wednesday - season_start.weekday() + 7)
+      predict_start_date = season_start + timedelta(days=days_until_predict)
       print("The first prediction will be sent on this date: " + str(predict_start_date))
 
       # Notify the admin that we're getting close to the season
-      if weeks_til_start <= 3:
-        # send email
-        print("Sending the preseason email...")
+      if weeks_til_start <= 4:
         try:
           em.send_preseason_email(target_year, season_start, season_end, weeks_til_start, predict_start_date)
         except Exception:
@@ -79,9 +77,7 @@ def main():
           print(f"ERROR: Sending preseason email failed.")
           traceback_str = traceback.format_exc()
           print(traceback_str)
-          em.send_error_email(target_year, season_week, traceback_str)
-          exit()
-    
+          em.send_error_email(target_year, season_week, traceback_str)    
     exit()
   elif after_season:
     print("The season either ended or is about to, so there's no analysis to do.")
@@ -220,7 +216,7 @@ def main():
   # Email the results
   print("Emailing the results...")
   try:
-    em.send_nba_email(pred_file, target_year, season_week, is_prod_email, is_last_week)
+    em.send_nba_email(pred_file, target_year, season_week, mode, is_last_week)
   except Exception:
     # Print a clear error message and exit gracefully
     print(f"ERROR: Emailing the predictions failed.")
