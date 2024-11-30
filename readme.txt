@@ -49,6 +49,7 @@ Some instructions for managing this app:
  - Note that when redeploying to AWS, you may need to manually reinstall / upgrade basketball_reference_web_scraper on the EB instance.
    After logging in, run something like:
     > pip install --upgrade basketball_reference_web_scraper
+   To test it on EB, be sure to use python3.11 and not python3.
    TODO: Try including the package in requirements.txt and see if EB installs it correctly
 
  - How to copy predictions in AWS back to local directory (which I'll need to do before I deploy updated source code to AWS, to make sure my local source code has the most up-to-date predictions)
