@@ -53,4 +53,4 @@ Some instructions for managing this app:
 
  - How to copy predictions in AWS back to local directory (which I'll need to do before I deploy updated source code to AWS, to make sure my local source code has the most up-to-date predictions)
    Note: in the command below, I need to update the source pattern ('...2024_wk23*') to target the right files
-    > scp -i "nbamvp_ec2.pem" root@ec2-3-230-84-20.compute-1.amazonaws.com:'/var/app/current/data/mvp_predictions/2024/predictions_2024_wk23*' data/mvp_predictions/2024/
+    > scp -i "nbamvp_ec2.pem" root@ec2-3-230-84-20.compute-1.amazonaws.com:'/var/app/current/data/mvp_predictions/2025/predictions_2025_wk05*' data/mvp_predictions/2025/
