@@ -2,7 +2,7 @@
 
 ## Overview  
 
-This application predicts the NBA MVP on a weekly basis as the NBA season progresses and emails its predictions to users. For each active player, the app predicts how many MVP votes they'll receive.
+This application predicts the [NBA MVP](https://en.wikipedia.org/wiki/NBA_Most_Valuable_Player) on a weekly basis as the NBA season progresses and emails its predictions to users. For each active player, the app predicts how many MVP votes they'll receive.
 
 ---
 
@@ -34,7 +34,7 @@ This application predicts the NBA MVP on a weekly basis as the NBA season progre
      season_start = date(2022, 10, 19)  # UPDATE!  
      season_end   = date(2023, 4, 9)    # UPDATE!  
      ```  
-   - Get season start and end dates from [Wikipedia](https://en.wikipedia.org/wiki/NBA_season).  
+   - Get season start and end dates from Wikipedia. Example: [2022-2023 NBA Season](https://en.wikipedia.org/wiki/2022-23_NBA_season).
    - TODO: Automate this.
 
 3. **Dev Mode**:  
@@ -97,5 +97,5 @@ This application predicts the NBA MVP on a weekly basis as the NBA season progre
      ```bash  
      scp -i "nbamvp_ec2.pem" root@ec2-3-230-84-20.compute-1.amazonaws.com:'/var/app/current/data/mvp_predictions/2025/predictions_2025_wk05*' data/mvp_predictions/2025/
      ```
-   - Note: in the command below, I need to update the source pattern ('...2024_wk23*') to target the right files
+   - Note: In the command above, update the source pattern ('...2024_wk23*') to target the right files
    
