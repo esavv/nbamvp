@@ -51,6 +51,7 @@ def generate_data(year):
   # This is a hack to deal with this potential bug: https://github.com/jaebradley/basketball_reference_web_scraper/issues/295
   adv_df['games_played'] = adv_df['games_played'].clip(lower=1)
 
+  adv_df['true_shooting_percentage'] = adv_df['true_shooting_percentage'] * adv_df['games_played']
   adv_df['box_plus_minus'] = adv_df['box_plus_minus'] * adv_df['games_played']
   adv_df['value_over_replacement_player'] = adv_df['value_over_replacement_player'] * adv_df['games_played']
   
