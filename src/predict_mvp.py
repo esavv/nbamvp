@@ -1,10 +1,10 @@
-# My module imports
+# Local imports
 import generate_data as gd
 import preprocess_data as ppd
 import mvp_model as mvp
 import nba_email as em
 
-# Standard module imports
+# Standard imports
 from datetime import date, datetime, timedelta
 import argparse, math, os, pytz, traceback
 import pandas as pd
@@ -20,11 +20,11 @@ def main():
   if mode == 'prod':
     print(current_time + ": Running in production mode.\n")
     runs               = 100 
-    pred_filename_stub = 'predictions_'
+    prediction_filename_stub = 'predictions_'
   elif mode == 'dev':
     print(current_time + ": Running in development mode.\n")
     runs               = 3
-    pred_filename_stub = 'dev_predictions_'
+    prediction_filename_stub = 'dev_predictions_'
 
   today = date.today()
   season_start = date(2024, 10, 22)
@@ -115,16 +115,15 @@ def main():
     else:
       print("    file <" + path + "> not found")
 
-  stat_file      = '../data/stats/stats_' + str(target_year) + '.csv'
-  pg_file        = '../data/per_game_stats/pg_stats_' + str(target_year) + '.csv'
-  adv_file       = '../data/adv_stats/adv_stats_' + str(target_year) + '.csv'
-  standings_file = '../data/standings/standings_' + str(target_year) + '.csv'
+  files = []
+  files.append('../data/stats/stats_' + str(target_year) + '.csv')
+  files.append('../data/per_game_stats/pg_stats_' + str(target_year) + '.csv')
+  files.append('../data/adv_stats/adv_stats_' + str(target_year) + '.csv')
+  files.append('../data/standings/standings_' + str(target_year) + '.csv')
 
   print("Removing stale data from current season...")
-  nba_delete_file(stat_file)
-  nba_delete_file(pg_file)
-  nba_delete_file(adv_file)
-  nba_delete_file(standings_file)
+  for file in files:
+    nba_delete_file(file)
 
   # Regenerate the current year's data
   print("Generating fresh data from current season...")
@@ -204,8 +203,8 @@ def main():
       os.makedirs(filepath)
       print(f"Directory '{filepath}' created.")
     # Save the predictions.
-    pred_file = filepath + '/' + pred_filename_stub + str(target_year) + '_wk' + week_str + '_' + str(timestamp) + '.csv'
-    results.to_csv(pred_file, index=False)
+    prediction_file = filepath + '/' + prediction_filename_stub + str(target_year) + '_wk' + week_str + '_' + str(timestamp) + '.csv'
+    results.to_csv(prediction_file, index=False)
   except Exception:
     # Print a clear error message and exit gracefully
     print(f"ERROR: Saving the results failed.")
@@ -217,7 +216,7 @@ def main():
   # Email the results
   print("Emailing the results...")
   try:
-    em.send_nba_email(pred_file, target_year, season_week, mode, is_last_week)
+    em.send_nba_email(prediction_file, target_year, season_week, mode, is_last_week)
   except Exception:
     # Print a clear error message and exit gracefully
     print(f"ERROR: Emailing the predictions failed.")

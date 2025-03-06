@@ -21,21 +21,21 @@ This application predicts the [NBA MVP](https://en.wikipedia.org/wiki/NBA_Most_V
 ### Running the Application
 
 1. **Add Last Season's Voting Results**:
+   - TODO: Automate this.
    - Navigate to the following URL:  
      `https://www.basketball-reference.com/awards/awards_YYYY.html#mvp`  
    - Replace `YYYY` with the last season's end year. Example: [2024 MVP Results](https://www.basketball-reference.com/awards/awards_2024.html#mvp)
    - Use "Share & Export" → "Get table as CSV (for Excel)" to download the data.  
    - Save it as `/data/mvp_results/results_YYYY.csv`.  
-   - TODO: Automate this.
 
 2. **Update the Season Schedule**:
+   - TODO: Automate this.
    - Modify the following lines in `predict_mvp.py`:  
      ```python  
      season_start = date(2022, 10, 19)  # UPDATE!  
      season_end   = date(2023, 4, 9)    # UPDATE!  
      ```  
    - Get season start and end dates from Wikipedia. Example: [2022-2023 NBA Season](https://en.wikipedia.org/wiki/2022-23_NBA_season).
-   - TODO: Automate this.
 
 3. **Dev Mode**:  
    - To run the application in dev mode:
@@ -60,23 +60,17 @@ This application predicts the [NBA MVP](https://en.wikipedia.org/wiki/NBA_Most_V
      ssh -i "nbamvp_ec2.pem" root@ec2-3-230-84-20.compute-1.amazonaws.com
      ```
 
-3. **Navigate Project Files in EC2 Instance**:  
-   - How to view my source code:
+3. **Find Project Files in EC2 Instance**:  
+   - Source code: `/var/app/current`
+   - Cronjobs: `/etc/cron.d/mycron`
+   - Cronjob logs:
      ```bash  
-     cd /var/app/current
-     ```
-   - How to view my cronjobs:
-     ```bash  
-     vi /etc/cron.d/mycron
-     ```
-   - How to view my cronjob logs:
-     ```bash  
-     vi /var/log/dev_job.log
-     vi /var/log/prod_job.log
+     /var/log/dev_job.log
+     /var/log/prod_job.log
      ```
 
 4. **Prepare Source Code for AWS Beanstalk Deployment**:  
-   - How to manually zip my source for beanstalk deployment:
+   - Manually zip my source for beanstalk deployment:
      ```bash  
      zip -r nbamvp_20241025_01.zip .ebextensions/ data/adv_stats/ data/email/ data/mvp_predictions/2025/predictions* data/mvp_results/ data/per_game_stats/ data standings/ data/stats/ src/ static/ crontab.txt Procfile readme.txt requirements.txt webapp.py
      ```
