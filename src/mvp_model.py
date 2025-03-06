@@ -37,7 +37,6 @@ def prep_the_data(train_start, train_end, target_year, to_scale):
 def rforest_predict_mvp(train_start, train_end, target_year, runs):
   X, y, test, X_test = prep_the_data(train_start, train_end, target_year, False)
 
-
   y_preds = pd.DataFrame()
 
   # Build a model & predict with it <runs> times
@@ -59,7 +58,6 @@ def rforest_predict_mvp(train_start, train_end, target_year, runs):
   # Prep the results
   result = pd.concat([y_names,y_pred], axis=1)
   return result
-
 
 def neural_net_predict_mvp(train_start, train_end, target_year, iterations, algo, alf, hidone, hidtwo):
   X, y, test, X_test = prep_the_data(train_start, train_end, target_year, True)
