@@ -108,7 +108,7 @@ def main():
 
   # Delete the current year's data
   # TODO - Check to see if this works before the new year. IE target year is 2023, but season starts in 2022.
-  def nba_delete_file(path):
+  def delete_nba_file(path):
     if(os.path.exists(path) and os.path.isfile(path)):
       os.remove(path)
       print("    file <" + path + "> deleted")
@@ -123,7 +123,7 @@ def main():
 
   print("Removing stale data from current season...")
   for file in files:
-    nba_delete_file(file)
+    delete_nba_file(file)
 
   # Regenerate the current year's data
   print("Generating fresh data from current season...")
