@@ -26,6 +26,23 @@
      ```
    - Dev mode trains a weaker model, saves results as dev files instead of prod files, and emails results to admin users.
 
+## Python Env Management
+
+1. **Create & Manage Python Virtual Environment**:  
+    ```bash  
+    # Create a virtual environment from main project directory
+    python3 -m venv venv
+
+    # Activate the virtual environment
+    source venv/bin/activate
+
+    # Deactivate it when done with the current session
+    deactivate
+
+    # If the terminal prompt gets messed up after deactivating
+    export PS1="\h:\W \u$ "
+    ```
+
 ## AWS Management
 
 1. **Enable SSH Access for an EC2 Instance**:  
