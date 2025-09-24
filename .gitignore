@@ -6,6 +6,7 @@ crontab.txt
 data/.DS_Store
 data/adv_stats
 data/email/
+data/logs/
 data/mvp_predictions/.DS_Store
 data/mvp_predictions/*/dev*
 data/rank_progress
