@@ -48,44 +48,45 @@ def main():
   after_season = today > (season_end + delta)
 
   if before_season:
-    print("The season either hasn't started yet, or it's too early, so there's no analysis to do.")
-    print("Today is:             " + str(today))
-    print("The season starts on: " + str(season_start))
-    print("The season ends on:   " + str(season_end) + "\n")
+    print("[PRESEASON] The season either hasn't started yet, or it's too early, so there's no analysis to do.")
+    print("  Today is:             " + str(today))
+    print("  The season starts on: " + str(season_start))
+    print("  The season ends on:   " + str(season_end) + "\n")
 
     # Figure out how many weeks until the first MVP prediction
     weeks_til_start = 1 - season_week
     if weeks_til_start == 1:
-      print("The season is starting in about " + str(weeks_til_start) + " week!\n")
+      print("  The season is starting in about " + str(weeks_til_start) + " week!\n")
     else:
-      print("The season is starting in about " + str(weeks_til_start) + " weeks!\n")
+      print("  The season is starting in about " + str(weeks_til_start) + " weeks!\n")
 
-    # If we're in prod, find out when the 1st real prediction will happen & notify if we're close
-    if mode == 'prod' or mode == 'dev':
-      # Figure out when we'll perform the first prediction
-      wednesday = 2
-      days_until_predict = (wednesday - season_start.weekday() + 7)
-      predict_start_date = season_start + timedelta(days=days_until_predict)
-      print("The first prediction will be sent on this date: " + str(predict_start_date))
+    # Figure out when we'll perform the first prediction
+    wednesday = 2
+    days_until_predict = (wednesday - season_start.weekday() + 7)
+    predict_start_date = season_start + timedelta(days=days_until_predict)
+    print("  The first prediction will be sent on this date: " + str(predict_start_date))
 
-      # Notify the admin that we're getting close to the season
-      if weeks_til_start <= 4:
-        try:
-          print("\nSending a preseason email notification!\n")
-          em.send_preseason_email(target_year, season_start, season_end, weeks_til_start, predict_start_date)
-        except Exception:
-          # Print a clear error message and exit gracefully
-          print(f"ERROR: Sending preseason email failed.")
-          traceback_str = traceback.format_exc()
-          print(traceback_str)
-          em.send_error_email(target_year, season_week, traceback_str)    
+    print("\n  Sending a preseason email notification!\n")
+    try:
+      em.send_preseason_email(target_year, season_start, season_end, weeks_til_start, predict_start_date)
+    except Exception:
+      print(f"  ERROR: Sending preseason email failed.")
+      traceback_str = traceback.format_exc()
+      print(traceback_str)
+      em.send_error_email(target_year, season_week, traceback_str)    
     exit()
   elif after_season:
     print("[POSTSEASON] The season is over. Sending a postseason email notification!")
     print("  Today is:             " + str(today))
     print("  The season starts on: " + str(season_start))
     print("  The season ends on:   " + str(season_end) + '\n')
-    em.send_postseason_email(target_year, season_end)
+    try:
+      em.send_postseason_email(target_year, season_end)
+    except Exception:
+      print(f"  ERROR: Sending postseason email failed.")
+      traceback_str = traceback.format_exc()
+      print(traceback_str)
+      em.send_error_email(target_year, season_week, traceback_str)    
     exit()
   else:
     print("We're in season! Continuing...")
