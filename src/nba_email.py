@@ -76,6 +76,20 @@ def send_preseason_email(year, season_start, season_end, weeks_til_start, predic
 
   finalize_email(email_list, subject, html)
 
+def send_postseason_email( year, season_end ):
+  subject = str(year) + " NBA MVP Postseason Notification"
+  email_list = '../data/email/test_emails.csv'
+  
+  # Get the empty email body template 
+  email_template_postseason_path = '../static/html/email_template_postseason.html'
+  with open(email_template_postseason_path, 'r') as template_file:
+    html_template = template_file.read()
+  
+  # Populate the template with variables
+  html = html_template.format(season_end=season_end)
+  
+  finalize_email(email_list, subject, html)
+
 def send_error_email(year, week, traceback_str):
   print("\nSending an error email notification!\n")
 

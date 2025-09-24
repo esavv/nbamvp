@@ -81,10 +81,11 @@ def main():
           em.send_error_email(target_year, season_week, traceback_str)    
     exit()
   elif after_season:
-    print("The season either ended or is about to, so there's no analysis to do.")
-    print("Today is:             " + str(today))
-    print("The season starts on: " + str(season_start))
-    print("The season ends on:   " + str(season_end) + '\n')
+    print("[POSTSEASON] The season is over. Sending a postseason email notification!")
+    print("  Today is:             " + str(today))
+    print("  The season starts on: " + str(season_start))
+    print("  The season ends on:   " + str(season_end) + '\n')
+    em.send_postseason_email(target_year, season_end)
     exit()
   else:
     print("We're in season! Continuing...")
