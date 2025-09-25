@@ -68,7 +68,7 @@ def main():
 
     print("\n  Sending a preseason email notification!\n")
     try:
-      em.send_preseason_email(target_year, season_start, season_end, weeks_til_start, predict_start_date)
+      em.send_preseason_email(target_year, season_start, season_end, weeks_til_start, predict_start_date, mode)
     except Exception:
       print(f"  ERROR: Sending preseason email failed.")
       traceback_str = traceback.format_exc()
@@ -81,7 +81,7 @@ def main():
     print("  The season starts on: " + str(season_start))
     print("  The season ends on:   " + str(season_end) + '\n')
     try:
-      em.send_postseason_email(target_year, season_end)
+      em.send_postseason_email(target_year, season_end, mode)
     except Exception:
       print(f"  ERROR: Sending postseason email failed.")
       traceback_str = traceback.format_exc()
