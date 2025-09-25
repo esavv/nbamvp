@@ -89,9 +89,9 @@
      # configure cronjob
      crontab -e
 
-     TZ=America/New_York
-     # test job that runs every hour
-     0 * * * * cd /home/ec2-user/nbamvp && source venv/bin/activate && cd src && python predict_mvp.py --mode 'dev' >> /home/ec2-user/nbamvp/data/logs/dev_job.log && deactivate
+     CRON_TZ=America/New_York
+     # test job that runs every day at 9:05am
+     5 9 * * * cd /home/ec2-user/nbamvp && source venv/bin/activate && cd src && python predict_mvp.py --mode 'dev' >> /home/ec2-user/nbamvp/data/logs/dev_job.log && deactivate
      # prod job that runs once a week on wednesdays starting at 9am locally (and runs every hour again for rest of the day just in case)
      0 9-23 * * 3 cd /home/ec2-user/nbamvp && source venv/bin/activate && cd src && python predict_mvp.py --mode 'prod' >> /home/ec2-user/nbamvp/data/logs/dev_job.log && deactivate
      ```
