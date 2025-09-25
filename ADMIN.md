@@ -57,7 +57,7 @@
    - On an instance with this AMI: Amazon Linux 2023 kernel-6.1 AMI:
      ```bash  
      # [local] ssh into the instance
-     ssh -i "nbamvp_ec2.pem" ec2-user@ec2-34-230-90-208.compute-1.amazonaws.com
+     ssh -i nbamvp_ec2.pem ec2-user@ec2-34-230-90-208.compute-1.amazonaws.com
 
      # [remote] clone the repo
      sudo yum install git -y
@@ -100,6 +100,6 @@
    - Before deploying updated source code to AWS we need to ensure our local codebase has the lastest predictions from the existing deployment.
    - To copy AWS predictions back to local directory, run this locally:
      ```bash  
-     scp -i "nbamvp_ec2.pem" ec2-user@ec2-34-230-90-208.compute-1.amazonaws.com:'/home/ec2-user/nbamvp/data/mvp_predictions/2025/predictions_2025_wk05*' data/mvp_predictions/2025/
+     scp -i nbamvp_ec2.pem ec2-user@ec2-34-230-90-208.compute-1.amazonaws.com:'/home/ec2-user/nbamvp/data/mvp_predictions/2025/predictions_2025_wk05*' data/mvp_predictions/2025/
      ```
    - Note: In the command above, update the source pattern ('...2024_wk23*') to target the right files
