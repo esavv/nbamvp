@@ -53,41 +53,53 @@
    - Copy the output of that command and log into your instance via EC2 Instance Connect (via the EC2 web console)
    - Once logged into your instance, open `.ssh/authorized_keys` & paste the output you copied into the first line of the file (above any pre-existing content)
 
-2. **SSH into an EC2 Instance**:  
-   - Run this command locally:
+2. **Set up and run the app on a fresh EC2 Instance**:  
+   - On an instance with this AMI: Amazon Linux 2023 kernel-6.1 AMI:
      ```bash  
-     ssh -i "nbamvp_ec2.pem" root@ec2-3-230-84-20.compute-1.amazonaws.com
+     # [local] ssh into the instance
+     ssh -i "nbamvp_ec2.pem" ec2-user@ec2-34-230-90-208.compute-1.amazonaws.com
+
+     # [remote] clone the repo
+     sudo yum install git -y
+     git clone https://github.com/esavv/nbamvp.git
+
+     # [local] copy over the data
+     zip -r data_20250924_01.zip data/adv_stats/ data/email/ data/per_game_stats/ data/standings/ data/stats/
+     scp -i nbamvp_ec2.pem -r data_20250924_01.zip ec2-user@ec2-34-230-90-208.compute-1.amazonaws.com:/home/ec2-user/nbamvp
+
+     # [remote] unzip the data
+     unzip data_20250924_01.zip
+     rm data_20250924_01.zip
+
+     # [remote] install correct python version, create venv and install requirements
+     sudo dnf install -y python3.11 python3.11-devel
+     python3.11 -m venv venv
+     source venv/bin/activate
+     pip install -r requirements.txt
+
+     # [remote] launch the app by installing & setting up the cronjob
+     # install
+     sudo dnf install cronie -y
+     sudo systemctl enable crond
+     sudo systemctl start crond
+
+     # check status
+     systemctl status crond
+
+     # configure cronjob
+     crontab -e
+
+     TZ=America/New_York
+     # test job that runs every hour
+     0 * * * * cd /home/ec2-user/nbamvp && source venv/bin/activate && cd src && python predict_mvp.py --mode 'dev' >> /home/ec2-user/nbamvp/data/logs/dev_job.log && deactivate
+     # prod job that runs once a week on wednesdays starting at 9am locally (and runs every hour again for rest of the day just in case)
+     0 9-23 * * 3 cd /home/ec2-user/nbamvp && source venv/bin/activate && cd src && python predict_mvp.py --mode 'prod' >> /home/ec2-user/nbamvp/data/logs/dev_job.log && deactivate
      ```
 
-3. **Find Project Files in Beanstalk EC2 Instance**:  
-   - Source code: `/var/app/current`
-   - Cronjobs: `/etc/cron.d/mycron`
-   - Cronjob logs:
-     ```bash  
-     /var/log/dev_job.log
-     /var/log/prod_job.log
-     ```
-
-4. **Prepare Source Code for AWS Beanstalk Deployment**:  
-   - Manually zip my source for beanstalk deployment:
-     ```bash  
-     zip -r nbamvp_20241025_01.zip .ebextensions/ data/adv_stats/ data/email/ data/mvp_predictions/2025/predictions* data/mvp_results/ data/per_game_stats/ data standings/ data/stats/ src/ static/ crontab.txt Procfile readme.txt requirements.txt webapp.py
-     ```
-   - Note: Update "data/mvp_predictions/2025/predictions*" for the current NBA season year
-
-5. **Upgrade Dependencies on EC2 Instance**:  
-   - When redeploying to AWS, you may need to manually reinstall / upgrade basketball_reference_web_scraper on the EC2 instance.
-   - After logging in, run something like:
-     ```bash  
-     pip install --upgrade basketball_reference_web_scraper
-     ```
-   - To test it on EB, be sure to use python3.11 and not python3.
-   - TODO: Try including the package in requirements.txt and see if EB installs it correctly
-
-6. **Copy AWS Results Back to Local**:  
+3. **Copy AWS Results Back to Local**:  
    - Before deploying updated source code to AWS we need to ensure our local codebase has the lastest predictions from the existing deployment.
    - To copy AWS predictions back to local directory, run this locally:
      ```bash  
-     scp -i "nbamvp_ec2.pem" root@ec2-3-230-84-20.compute-1.amazonaws.com:'/var/app/current/data/mvp_predictions/2025/predictions_2025_wk05*' data/mvp_predictions/2025/
+     scp -i "nbamvp_ec2.pem" ec2-user@ec2-34-230-90-208.compute-1.amazonaws.com:'/home/ec2-user/nbamvp/data/mvp_predictions/2025/predictions_2025_wk05*' data/mvp_predictions/2025/
      ```
    - Note: In the command above, update the source pattern ('...2024_wk23*') to target the right files
