@@ -66,7 +66,7 @@ def send_nba_email(prediction_file, year, week, mode, is_last_week):
 
   finalize_email(email_list, subject, html, part)
 
-def send_preseason_email(year, season_start, season_end, weeks_til_start, predict_start_date, mode):
+def send_preseason_email(year, season_start, season_end, weeks_til_start, predict_start_date, mode, next_season_info):
   if weeks_til_start == 1:
     subject = str(year) + " NBA MVP Preseason: First Prediction in " + str(weeks_til_start) + " Week!"
   else: 
@@ -78,7 +78,15 @@ def send_preseason_email(year, season_start, season_end, weeks_til_start, predic
   # Get the email template & populate with variables
   with open(preseason_template_path, 'r') as template_file:
     html_template = template_file.read()
-  html = html_template.format(season_start=season_start, season_end=season_end, predict_start_date=predict_start_date)
+  html = html_template.format(
+    season_start=season_start,
+    season_end=season_end,
+    predict_start_date=predict_start_date,
+    status=next_season_info.get('status', 'unknown'),
+    message=next_season_info.get('message', 'No update available.'),
+    wiki_url=next_season_info.get('wiki_url', ''),
+    csv_note=next_season_info.get('csv_note', ''),
+  )
 
   finalize_email(admin_emails, subject, html)
 

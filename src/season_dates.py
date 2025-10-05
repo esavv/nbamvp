@@ -76,7 +76,13 @@ def _parse_date_range(range_text: str) -> tuple[date, date]:
   return start_date, end_date
 
 
-def _append_season_dates(season_year: int, start_iso: str, end_iso: str, csv_path=SEASON_DATES_CSV) -> bool:
+def _upsert_season_dates(
+  season_year: int,
+  start_iso: str,
+  end_iso: str,
+  csv_path=SEASON_DATES_CSV,
+  allow_update: bool = False,
+) -> str:
   csv_path = os.path.abspath(csv_path)
 
   if not os.path.exists(csv_path):
@@ -87,30 +93,65 @@ def _append_season_dates(season_year: int, start_iso: str, end_iso: str, csv_pat
     except Exception as exc:
       raise ValueError(f"Unable to read season dates file: {exc}") from exc
 
-  if not df.empty and (df['year'] == season_year).any():
-    return False
+  mask = (df['year'] == int(season_year)) if not df.empty else pd.Series(dtype=bool)
 
-  new_row = pd.DataFrame([
-    {
-      'year': int(season_year),
-      'start_date': start_iso,
-      'end_date': end_iso,
-    }
-  ])
-  df = pd.concat([df, new_row], ignore_index=True)
+  if not df.empty and mask.any():
+    if not allow_update:
+      return 'exists'
+    df.loc[mask, ['start_date', 'end_date']] = [start_iso, end_iso]
+    action = 'updated'
+  else:
+    new_row = pd.DataFrame([
+      {
+        'year': int(season_year),
+        'start_date': start_iso,
+        'end_date': end_iso,
+      }
+    ])
+    df = pd.concat([df, new_row], ignore_index=True)
+    action = 'inserted'
+
   df.to_csv(csv_path, index=False)
-  return True
+  return action
 
 
-def fetch_next_season_dates(current_season_year: int, timeout: float = 10.0, csv_path=SEASON_DATES_CSV) -> dict:
+def fetch_next_season_dates(
+  current_season_year: int,
+  mode: str = 'postseason',
+  existing_dates: tuple[date, date] | None = None,
+  timeout: float = 10.0,
+  csv_path=SEASON_DATES_CSV,
+) -> dict:
   """Fetch and persist the next season's start/end dates from Wikipedia.
 
-  Returns a dictionary with keys: status, message, wiki_url, csv_note, and optionally
-  season_year, start_date, end_date. On CSV errors, append_error and append_traceback
-  are included so callers can decide how to escalate.
+  Parameters
+  ----------
+  current_season_year: int
+      The season year (end year). Postseason will fetch year+1, preseason re-validates year.
+  mode: {'postseason','preseason'}
+      Controls whether we append (postseason) or verify/update (preseason) the CSV.
+  existing_dates: tuple(date, date) | tuple(str, str)
+      Required for preseason mode. Represents current CSV values for comparison.
+
+  Returns
+  -------
+  dict
+      Keys: status, message, wiki_url, csv_note, start_date, end_date, season_year, and
+      append_traceback if CSV writes failed.
   """
-  next_season_suffix = str(current_season_year + 1)[-2:]
-  url = f"https://en.wikipedia.org/wiki/{current_season_year}-{next_season_suffix}_NBA_season"
+  if mode not in {'postseason', 'preseason'}:
+    raise ValueError("mode must be 'postseason' or 'preseason'")
+
+  if mode == 'preseason' and existing_dates is None:
+    raise ValueError("existing_dates must be provided for preseason mode")
+
+  if mode == 'postseason':
+    scrape_year = current_season_year + 1
+  else:
+    scrape_year = current_season_year
+
+  next_season_suffix = str(scrape_year)[-2:]
+  url = f"https://en.wikipedia.org/wiki/{scrape_year-1}-{next_season_suffix}_NBA_season"
   headers = {'User-Agent': USER_AGENT}
 
   base_result = {
@@ -120,6 +161,7 @@ def fetch_next_season_dates(current_season_year: int, timeout: float = 10.0, csv
     'csv_note': 'No CSV update performed.',
     'start_date': '',
     'end_date': '',
+    'season_year': scrape_year,
   }
 
   try:
@@ -194,26 +236,35 @@ def fetch_next_season_dates(current_season_year: int, timeout: float = 10.0, csv
     })
     return base_result
 
-  season_year = current_season_year + 1
   start_iso = start_date_value.isoformat()
   end_iso = end_date_value.isoformat()
 
   base_result.update({
     'status': 'success',
-    'message': f'Found next season dates: {start_iso} to {end_iso}.',
-    'season_year': season_year,
+    'message': f'Found season dates: {start_iso} to {end_iso}.',
     'start_date': start_iso,
     'end_date': end_iso,
   })
 
   try:
-    added = _append_season_dates(season_year, start_iso, end_iso, csv_path=csv_path)
-    if added:
-      base_result['csv_note'] = f'Saved season {season_year} dates to season_dates.csv.'
+    if mode == 'postseason':
+      action = _upsert_season_dates(scrape_year, start_iso, end_iso, csv_path=csv_path, allow_update=False)
+      if action == 'inserted':
+        base_result['csv_note'] = f'Saved season {scrape_year} dates to season_dates.csv.'
+      else:
+        base_result['csv_note'] = f'Season {scrape_year} already present in season_dates.csv.'
     else:
-      base_result['csv_note'] = f'Season {season_year} already present in season_dates.csv.'
+      stored_start, stored_end = existing_dates
+      stored_start_iso = stored_start.isoformat() if isinstance(stored_start, date) else str(stored_start)
+      stored_end_iso = stored_end.isoformat() if isinstance(stored_end, date) else str(stored_end)
+
+      if stored_start_iso == start_iso and stored_end_iso == end_iso:
+        base_result['csv_note'] = 'No changes to upcoming season dates.'
+      else:
+        _ = _upsert_season_dates(scrape_year, start_iso, end_iso, csv_path=csv_path, allow_update=True)
+        base_result['csv_note'] = 'Season dates have changed! Updated stored dates.'
   except Exception as exc:
-    base_result['csv_note'] = f'ERROR: Failed to update season_dates.csv with next season dates: {exc}'
+    base_result['csv_note'] = f'ERROR: Failed to update season_dates.csv with season dates: {exc}'
     base_result['append_error'] = str(exc)
     base_result['append_traceback'] = traceback.format_exc()
 

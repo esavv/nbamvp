@@ -66,6 +66,20 @@ def main():
     print("  The season starts on: " + str(season_start))
     print("  The season ends on:   " + str(season_end) + "\n")
 
+    next_season_info = fetch_next_season_dates(target_year, mode='preseason', existing_dates=(season_start, season_end))
+    print(f"  Upcoming season verification status: {next_season_info.get('status')}")
+    print(f"  Details: {next_season_info.get('message')}")
+    print(f"  CSV note: {next_season_info.get('csv_note')}")
+
+    if next_season_info.get('append_traceback'):
+      print("  WARNING: CSV update error encountered during preseason verification. See traceback below.")
+      print(next_season_info['append_traceback'])
+      try:
+        em.send_error_email(target_year, season_week, next_season_info['append_traceback'])
+      except Exception:
+        print("ERROR: Failed to send error email for season_dates.csv update failure.")
+        print(traceback.format_exc())
+
     # Figure out how many weeks until the first MVP prediction
     weeks_til_start = 1 - season_week
     if weeks_til_start == 1:
@@ -81,7 +95,7 @@ def main():
 
     print("\n  Sending a preseason email notification!\n")
     try:
-      em.send_preseason_email(target_year, season_start, season_end, weeks_til_start, predict_start_date, mode)
+      em.send_preseason_email(target_year, season_start, season_end, weeks_til_start, predict_start_date, mode, next_season_info)
     except Exception:
       print(f"  ERROR: Sending preseason email failed.")
       traceback_str = traceback.format_exc()

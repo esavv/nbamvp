@@ -6,8 +6,17 @@
         <title>NBA MVP Preseason Email Body</title>
     </head>
     <body>
-        <p style="margin-bottom: 0px; margin-top: 0px;">The NBA season starts on: {season_start}</p>
-        <p style="margin-bottom: 0px; margin-top: 0px;">The NBA season ends on:   {season_end}</p>
-        <p style="margin-bottom: 0px; margin-top: 0px;">The first MVP prediction should be sent on: {predict_start_date}</p>
+        <p style="margin-bottom: 8px; margin-top: 0px;">
+            The NBA season starts on: {season_start}<br>
+            The NBA season ends on: {season_end}<br>
+            The first MVP prediction should be sent on: {predict_start_date}
+        </p>
+
+        <p style="margin-bottom: 0px; margin-top: 0px;">
+            Wikipedia season date fetch status: {status}<br>
+            &nbsp;&nbsp;&nbsp;{message}<br>
+            &nbsp;&nbsp;&nbsp;Wikipedia Link: <a href="{wiki_url}">{wiki_url}</a><br>
+            &nbsp;&nbsp;&nbsp;CSV Update: {csv_note}
+        </p>
     </body>
 </html>
