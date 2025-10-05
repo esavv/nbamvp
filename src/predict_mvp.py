@@ -3,11 +3,13 @@ import generate_data as gd
 import preprocess_data as ppd
 import mvp_model as mvp
 import nba_email as em
+from season_dates import load_current_season_dates
 
 # Standard imports
 from datetime import date, datetime, timedelta
 import argparse, math, os, pytz, traceback
 import pandas as pd
+
 
 def main():
   # Get the development mode from an environment variable
@@ -26,10 +28,20 @@ def main():
     runs               = 3
     prediction_filename_stub = 'dev_predictions_'
 
-  today = date.today()
-  season_start = date(2024, 10, 22)
-  season_end   = date(2025,  4, 13)
-  target_year  = season_end.year
+  try:
+    target_year, season_start, season_end = load_current_season_dates()
+    print(f"Loaded current season dates: {target_year}, {season_start}, {season_end}")
+  except Exception:
+    print("ERROR: Unable to load current season dates.")
+    traceback_str = traceback.format_exc()
+    print(traceback_str)
+    try:
+      em.send_error_email('N/A', 'N/A', traceback_str)
+    except Exception:
+      # If the error email fails, print the traceback but allow the original error to surface.
+      print("ERROR: Failed to send error email for season dates load failure.")
+      print(traceback.format_exc())
+    exit()
   delta = timedelta(weeks=1)
 
   train_start = 2000
@@ -37,6 +49,7 @@ def main():
 
   # What week of the season is it? (this is useful for preseason notifications,
   # so we do this before checking if we're in season)
+  today = date.today()
   season_days = (today - season_start).days
   season_week = math.ceil(season_days / 7) - 1
   is_last_week = today > season_end
