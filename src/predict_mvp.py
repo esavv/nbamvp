@@ -3,7 +3,7 @@ import generate_data as gd
 import preprocess_data as ppd
 import mvp_model as mvp
 import nba_email as em
-from season_dates import load_current_season_dates
+from season_dates import load_current_season_dates, fetch_next_season_dates
 
 # Standard imports
 from datetime import date, datetime, timedelta
@@ -93,8 +93,23 @@ def main():
     print("  Today is:             " + str(today))
     print("  The season starts on: " + str(season_start))
     print("  The season ends on:   " + str(season_end) + '\n')
+
+    next_season_info = fetch_next_season_dates(target_year)
+    print(f"  Next season fetch status: {next_season_info.get('status')}")
+    print(f"  Details: {next_season_info.get('message')}")
+    print(f"  CSV note: {next_season_info.get('csv_note')}")
+
+    if next_season_info.get('append_traceback'):
+      print("  WARNING: CSV update error encountered. See traceback below.")
+      print(next_season_info['append_traceback'])
+      try:
+        em.send_error_email(target_year, season_week, next_season_info['append_traceback'])
+      except Exception:
+        print("ERROR: Failed to send error email for season_dates.csv update failure.")
+        print(traceback.format_exc())
+
     try:
-      em.send_postseason_email(target_year, season_end, mode)
+      em.send_postseason_email(target_year, season_end, mode, next_season_info)
     except Exception:
       print(f"  ERROR: Sending postseason email failed.")
       traceback_str = traceback.format_exc()

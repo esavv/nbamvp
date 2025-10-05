@@ -82,7 +82,7 @@ def send_preseason_email(year, season_start, season_end, weeks_til_start, predic
 
   finalize_email(admin_emails, subject, html)
 
-def send_postseason_email(year, season_end, mode):
+def send_postseason_email(year, season_end, mode, next_season_info):
   subject = str(year) + " NBA MVP Postseason Notification"
 
   if mode == 'dev':
@@ -91,7 +91,15 @@ def send_postseason_email(year, season_end, mode):
   # Get the email template & populate with variables
   with open(postseason_template_path, 'r') as template_file:
     html_template = template_file.read()
-  html = html_template.format(season_end=season_end)
+  html = html_template.format(
+    season_end=season_end,
+    status=next_season_info.get('status', 'unknown'),
+    message=next_season_info.get('message', 'No update available.'),
+    wiki_url=next_season_info.get('wiki_url', ''),
+    csv_note=next_season_info.get('csv_note', ''),
+    start_date=next_season_info.get('start_date', ''),
+    end_date=next_season_info.get('end_date', ''),
+  )
   
   finalize_email(admin_emails, subject, html)
 

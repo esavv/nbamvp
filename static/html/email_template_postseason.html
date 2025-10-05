@@ -6,7 +6,11 @@
         <title>NBA MVP Postseason Email Body</title>
     </head>
     <body>
-        <p style="margin-bottom: 0px; margin-top: 0px;">The NBA season ended on: {season_end}</p>
-        <p style="margin-bottom: 0px; margin-top: 0px;">Not sure yet when the next season starts...</p>
+        <p style="margin-bottom: 8px; margin-top: 0px;">The NBA season ended on: {season_end}</p>
+        <p style="margin-bottom: 8px; margin-top: 0px;">Next season status: {status}</p>
+        <p style="margin-bottom: 8px; margin-top: 0px;">{message}</p>
+        <p style="margin-bottom: 8px; margin-top: 0px;">Wikipedia Link: <a href="{wiki_url}">{wiki_url}</a></p>
+        <p style="margin-bottom: 8px; margin-top: 0px;">CSV Update: {csv_note}</p>
+        <p style="margin-bottom: 0px; margin-top: 0px;">Next Season Dates: {start_date} – {end_date}</p>
     </body>
 </html>
