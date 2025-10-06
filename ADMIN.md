@@ -10,16 +10,7 @@
    - Use "Share & Export" → "Get table as CSV (for Excel)" to download the data.  
    - Save it as `/data/mvp_results/results_YYYY.csv`.  
 
-2. **Update the Season Schedule**:
-   - TODO: Automate this.
-   - Modify the following lines in `predict_mvp.py`:  
-     ```python  
-     season_start = date(2022, 10, 19)  # UPDATE!  
-     season_end   = date(2023, 4, 9)    # UPDATE!  
-     ```  
-   - Get season start and end dates from Wikipedia. Example: [2022-2023 NBA Season](https://en.wikipedia.org/wiki/2022-23_NBA_season).
-
-3. **Dev Mode**:  
+2. **Dev Mode**:  
    - To run the application in dev mode:
      ```bash  
      python3 predict_mvp --mode 'dev'  
