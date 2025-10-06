@@ -13,7 +13,7 @@ This application predicts the [NBA MVP](https://en.wikipedia.org/wiki/NBA_Most_V
 - `mvp_model.py`: Trains the ML models used to make predictions.  
 - `preprocess_data.py`: Prepares the data for model training.  
 - `nba_email.py`: Emails results to users.
-- `season_dates.py`: Manages fetching next season dates from Wikipedia after the current season ends.
+- `season_dates.py`: Fetches next season dates from Wikipedia after the current season ends.
 
 ---
 
