@@ -13,7 +13,7 @@ pw_file = '../data/email/pw.csv'
 reader = csv.reader(open(pw_file, 'r'))       # App Password for new email, generated on 11/14/2022
 password = next(reader)[0]
 message = MIMEMultipart() # MIMEMultipart("alternative")
-message["From"] = "Erik's MVP Predictions <" + sender_email + ">"
+message["From"] = "NBA MVP Predictions <" + sender_email + ">"
 
 prod_emails = '../data/email/prod_emails.csv'
 admin_emails = '../data/email/test_emails.csv'
