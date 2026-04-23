@@ -21,4 +21,5 @@ nbamvp_ec2.pem
 older_models/
 src/__pycache__/
 static/html/email_body.html
+venv/
 *.zip
