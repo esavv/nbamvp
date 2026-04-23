@@ -45,45 +45,47 @@
    - Once logged into your instance, open `.ssh/authorized_keys` & paste the output you copied into the first line of the file (above any pre-existing content)
 
 2. **Set up and run the app on a fresh EC2 Instance**:  
-   - On an instance with this AMI: Amazon Linux 2023 kernel-6.1 AMI:
+   - On an Ubuntu EC2 instance (e.g. Ubuntu Server LTS), use a dedicated project directory and virtualenv under `/home/ubuntu/nbamvp` so this app’s Python and packages stay isolated from anything else on the host (for example another API’s venv).
      ```bash  
-     # [local] ssh into the instance
-     ssh -i nbamvp_ec2.pem ec2-user@ec2-34-230-90-208.compute-1.amazonaws.com
+     # [local] SSH into the instance
+     ssh -i aws_ec2.pem ubuntu@ec2-3-94-191-77.compute-1.amazonaws.com
 
-     # [remote] clone the repo
-     sudo yum install git -y
+     # [remote] packages: git, Python with venv support, headers for wheels that compile C extensions
+     sudo apt update
+     sudo apt install -y git python3 python3-venv python3-dev unzip cron
+
+     # [remote] clone into the project path (adjust URL if you use a fork)
+     cd /home/ubuntu
      git clone https://github.com/esavv/nbamvp.git
+     cd nbamvp
 
-     # [local] copy over the data
-     zip -r data_20250924_01.zip data/adv_stats/ data/email/ data/per_game_stats/ data/standings/ data/stats/
-     scp -i nbamvp_ec2.pem -r data_20250924_01.zip ec2-user@ec2-34-230-90-208.compute-1.amazonaws.com:/home/ec2-user/nbamvp
+     # [local] copy over the data bundle
+     zip -r data_bundle.zip data/adv_stats/ data/email/ data/per_game_stats/ data/standings/ data/stats/
+     scp -i your_key.pem data_bundle.zip ubuntu@your-instance-host:/home/ubuntu/nbamvp/
 
-     # [remote] unzip the data
-     unzip data_20250924_01.zip
-     rm data_20250924_01.zip
+     # [remote] unzip the data (from /home/ubuntu/nbamvp)
+     unzip -o data_bundle.zip
+     rm data_bundle.zip
 
-     # [remote] install correct python version, create venv and install requirements
-     sudo dnf install -y python3.11 python3.11-devel
-     python3.11 -m venv venv
-     source venv/bin/activate
+     # [remote] isolated venv for nbamvp only (not shared with other apps on the same host)
+     python3 -m venv /home/ubuntu/nbamvp/venv
+     source /home/ubuntu/nbamvp/venv/bin/activate
+     pip install --upgrade pip
      pip install -r requirements.txt
+     deactivate
 
-     # [remote] launch the app by installing & setting up the cronjob
-     # install
-     sudo dnf install cronie -y
-     sudo systemctl enable crond
-     sudo systemctl start crond
+     # [remote] schedule prod runs with cron (Ubuntu service unit is `cron`)
+     sudo systemctl enable cron
+     sudo systemctl start cron
+     systemctl status cron
 
-     # check status
-     systemctl status crond
-
-     # configure cronjob
      crontab -e
 
      CRON_TZ=America/New_York
-     # prod job that runs once a week on wednesdays at 9am ET
-     0 9 * * 3 cd /home/ec2-user/nbamvp/src && ../venv/bin/python predict_mvp.py --mode 'prod' >> /home/ec2-user/nbamvp/data/logs/prod_job.log
+     # prod job: weekly Wednesdays 9am ET — use the venv’s interpreter explicitly
+     0 9 * * 3 cd /home/ubuntu/nbamvp/src && /home/ubuntu/nbamvp/venv/bin/python predict_mvp.py --mode 'prod' >> /home/ubuntu/nbamvp/data/logs/prod_job.log
      ```
+   - If you need a Python version newer than the system `python3`, install it (for example from [deadsnakes](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa) on LTS) and run that interpreter’s `-m venv /home/ubuntu/nbamvp/venv` instead of `python3 -m venv`.
 
 3. **Copy AWS Results Back to Local**:  
    - Before deploying updated source code to AWS we need to ensure our local codebase has the lastest predictions from the existing deployment.
