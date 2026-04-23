@@ -60,12 +60,13 @@
      cd nbamvp
 
      # [local] copy over the data bundle
-     zip -r data_bundle.zip data/adv_stats/ data/email/ data/per_game_stats/ data/standings/ data/stats/
-     scp -i aws_ec2.pem data_bundle.zip ubuntu@ec2-3-94-191-77.compute-1.amazonaws.com:/home/ubuntu/nbamvp/
+     BUNDLE="data_bundle_$(date +%Y%m%d%H%M%S).zip"
+     zip -r "$BUNDLE" data/adv_stats/ data/email/ data/per_game_stats/ data/standings/ data/stats/
+     scp -i aws_ec2.pem "$BUNDLE" ubuntu@ec2-3-94-191-77.compute-1.amazonaws.com:/home/ubuntu/nbamvp/
 
-     # [remote] unzip the data (from /home/ubuntu/nbamvp)
-     unzip -o data_bundle.zip
-     rm data_bundle.zip
+     # [remote] unzip the data (from /home/ubuntu/nbamvp); assumes at most one data_bundle_*.zip in the dir
+     unzip -o data_bundle_*.zip
+     rm data_bundle_*.zip
 
      # [remote] isolated venv for nbamvp only (not shared with other apps on the same host)
      python3 -m venv /home/ubuntu/nbamvp/venv
