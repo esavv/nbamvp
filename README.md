@@ -19,4 +19,4 @@ This application predicts the [NBA MVP](https://en.wikipedia.org/wiki/NBA_Most_V
 
 ## Acknowledgements
 
-Big thanks to [basketball_reference_web_scraper](https://github.com/jaebradley/basketball_reference_web_scraper) and [Basketball Reference](https://www.basketball-reference.com/) for making this possible. Go Heat!
+Thanks to [basketball_reference_web_scraper](https://github.com/jaebradley/basketball_reference_web_scraper) and [Basketball Reference](https://www.basketball-reference.com/) for making this possible. Go Heat!
