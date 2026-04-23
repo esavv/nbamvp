@@ -67,6 +67,7 @@
      # [remote] unzip the data (from /home/ubuntu/nbamvp); assumes at most one data_bundle_*.zip in the dir
      unzip -o data_bundle_*.zip
      rm data_bundle_*.zip
+     mkdir -p /home/ubuntu/nbamvp/data/logs
 
      # [remote] isolated venv for nbamvp only (not shared with other apps on the same host)
      python3 -m venv /home/ubuntu/nbamvp/venv
@@ -83,8 +84,8 @@
      crontab -e
 
      CRON_TZ=America/New_York
-     # prod job: weekly Wednesdays 9am ET — use the venv’s interpreter explicitly
-     0 9 * * 3 cd /home/ubuntu/nbamvp/src && /home/ubuntu/nbamvp/venv/bin/python predict_mvp.py --mode 'prod' >> /home/ubuntu/nbamvp/data/logs/prod_job.log
+     # prod job: weekly Wednesdays 9am ET
+     0 9 * * 3 cd /home/ubuntu/nbamvp/src && /home/ubuntu/nbamvp/venv/bin/python predict_mvp.py --mode 'prod' >> /home/ubuntu/nbamvp/data/logs/prod_job.log 2>&1
      ```
    - If you need a Python version newer than the system `python3`, install it (for example from [deadsnakes](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa) on LTS) and run that interpreter’s `-m venv /home/ubuntu/nbamvp/venv` instead of `python3 -m venv`.
 
