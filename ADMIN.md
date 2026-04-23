@@ -61,7 +61,7 @@
 
      # [local] copy over the data bundle
      zip -r data_bundle.zip data/adv_stats/ data/email/ data/per_game_stats/ data/standings/ data/stats/
-     scp -i your_key.pem data_bundle.zip ubuntu@your-instance-host:/home/ubuntu/nbamvp/
+     scp -i aws_ec2.pem data_bundle.zip ubuntu@ec2-3-94-191-77.compute-1.amazonaws.com:/home/ubuntu/nbamvp/
 
      # [remote] unzip the data (from /home/ubuntu/nbamvp)
      unzip -o data_bundle.zip
