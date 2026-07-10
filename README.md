@@ -4,6 +4,8 @@
 
 This application predicts the [NBA MVP](https://en.wikipedia.org/wiki/NBA_Most_Valuable_Player) on a weekly basis as the NBA season progresses and shares results with users. For each active player, the app predicts how many MVP votes they'll receive at the end of the season.
 
+The predictions can also be explored through the CSV-backed web app in [`web/`](web/README.md).
+
 ---
 
 ## Scripts
