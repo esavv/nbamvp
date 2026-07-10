@@ -138,6 +138,15 @@ function Arrow({ direction }: { direction: 'left' | 'right' }) {
   )
 }
 
+function comparisonClass(row: PredictionRow, showResults: boolean) {
+  if (!showResults) return ''
+  if (row.rank === 1 && row.actualRank === 1) return 'comparison-mvp'
+  if (row.actualRank != null && row.rank === row.actualRank) return 'comparison-exact'
+  if ((row.actualVotes ?? 0) > 0) return 'comparison-vote-getter'
+  if (row.rank <= 15) return 'comparison-miss'
+  return ''
+}
+
 function StatusCopy({ home }: { home: HomeState }) {
   if (home.status === 'offseason_waiting_results') {
     return (
@@ -246,48 +255,48 @@ function App() {
   return (
     <div className="min-h-screen">
       <header className="border-b border-slate-200/80 bg-white/80 backdrop-blur-xl">
-        <div className="page-shell flex h-20 items-center justify-between">
+        <div className="page-shell flex h-16 items-center justify-between">
           <a className="flex items-center gap-3" href="/" aria-label="NBA MVP Predictor home">
             <span className="logo-mark">M</span>
             <div>
-              <p className="text-sm font-bold tracking-tight text-slate-950 sm:text-base">MVP Predictor</p>
+              <p className="text-sm font-bold tracking-tight text-slate-950 sm:text-base">NBA MVP Predictions</p>
               <p className="hidden text-xs text-slate-500 sm:block">Weekly, data-driven forecasts</p>
             </div>
           </a>
           <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm">
-            NBA · 2022—present
+            NBA · 2022-present
           </span>
         </div>
       </header>
 
       <main>
         <section className="hero-section">
-          <div className="page-shell relative py-16 sm:py-24">
+          <div className="page-shell relative py-7 sm:py-9">
             <div className="hero-orb hero-orb-one" />
             <div className="hero-orb hero-orb-two" />
             <div className="relative max-w-3xl">
               <p className="eyebrow text-orange-600">The race for the league&apos;s top honor</p>
-              <h1 className="mt-5 text-5xl font-bold leading-[0.98] tracking-[-0.055em] text-slate-950 sm:text-7xl">
+              <h1 className="mt-2 text-3xl font-bold leading-tight tracking-[-0.04em] text-slate-950 sm:text-5xl">
                 Who&apos;s leading the <span className="text-gradient">MVP race?</span>
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">
                 A machine-learning forecast trained on decades of NBA stats and voting results, updated every week.
               </p>
               {home && <StatusCopy home={home} />}
             </div>
             {home?.countdown && (
-              <div className="relative mt-10 max-w-3xl">
+              <div className="relative mt-6 max-w-3xl">
                 <Countdown info={home.countdown} />
               </div>
             )}
           </div>
         </section>
 
-        <section className="page-shell py-12 sm:py-16">
-          <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+        <section className="page-shell py-7 sm:py-9">
+          <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="eyebrow text-orange-600">{prediction?.isFinal ? 'Final forecast' : 'Weekly forecast'}</p>
-              <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
                 {prediction?.seasonLabel ?? 'MVP predictions'}
               </h2>
               {prediction && (
@@ -324,71 +333,82 @@ function App() {
               </p>
             </div>
           ) : (
-            <div className={`table-card ${loading ? 'opacity-60' : ''}`}>
-              <div className="table-scroll">
-                <table>
-                  <thead>
-                    <tr>
-                      <th className="rank-column">Rank</th>
-                      <th className="player-column">Player</th>
-                      <th>Team</th>
-                      <th className="number-column">Predicted votes</th>
-                      {prediction?.isFinal && prediction.resultsAvailable && (
-                        <>
-                          <th className="number-column actual-column">Actual rank</th>
-                          <th className="number-column actual-column">Actual votes</th>
-                        </>
-                      )}
-                      <th className="number-column">GP</th>
-                      <th className="number-column">PTS</th>
-                      <th className="number-column">REB</th>
-                      <th className="number-column">AST</th>
-                      <th className="number-column">TS%</th>
-                      <th className="number-column">Win%</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {prediction?.rows.map((row) => (
-                      <tr key={row.player}>
-                        <td className="rank-column"><span className={row.rank <= 3 ? 'top-rank' : ''}>{row.rank}</span></td>
-                        <td className="player-column font-semibold text-slate-950">{row.player}</td>
-                        <td className="whitespace-nowrap text-slate-500">{row.team}</td>
-                        <td className="number-column font-semibold text-slate-950">{row.predictedVotes.toLocaleString()}</td>
-                        {prediction.isFinal && prediction.resultsAvailable && (
-                          <>
-                            <td className="number-column actual-column">{row.actualRank || '—'}</td>
-                            <td className="number-column actual-column font-semibold">{row.actualVotes?.toLocaleString() ?? '—'}</td>
-                          </>
+            <div>
+              {prediction?.isFinal && prediction.resultsAvailable && (
+                <div className="comparison-legend" aria-label="Prediction accuracy legend">
+                  <span className="legend-item"><i className="legend-swatch comparison-mvp" /> MVP predicted correctly</span>
+                  <span className="legend-item"><i className="legend-swatch comparison-exact" /> Exact rank</span>
+                  <span className="legend-item"><i className="legend-swatch comparison-vote-getter" /> Vote-getter predicted</span>
+                  <span className="legend-item"><i className="legend-swatch comparison-miss" /> Top-15 miss</span>
+                </div>
+              )}
+              <div className={`table-card ${loading ? 'opacity-60' : ''}`}>
+                <div className="table-toolbar">
+                  <button
+                    className="pager-button"
+                    disabled={prediction?.previousWeek == null}
+                    onClick={() => prediction?.previousWeek != null && setSelectedWeek(prediction.previousWeek)}
+                  >
+                    <Arrow direction="left" /> Previous week
+                  </button>
+                  <span className="hidden text-xs font-semibold uppercase tracking-wider text-slate-400 sm:block">
+                    Top 30 by predicted votes
+                  </span>
+                  <button
+                    className="pager-button"
+                    disabled={prediction?.nextWeek == null}
+                    onClick={() => prediction?.nextWeek != null && setSelectedWeek(prediction.nextWeek)}
+                  >
+                    Next week <Arrow direction="right" />
+                  </button>
+                </div>
+                <div className="table-scroll">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th className="rank-column">Pred. rank</th>
+                        {prediction?.isFinal && prediction.resultsAvailable && (
+                          <th className="rank-column actual-column">Actual rank</th>
                         )}
-                        <td className="number-column">{row.gamesPlayed}</td>
-                        <td className="number-column">{row.points.toFixed(1)}</td>
-                        <td className="number-column">{row.rebounds.toFixed(1)}</td>
-                        <td className="number-column">{row.assists.toFixed(1)}</td>
-                        <td className="number-column">{(row.trueShooting * 100).toFixed(1)}</td>
-                        <td className="number-column">{(row.winPercentage * 100).toFixed(1)}</td>
+                        <th className="player-column">Player</th>
+                        <th>Team</th>
+                        <th className="number-column">Predicted votes</th>
+                        {prediction?.isFinal && prediction.resultsAvailable && (
+                          <th className="number-column actual-column">Actual votes</th>
+                        )}
+                        <th className="number-column">GP</th>
+                        <th className="number-column">PTS</th>
+                        <th className="number-column">REB</th>
+                        <th className="number-column">AST</th>
+                        <th className="number-column">TS%</th>
+                        <th className="number-column">Win%</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className="flex items-center justify-between border-t border-slate-200 bg-slate-50/70 px-4 py-4 sm:px-6">
-                <button
-                  className="pager-button"
-                  disabled={prediction?.previousWeek == null}
-                  onClick={() => prediction?.previousWeek != null && setSelectedWeek(prediction.previousWeek)}
-                >
-                  <Arrow direction="left" /> Previous week
-                </button>
-                <span className="hidden text-xs font-semibold uppercase tracking-wider text-slate-400 sm:block">
-                  Top 30 by predicted votes
-                </span>
-                <button
-                  className="pager-button"
-                  disabled={prediction?.nextWeek == null}
-                  onClick={() => prediction?.nextWeek != null && setSelectedWeek(prediction.nextWeek)}
-                >
-                  Next week <Arrow direction="right" />
-                </button>
+                    </thead>
+                    <tbody>
+                      {prediction?.rows.map((row) => {
+                        const showResults = prediction.isFinal && prediction.resultsAvailable
+                        return (
+                          <tr key={row.player} className={comparisonClass(row, showResults)}>
+                            <td className="rank-column"><span className={row.rank <= 3 ? 'top-rank' : ''}>{row.rank}</span></td>
+                            {showResults && <td className="rank-column actual-column">{row.actualRank || '—'}</td>}
+                            <td className="player-column font-semibold text-slate-950">{row.player}</td>
+                            <td className="whitespace-nowrap text-slate-500">{row.team}</td>
+                            <td className="number-column font-semibold text-slate-950">{row.predictedVotes.toLocaleString()}</td>
+                            {showResults && (
+                              <td className="number-column actual-column font-semibold">{row.actualVotes?.toLocaleString() ?? '—'}</td>
+                            )}
+                            <td className="number-column">{row.gamesPlayed}</td>
+                            <td className="number-column">{row.points.toFixed(1)}</td>
+                            <td className="number-column">{row.rebounds.toFixed(1)}</td>
+                            <td className="number-column">{row.assists.toFixed(1)}</td>
+                            <td className="number-column">{(row.trueShooting * 100).toFixed(1)}</td>
+                            <td className="number-column">{(row.winPercentage * 100).toFixed(1)}</td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           )}
@@ -402,9 +422,8 @@ function App() {
       </main>
 
       <footer className="border-t border-slate-200 bg-white">
-        <div className="page-shell flex flex-col gap-2 py-8 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="page-shell py-8 text-sm text-slate-500">
           <p>Built from weekly NBA stats and historical MVP voting.</p>
-          <p>Predictions are for fun, not betting advice.</p>
         </div>
       </footer>
     </div>
