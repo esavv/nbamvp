@@ -1,8 +1,9 @@
 from pathlib import Path
 from datetime import datetime
+from typing import Annotated
 from zoneinfo import ZoneInfo
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.staticfiles import StaticFiles
 
 from .data import available_seasons, home_state, prediction_week
@@ -32,8 +33,8 @@ def get_seasons() -> list[dict]:
 
 
 @app.get("/api/seasons/{year}/weeks/{week}")
-def get_prediction_week(year: int, week: int) -> dict:
-    prediction = prediction_week(year, week)
+def get_prediction_week(year: int, week: int, limit: Annotated[int, Query(ge=1, le=600)] = 30) -> dict:
+    prediction = prediction_week(year, week, limit)
     if prediction is None:
         raise HTTPException(status_code=404, detail="Prediction week not found")
     return prediction

@@ -47,6 +47,8 @@ type PredictionWeek = {
   resultsAvailable: boolean
   previousWeek: number | null
   nextWeek: number | null
+  totalRows: number
+  hasMore: boolean
   rows: PredictionRow[]
 }
 
@@ -183,6 +185,7 @@ function App() {
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
   const [selectedWeek, setSelectedWeek] = useState<number | null>(null)
   const [prediction, setPrediction] = useState<PredictionWeek | null>(null)
+  const [visibleLimit, setVisibleLimit] = useState(30)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -225,7 +228,7 @@ function App() {
     }
     setLoading(true)
     setError('')
-    fetch(`/api/seasons/${selectedYear}/weeks/${selectedWeek}`)
+    fetch(`/api/seasons/${selectedYear}/weeks/${selectedWeek}?limit=${visibleLimit}`)
       .then((response) => {
         if (!response.ok) throw new Error('That prediction could not be loaded')
         return response.json() as Promise<PredictionWeek>
@@ -239,7 +242,7 @@ function App() {
       })
       .catch((reason: Error) => setError(reason.message))
       .finally(() => setLoading(false))
-  }, [selectedYear, selectedWeek])
+  }, [selectedYear, selectedWeek, visibleLimit])
 
   const selectedSeason = useMemo(
     () => seasons.find((season) => season.year === selectedYear),
@@ -248,8 +251,14 @@ function App() {
 
   function selectSeason(year: number) {
     const season = seasons.find((item) => item.year === year)
+    setVisibleLimit(30)
     setSelectedYear(year)
     setSelectedWeek(season?.latestWeek ?? null)
+  }
+
+  function selectWeek(week: number) {
+    setVisibleLimit(30)
+    setSelectedWeek(week)
   }
 
   return (
@@ -275,13 +284,9 @@ function App() {
             <div className="hero-orb hero-orb-one" />
             <div className="hero-orb hero-orb-two" />
             <div className="relative max-w-3xl">
-              <p className="eyebrow text-orange-600">The race for the league&apos;s top honor</p>
-              <h1 className="mt-2 text-3xl font-bold leading-tight tracking-[-0.04em] text-slate-950 sm:text-5xl">
-                Who&apos;s leading the <span className="text-gradient">MVP race?</span>
+              <h1 className="text-3xl font-bold leading-tight tracking-[-0.04em] text-slate-950 sm:text-5xl">
+                Who&apos;s leading the <span className="text-gradient">NBA MVP race?</span>
               </h1>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">
-                A machine-learning forecast trained on decades of NBA stats and voting results, updated every week.
-              </p>
               {home && <StatusCopy home={home} />}
             </div>
             {home?.countdown && (
@@ -347,17 +352,14 @@ function App() {
                   <button
                     className="pager-button"
                     disabled={prediction?.previousWeek == null}
-                    onClick={() => prediction?.previousWeek != null && setSelectedWeek(prediction.previousWeek)}
+                    onClick={() => prediction?.previousWeek != null && selectWeek(prediction.previousWeek)}
                   >
                     <Arrow direction="left" /> Previous week
                   </button>
-                  <span className="hidden text-xs font-semibold uppercase tracking-wider text-slate-400 sm:block">
-                    Top 30 by predicted votes
-                  </span>
                   <button
                     className="pager-button"
                     disabled={prediction?.nextWeek == null}
-                    onClick={() => prediction?.nextWeek != null && setSelectedWeek(prediction.nextWeek)}
+                    onClick={() => prediction?.nextWeek != null && selectWeek(prediction.nextWeek)}
                   >
                     Next week <Arrow direction="right" />
                   </button>
@@ -366,7 +368,7 @@ function App() {
                   <table>
                     <thead>
                       <tr>
-                        <th className="rank-column">Pred. rank</th>
+                        <th className="rank-column">Rank</th>
                         {prediction?.isFinal && prediction.resultsAvailable && (
                           <th className="rank-column actual-column">Actual rank</th>
                         )}
@@ -409,6 +411,20 @@ function App() {
                     </tbody>
                   </table>
                 </div>
+                {prediction?.hasMore && (
+                  <div className="show-more-panel">
+                    <button
+                      className="show-more-button"
+                      disabled={loading}
+                      onClick={() => setVisibleLimit((current) => Math.min(current + 30, prediction.totalRows))}
+                    >
+                      {loading ? 'Loading…' : 'Show 30 more players'}
+                    </button>
+                    <span>
+                      Showing {prediction.rows.length} of {prediction.totalRows}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -423,7 +439,7 @@ function App() {
 
       <footer className="border-t border-slate-200 bg-white">
         <div className="page-shell py-8 text-sm text-slate-500">
-          <p>Built from weekly NBA stats and historical MVP voting.</p>
+          <p>A machine-learning forecast trained on decades of NBA stats and voting results, updated every week.</p>
         </div>
       </footer>
     </div>

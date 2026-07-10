@@ -205,7 +205,7 @@ def _prediction_rows(path: Path) -> list[dict[str, Any]]:
             for row in rows
         ]
     normalized.sort(key=lambda row: (-row["predictedVotes"], -row["points"]))
-    return normalized[:30]
+    return normalized
 
 
 def _result_rows(year: int) -> dict[str, dict[str, int]]:
@@ -226,7 +226,7 @@ def _result_rows(year: int) -> dict[str, dict[str, int]]:
     return results
 
 
-def prediction_week(year: int, week: int) -> dict[str, Any] | None:
+def prediction_week(year: int, week: int, limit: int = 30) -> dict[str, Any] | None:
     files = prediction_index().get(year, [])
     matching = [item for item in files if item.week == week]
     if not matching:
@@ -236,7 +236,8 @@ def prediction_week(year: int, week: int) -> dict[str, Any] | None:
     weeks = sorted({item.week for item in files})
     position = weeks.index(week)
     is_final = week == weeks[-1]
-    rows = _prediction_rows(selected.path)
+    all_rows = _prediction_rows(selected.path)
+    rows = all_rows[:limit]
     results_available = (RESULTS_DIR / f"results_{year}.csv").exists()
 
     if is_final and results_available:
@@ -255,5 +256,7 @@ def prediction_week(year: int, week: int) -> dict[str, Any] | None:
         "resultsAvailable": results_available,
         "previousWeek": weeks[position - 1] if position > 0 else None,
         "nextWeek": weeks[position + 1] if position < len(weeks) - 1 else None,
+        "totalRows": len(all_rows),
+        "hasMore": len(rows) < len(all_rows),
         "rows": rows,
     }
