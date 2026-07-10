@@ -266,7 +266,7 @@ function App() {
       <header className="border-b border-slate-200/80 bg-white/80 backdrop-blur-xl">
         <div className="page-shell flex h-16 items-center justify-between">
           <a className="flex items-center gap-3" href="/" aria-label="NBA MVP Predictor home">
-            <span className="logo-mark">M</span>
+            <span className="logo-mark" aria-hidden="true">🏀</span>
             <div>
               <p className="text-sm font-bold tracking-tight text-slate-950 sm:text-base">NBA MVP Predictions</p>
               <p className="hidden text-xs text-slate-500 sm:block">Weekly, data-driven forecasts</p>
@@ -418,7 +418,7 @@ function App() {
                       disabled={loading}
                       onClick={() => setVisibleLimit((current) => Math.min(current + 30, prediction.totalRows))}
                     >
-                      {loading ? 'Loading…' : 'Show 30 more players'}
+                      {loading ? 'Loading…' : 'Show more players'}
                     </button>
                     <span>
                       Showing {prediction.rows.length} of {prediction.totalRows}
