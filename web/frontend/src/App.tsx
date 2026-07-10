@@ -273,7 +273,7 @@ function App() {
             </div>
           </a>
           <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm">
-            NBA · 2022-present
+            2022-present
           </span>
         </div>
       </header>
