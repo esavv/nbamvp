@@ -242,48 +242,44 @@ function SubscriptionCard() {
   }
 
   return (
-    <section className="subscription-section" id="newsletter-subscription">
-      <div className="page-shell">
-        <div className="subscription-card">
-          <div className="subscription-copy">
-            <h2>{confirmationToken ? 'Confirm your subscription' : 'Follow the MVP race by email'}</h2>
-            <p>
-              {confirmationToken
-                ? 'Confirm below to receive NBA MVP predictions during the season.'
-                : 'Get the top 15 predictions in your inbox each week.'}
-            </p>
-          </div>
-          {confirmationToken ? (
-            <button className="subscribe-button" disabled={loading} onClick={confirmSubscription}>
-              {loading ? 'Confirming…' : 'Confirm subscription'}
-            </button>
-          ) : (
-            <form className="subscribe-form" onSubmit={subscribe}>
-              <label className="sr-only" htmlFor="subscription-email">Email address</label>
-              <input
-                id="subscription-email"
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder="you@example.com"
-                autoComplete="email"
-                required
-              />
-              <input className="honeypot" type="text" name="website" tabIndex={-1} autoComplete="off" />
-              <button className="subscribe-button" type="submit" disabled={loading}>
-                {loading ? 'Sending…' : 'Subscribe'}
-              </button>
-            </form>
-          )}
-          {(message || error) && (
-            <div className="subscription-response" aria-live="polite">
-              {message && <p className="text-emerald-700">{message}</p>}
-              {error && <p className="text-red-700">{error}</p>}
-            </div>
-          )}
-        </div>
+    <div className="subscription-card" id="newsletter-subscription">
+      <div className="subscription-copy">
+        <h2>{confirmationToken ? 'Confirm your subscription' : 'Follow the MVP race by email'}</h2>
+        <p>
+          {confirmationToken
+            ? 'Confirm below to receive NBA MVP predictions during the season.'
+            : 'One weekly email during the season, nothing more.'}
+        </p>
       </div>
-    </section>
+      {confirmationToken ? (
+        <button className="subscribe-button" disabled={loading} onClick={confirmSubscription}>
+          {loading ? 'Confirming…' : 'Confirm subscription'}
+        </button>
+      ) : (
+        <form className="subscribe-form" onSubmit={subscribe}>
+          <label className="sr-only" htmlFor="subscription-email">Email address</label>
+          <input
+            id="subscription-email"
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="you@example.com"
+            autoComplete="email"
+            required
+          />
+          <input className="honeypot" type="text" name="website" tabIndex={-1} autoComplete="off" />
+          <button className="subscribe-button" type="submit" disabled={loading}>
+            {loading ? 'Sending…' : 'Subscribe'}
+          </button>
+        </form>
+      )}
+      {(message || error) && (
+        <div className="subscription-response" aria-live="polite">
+          {message && <p className="text-emerald-700">{message}</p>}
+          {error && <p className="text-red-700">{error}</p>}
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -372,7 +368,7 @@ function App() {
   return (
     <div className="min-h-screen">
       <header className="border-b border-slate-200/80 bg-white/80 backdrop-blur-xl">
-        <div className="page-shell flex h-16 items-center justify-between">
+        <div className="site-header-inner page-shell">
           <a className="flex items-center gap-3" href="/" aria-label="NBA MVP Predictor home">
             <span className="logo-mark" aria-hidden="true">🏀</span>
             <div>
@@ -380,9 +376,7 @@ function App() {
               <p className="hidden text-xs text-slate-500 sm:block">Weekly, data-driven forecasts</p>
             </div>
           </a>
-          <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm">
-            2022-present
-          </span>
+          <SubscriptionCard />
         </div>
       </header>
 
@@ -404,8 +398,6 @@ function App() {
             )}
           </div>
         </section>
-
-        <SubscriptionCard />
 
         <section className="page-shell py-7 sm:py-9">
           <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
