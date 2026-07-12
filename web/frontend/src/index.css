@@ -184,7 +184,7 @@ select {
 .season-toolbar {
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 
 .season-select-control {
@@ -271,7 +271,7 @@ select {
 .week-summary {
   margin: 0;
   color: #64748b;
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   font-weight: 650;
   text-align: center;
 }
@@ -623,7 +623,7 @@ tr.comparison-miss td:first-child {
   }
 
   .week-summary {
-    font-size: 0.68rem;
+    font-size: 0.78rem;
     white-space: nowrap;
   }
 

@@ -126,7 +126,7 @@ def _confirmation_html(confirmation_url: str) -> str:
 @router.post("", status_code=status.HTTP_202_ACCEPTED)
 def request_subscription(payload: SubscriptionRequest, request: Request) -> dict[str, str]:
     response = {
-        "message": "Check your inbox for a confirmation link. It may take a few minutes to arrive."
+        "message": "Woohoo! Check your inbox for a confirmation link."
     }
     if payload.website:
         return response
