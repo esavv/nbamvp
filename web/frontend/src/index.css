@@ -361,23 +361,23 @@ tbody tr:last-child td {
 }
 
 .comparison-mvp {
-  --comparison-bg: #e8c35a;
+  --comparison-bg: #f7ebbc;
   --comparison-accent: #8a5a00;
 }
 
 .comparison-exact {
-  --comparison-bg: #f5dfa0;
-  --comparison-accent: #b7791f;
+  --comparison-bg: #fff6d8;
+  --comparison-accent: #b77900;
 }
 
 .comparison-vote-getter {
-  --comparison-bg: #e2e8f0;
+  --comparison-bg: #f1f5f9;
   --comparison-accent: #64748b;
 }
 
 .comparison-miss {
-  --comparison-bg: #ffe4e6;
-  --comparison-accent: #fb7185;
+  --comparison-bg: #fff1f2;
+  --comparison-accent: #e11d48;
 }
 
 tr.comparison-mvp td,
@@ -391,7 +391,7 @@ tr.comparison-mvp td:first-child,
 tr.comparison-exact td:first-child,
 tr.comparison-vote-getter td:first-child,
 tr.comparison-miss td:first-child {
-  box-shadow: inset 4px 0 var(--comparison-accent);
+  box-shadow: inset 5px 0 var(--comparison-accent);
 }
 
 .legend-swatch.comparison-mvp,
