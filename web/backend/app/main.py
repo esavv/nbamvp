@@ -7,6 +7,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.staticfiles import StaticFiles
 
 from .data import available_seasons, home_state, prediction_week
+from .subscriptions import router as subscriptions_router
 
 
 app = FastAPI(
@@ -14,6 +15,7 @@ app = FastAPI(
     description="CSV-backed API for weekly NBA MVP predictions.",
     version="1.0.0",
 )
+app.include_router(subscriptions_router)
 
 
 @app.get("/api/health")

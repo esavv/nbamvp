@@ -413,6 +413,101 @@ tr.comparison-miss td:first-child {
   cursor: wait;
 }
 
+.subscription-section {
+  padding: 14px 0 48px;
+}
+
+.subscription-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr);
+  gap: 36px;
+  align-items: center;
+  padding: 30px;
+  border: 1px solid #fed7aa;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 100% 0, rgba(251, 146, 60, 0.14), transparent 35%),
+    #fffaf5;
+}
+
+.subscription-card h2 {
+  margin: 5px 0 6px;
+  color: #0f172a;
+  font-size: 1.55rem;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+}
+
+.subscription-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.subscribe-form {
+  position: relative;
+  display: flex;
+  gap: 8px;
+}
+
+.subscribe-form input[type="email"] {
+  min-width: 0;
+  flex: 1;
+  padding: 11px 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  outline: 0;
+  color: #0f172a;
+  background: white;
+  font-size: 0.88rem;
+}
+
+.subscribe-form input[type="email"]:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
+}
+
+.subscribe-button {
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 10px;
+  color: white;
+  background: #ea580c;
+  font-size: 0.84rem;
+  font-weight: 750;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 5px 14px rgba(234, 88, 12, 0.16);
+}
+
+.subscribe-button:hover:not(:disabled) {
+  background: #c2410c;
+}
+
+.subscribe-button:disabled {
+  opacity: 0.58;
+  cursor: wait;
+}
+
+.subscription-response {
+  min-height: 20px;
+  grid-column: 2;
+}
+
+.subscription-response p {
+  font-size: 0.76rem;
+  font-weight: 650;
+}
+
+.honeypot {
+  position: absolute !important;
+  left: -10000px !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden !important;
+}
+
 .error-card,
 .empty-card {
   padding: 64px 24px;
@@ -438,6 +533,25 @@ tr.comparison-miss td:first-child {
 
   .countdown-card {
     padding: 21px 16px;
+  }
+
+  .subscription-section {
+    padding-bottom: 32px;
+  }
+
+  .subscription-card {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 22px 18px;
+  }
+
+  .subscribe-form {
+    flex-direction: column;
+  }
+
+  .subscription-response {
+    min-height: 0;
+    grid-column: 1;
   }
 
   .player-column {

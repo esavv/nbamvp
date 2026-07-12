@@ -28,6 +28,15 @@ npm run dev
 
 Open the URL printed by Vite, normally [http://localhost:5173](http://localhost:5173).
 
+Prediction browsing works without AWS credentials. To exercise the subscription flow locally, use AWS credentials with SES/SSM access and either create `/nbamvp/subscription-token-secret` or set:
+
+```bash
+export SUBSCRIPTION_TOKEN_SECRET="$(python3 -c 'import secrets; print(secrets.token_urlsafe(48))')"
+export WEBAPP_URL="http://localhost:5173"
+```
+
+SES sandbox restrictions still apply to confirmation-email recipients.
+
 ## Production build
 
 Build the frontend:
@@ -43,3 +52,5 @@ When `web/frontend/dist` exists, FastAPI serves the compiled site as well as the
 ```bash
 ../../venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
+
+In production, the backend uses the EC2 instance role and reads its administrator email and subscription signing secret from SSM Parameter Store. See [`ADMIN.md`](../ADMIN.md) and [`deploy/iam-policy.json`](deploy/iam-policy.json).

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import type { FormEvent } from 'react'
 
 type CountdownInfo = {
   kind: 'first_prediction' | 'next_season'
@@ -177,6 +178,114 @@ function StatusCopy({ home }: { home: HomeState }) {
     )
   }
   return null
+}
+
+function SubscriptionCard() {
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [confirmationToken, setConfirmationToken] = useState(
+    () => new URLSearchParams(window.location.search).get('subscription_token') ?? '',
+  )
+
+  useEffect(() => {
+    if (confirmationToken) {
+      document.getElementById('newsletter-subscription')?.scrollIntoView({ block: 'center' })
+    }
+  }, [confirmationToken])
+
+  async function subscribe(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setLoading(true)
+    setError('')
+    setMessage('')
+    const form = new FormData(event.currentTarget)
+    try {
+      const response = await fetch('/api/subscriptions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, website: form.get('website') ?? '' }),
+      })
+      const body = await response.json()
+      if (!response.ok) throw new Error(body.detail ?? 'Unable to subscribe right now.')
+      setMessage(body.message)
+      setEmail('')
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'Unable to subscribe right now.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function confirmSubscription() {
+    setLoading(true)
+    setError('')
+    try {
+      const response = await fetch('/api/subscriptions/confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: confirmationToken }),
+      })
+      const body = await response.json()
+      if (!response.ok) throw new Error(body.detail ?? 'Unable to confirm this subscription.')
+      setMessage(body.message)
+      setConfirmationToken('')
+      const url = new URL(window.location.href)
+      url.searchParams.delete('subscription_token')
+      window.history.replaceState({}, '', url)
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'Unable to confirm this subscription.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <section className="subscription-section" id="newsletter-subscription">
+      <div className="page-shell">
+        <div className="subscription-card">
+          <div>
+            <p className="eyebrow text-orange-600">
+              {confirmationToken ? 'One last step' : 'Get the weekly forecast'}
+            </p>
+            <h2>{confirmationToken ? 'Confirm your subscription' : 'Follow the MVP race by email'}</h2>
+            <p>
+              {confirmationToken
+                ? 'Confirm below to receive NBA MVP predictions during the season.'
+                : 'Get the top 15 predictions in your inbox each week during the NBA season.'}
+            </p>
+          </div>
+          {confirmationToken ? (
+            <button className="subscribe-button" disabled={loading} onClick={confirmSubscription}>
+              {loading ? 'Confirming…' : 'Confirm subscription'}
+            </button>
+          ) : (
+            <form className="subscribe-form" onSubmit={subscribe}>
+              <label className="sr-only" htmlFor="subscription-email">Email address</label>
+              <input
+                id="subscription-email"
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="you@example.com"
+                autoComplete="email"
+                required
+              />
+              <input className="honeypot" type="text" name="website" tabIndex={-1} autoComplete="off" />
+              <button className="subscribe-button" type="submit" disabled={loading}>
+                {loading ? 'Sending…' : 'Subscribe'}
+              </button>
+            </form>
+          )}
+          <div className="subscription-response" aria-live="polite">
+            {message && <p className="text-emerald-700">{message}</p>}
+            {error && <p className="text-red-700">{error}</p>}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
 }
 
 function App() {
@@ -435,6 +544,7 @@ function App() {
             </p>
           )}
         </section>
+        <SubscriptionCard />
       </main>
 
       <footer className="border-t border-slate-200 bg-white">
