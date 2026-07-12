@@ -381,7 +381,7 @@ function App() {
 
       <main>
         <section className="hero-section">
-          <div className="page-shell relative py-7 sm:py-9">
+          <div className="page-shell relative py-6 sm:py-7">
             <div className="hero-orb hero-orb-one" />
             <div className="hero-orb hero-orb-two" />
             <div className="relative max-w-3xl">
@@ -398,21 +398,26 @@ function App() {
           </div>
         </section>
 
-        <section className="page-shell py-7 sm:py-9">
+        <section className="page-shell pb-7 pt-3 sm:pb-9 sm:pt-4">
           <div className="season-toolbar">
             <label className="season-select">
-              <span>Season</span>
-              <select
-                value={selectedYear ?? ''}
-                onChange={(event) => selectSeason(Number(event.target.value))}
-                aria-label="Select season"
-              >
-                {seasons.map((season) => (
-                  <option value={season.year} key={season.year}>
-                    {season.label}
-                  </option>
-                ))}
-              </select>
+              <span className="sr-only">Season</span>
+              <span className="season-select-control">
+                <select
+                  value={selectedYear ?? ''}
+                  onChange={(event) => selectSeason(Number(event.target.value))}
+                  aria-label="Select season"
+                >
+                  {seasons.map((season) => (
+                    <option value={season.year} key={season.year}>
+                      {season.label}
+                    </option>
+                  ))}
+                </select>
+                <span className="season-select-value" aria-hidden="true">
+                  {selectedSeason ? `${selectedSeason.label} Season` : 'Select season'}
+                </span>
+              </span>
             </label>
           </div>
 
@@ -449,7 +454,8 @@ function App() {
                   </button>
                   {prediction && (
                     <p className="week-summary">
-                      Week {prediction.week} · {shortDateFormatter.format(new Date(prediction.generatedAt))}
+                      {prediction.isFinal ? 'Final week' : `Week ${prediction.week}`} ·{' '}
+                      {shortDateFormatter.format(new Date(prediction.generatedAt))}
                     </p>
                   )}
                   <button
