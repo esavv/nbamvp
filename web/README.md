@@ -37,6 +37,14 @@ export WEBAPP_URL="http://localhost:5173"
 
 SES sandbox restrictions still apply to confirmation-email recipients.
 
+Weekly email test sends can run locally without SSM access by using the restricted policy in `deploy/local-dev-iam-policy.json`:
+
+```bash
+AWS_PROFILE=nbamvp-dev \
+ADMIN_EMAIL=you@example.com \
+venv/bin/python src/preview_nba_email.py --season 2026 --week 25 --send
+```
+
 ## Production build
 
 Build the frontend:

@@ -28,6 +28,13 @@
      ```bash
      venv/bin/python src/preview_nba_email.py --season 2026 --week 25 --send
      ```
+   - From a local machine, use a restricted AWS profile and override the SSM administrator address:
+     ```bash
+     AWS_PROFILE=nbamvp-dev \
+     ADMIN_EMAIL=you@example.com \
+     venv/bin/python src/preview_nba_email.py --season 2026 --week 25 --send
+     ```
+   - The local profile only needs the policy in `web/deploy/local-dev-iam-policy.json`. Replace `<AWS_ACCOUNT_ID>` before creating the policy.
    - The preview command cannot send to the production recipient list. Set `WEBAPP_URL` to override the default `https://nba-mvp.com` link when needed.
 
 ## Amazon SES Email Management

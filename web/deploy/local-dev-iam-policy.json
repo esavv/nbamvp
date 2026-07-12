@@ -1,0 +1,11 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "SendNbaMvpTestEmail",
+      "Effect": "Allow",
+      "Action": "ses:SendEmail",
+      "Resource": "arn:aws:ses:us-east-1:<AWS_ACCOUNT_ID>:identity/nba-mvp.com"
+    }
+  ]
+}

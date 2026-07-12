@@ -52,6 +52,9 @@ def get_parameter(name, decrypt=False):
 
 
 def get_admin_email():
+  env_email = os.getenv('ADMIN_EMAIL')
+  if env_email:
+    return normalize_email(env_email)
   return normalize_email(get_parameter(ADMIN_EMAIL_PARAMETER))
 
 
