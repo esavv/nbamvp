@@ -7,13 +7,14 @@ from pathlib import Path
 import nba_email
 
 
+DATA_DIR = Path(__file__).resolve().parent.parent / 'data'
 PREDICTION_PATTERN = re.compile(
   r'^predictions_(?P<year>\d{4})_wk(?P<week>\d+)_(?P<timestamp>\d{8}_\d{4})\.csv$'
 )
 
 
 def find_prediction(season, requested_week=None):
-  prediction_dir = nba_email.DATA_DIR / 'mvp_predictions' / str(season)
+  prediction_dir = DATA_DIR / 'mvp_predictions' / str(season)
   if not prediction_dir.exists():
     raise FileNotFoundError(f'Prediction directory not found: {prediction_dir}')
 
