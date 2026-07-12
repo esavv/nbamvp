@@ -427,9 +427,8 @@ tr.comparison-miss td:first-child {
   cursor: pointer;
 }
 
-.pager-button:hover:not(:disabled) {
+.pager-button:active:not(:disabled) {
   color: #c2410c;
-  background: #fff7ed;
 }
 
 .pager-button:disabled {
@@ -585,6 +584,12 @@ tr.comparison-miss td:first-child {
 
   .subscription-response {
     grid-column: 1;
+  }
+}
+
+@media (hover: hover) {
+  .pager-button:hover:not(:disabled) {
+    color: #c2410c;
   }
 }
 
