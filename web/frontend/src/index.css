@@ -60,6 +60,7 @@ select {
 .hero-section {
   position: relative;
   overflow: hidden;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
   background:
     linear-gradient(120deg, rgba(255, 247, 237, 0.95), rgba(248, 250, 252, 0.72) 50%, rgba(255, 255, 255, 0.95)),
     radial-gradient(circle at 80% 20%, rgba(251, 146, 60, 0.14), transparent 32%);
@@ -191,7 +192,21 @@ select {
   display: block;
 }
 
+.season-select-control::after {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  height: 7px;
+  width: 7px;
+  border-right: 2px solid #64748b;
+  border-bottom: 2px solid #64748b;
+  content: "";
+  pointer-events: none;
+  transform: translateY(-70%) rotate(45deg);
+}
+
 .season-select select {
+  appearance: none;
   width: 100%;
   padding: 10px 38px 10px 13px;
   border: 1px solid #cbd5e1;

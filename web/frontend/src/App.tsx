@@ -381,7 +381,7 @@ function App() {
 
       <main>
         <section className="hero-section">
-          <div className="page-shell relative py-6 sm:py-7">
+          <div className="page-shell relative pb-3 pt-6 sm:pb-4 sm:pt-7">
             <div className="hero-orb hero-orb-one" />
             <div className="hero-orb hero-orb-two" />
             <div className="relative max-w-3xl">
@@ -398,7 +398,7 @@ function App() {
           </div>
         </section>
 
-        <section className="page-shell pb-7 pt-3 sm:pb-9 sm:pt-4">
+        <section className="page-shell pb-7 pt-2 sm:pb-9">
           <div className="season-toolbar">
             <label className="season-select">
               <span className="sr-only">Season</span>
