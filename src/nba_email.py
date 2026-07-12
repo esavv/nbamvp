@@ -1,28 +1,16 @@
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from html import escape
 from pathlib import Path
 from urllib.parse import urlencode
-import csv
 import os
-import smtplib
-import ssl
 
 import pandas as pd
+import ses_service
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = PROJECT_ROOT / 'data'
 STATIC_HTML_DIR = PROJECT_ROOT / 'static' / 'html'
 
-port = 465
-smtp_server = 'smtp.gmail.com'
-sender_email = 'eriksmvppredictions@gmail.com'
 webapp_url = os.getenv('WEBAPP_URL', 'https://nba-mvp.com')
-pw_file = DATA_DIR / 'email' / 'pw.csv'
-
-prod_emails = DATA_DIR / 'email' / 'prod_emails.csv'
-admin_emails = DATA_DIR / 'email' / 'test_emails.csv'
 
 main_template_path = STATIC_HTML_DIR / 'email_template.html'
 main_body_path = STATIC_HTML_DIR / 'email_body.html'
@@ -103,7 +91,7 @@ def _build_prediction_table(df):
   )
 
 
-def render_nba_email(prediction_file, year, week, is_last_week):
+def render_nba_email(prediction_file, year, week, is_last_week, unsubscribe_url='#'):
   """Render a weekly prediction email and save a browser-previewable copy."""
   subject = f'{year} NBA MVP Predictions - Week {week}'
   if is_last_week:
@@ -124,6 +112,7 @@ def render_nba_email(prediction_file, year, week, is_last_week):
     table_html=table_html,
     season_label=season_label,
     prediction_url=prediction_url,
+    unsubscribe_url=unsubscribe_url,
   )
 
   with open(main_body_path, 'w', encoding='utf-8') as html_file:
@@ -133,18 +122,33 @@ def render_nba_email(prediction_file, year, week, is_last_week):
 
 
 def send_nba_email(prediction_file, year, week, mode, is_last_week):
-  subject, html = render_nba_email(prediction_file, year, week, is_last_week)
   if mode == 'prod':
-    email_list = prod_emails
+    subject, html = render_nba_email(
+      prediction_file,
+      year,
+      week,
+      is_last_week,
+      unsubscribe_url='{{amazonSESUnsubscribeUrl}}',
+    )
+    recipients = ses_service.opted_in_contacts()
+    for contact in recipients:
+      ses_service.send_email(
+        contact['EmailAddress'],
+        subject,
+        html,
+        'The latest NBA MVP predictions are available at https://nba-mvp.com.',
+        subscription_managed=True,
+        tags={'audience': 'subscriber', 'season': year, 'week': week},
+      )
+    print(f'  Sent weekly prediction email to {len(recipients)} confirmed subscribers.')
   else:
-    subject = '[TEST] ' + subject
-    email_list = admin_emails
-  finalize_email(email_list, subject, html)
+    subject, html = render_nba_email(prediction_file, year, week, is_last_week)
+    ses_service.send_admin_email('[TEST] ' + subject, html)
 
 
 def send_test_nba_email(subject, html):
-  """Send an already-rendered weekly email only to the development list."""
-  finalize_email(admin_emails, '[TEST] ' + subject, html)
+  """Send an already-rendered weekly email only to the administrator."""
+  ses_service.send_admin_email('[TEST] ' + subject, html)
 
 
 def send_preseason_email(year, season_start, season_end, weeks_til_start, predict_start_date, mode, next_season_info):
@@ -168,7 +172,7 @@ def send_preseason_email(year, season_start, season_end, weeks_til_start, predic
     csv_note=next_season_info.get('csv_note', ''),
   )
 
-  finalize_email(admin_emails, subject, html)
+  ses_service.send_admin_email(subject, html)
 
 
 def send_postseason_email(year, season_end, mode, next_season_info):
@@ -188,7 +192,7 @@ def send_postseason_email(year, season_end, mode, next_season_info):
     end_date=next_season_info.get('end_date', ''),
   )
 
-  finalize_email(admin_emails, subject, html)
+  ses_service.send_admin_email(subject, html)
 
 
 def send_error_email(year, week, traceback_str):
@@ -199,22 +203,4 @@ def send_error_email(year, week, traceback_str):
     html_template = template_file.read()
   html = html_template.replace('{traceback_str}', traceback_str)
 
-  finalize_email(admin_emails, subject, html)
-
-
-def finalize_email(email_list, subject, html):
-  with open(email_list, 'r', encoding='utf-8') as recipients_file:
-    bcc_emails = [row[0] for row in csv.reader(recipients_file) if row]
-  with open(pw_file, 'r', encoding='utf-8') as password_file:
-    password = next(csv.reader(password_file))[0]
-
-  message = MIMEMultipart('alternative')
-  message['From'] = 'NBA MVP Predictions <' + sender_email + '>'
-  message['Subject'] = subject
-  message.attach(MIMEText('NBA MVP Predictions. View this message in an HTML-capable email client.', 'plain'))
-  message.attach(MIMEText(html, 'html'))
-
-  context = ssl.create_default_context()
-  with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-    server.login(sender_email, password)
-    server.sendmail(sender_email, bcc_emails, message.as_string())
+  ses_service.send_admin_email(subject, html)

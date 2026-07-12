@@ -1,7 +1,9 @@
 basketball_reference_web_scraper==4.15.4
 beautifulsoup4==4.12.3
+boto3==1.43.46
 certifi==2025.8.3
 charset-normalizer==3.4.3
+email-validator==2.3.0
 idna==3.10
 joblib==1.5.2
 lxml==5.2.1

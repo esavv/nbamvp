@@ -1,0 +1,33 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "SendFromNbaMvpDomain",
+      "Effect": "Allow",
+      "Action": "ses:SendEmail",
+      "Resource": "arn:aws:ses:us-east-1:<AWS_ACCOUNT_ID>:identity/nba-mvp.com"
+    },
+    {
+      "Sid": "ManageNbaMvpSubscribers",
+      "Effect": "Allow",
+      "Action": [
+        "ses:CreateContactList",
+        "ses:GetContactList",
+        "ses:CreateContact",
+        "ses:UpdateContact",
+        "ses:GetContact",
+        "ses:ListContacts"
+      ],
+      "Resource": "arn:aws:ses:us-east-1:<AWS_ACCOUNT_ID>:contact-list/nba-mvp-prod"
+    },
+    {
+      "Sid": "ReadNbaMvpEmailConfiguration",
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": [
+        "arn:aws:ssm:us-east-1:<AWS_ACCOUNT_ID>:parameter/nbamvp/admin-email",
+        "arn:aws:ssm:us-east-1:<AWS_ACCOUNT_ID>:parameter/nbamvp/subscription-token-secret"
+      ]
+    }
+  ]
+}

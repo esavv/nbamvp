@@ -46,7 +46,7 @@ def parse_args():
   parser.add_argument(
     '--send',
     action='store_true',
-    help='Send the rendered email to data/email/test_emails.csv only.',
+    help='Send the rendered email only to the administrator configured in SSM.',
   )
   return parser.parse_args()
 
@@ -67,9 +67,9 @@ def main():
 
   if args.send:
     nba_email.send_test_nba_email(subject, html)
-    print(f'Test email sent using recipients from: {nba_email.admin_emails}')
+    print('Test email sent to the administrator configured in SSM Parameter Store.')
   else:
-    print('No email sent. Pass --send to send only to the test recipient list.')
+    print('No email sent. Pass --send to send only to the configured administrator.')
 
 
 if __name__ == '__main__':

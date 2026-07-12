@@ -24,11 +24,44 @@
      open static/html/email_body.html
      ```
    - Omit `--week` to use the latest available prediction for the selected season.
-   - To send the preview only to recipients in `data/email/test_emails.csv`:
+   - To send the preview only to the administrator stored in SSM Parameter Store:
      ```bash
      venv/bin/python src/preview_nba_email.py --season 2026 --week 25 --send
      ```
    - The preview command cannot send to the production recipient list. Set `WEBAPP_URL` to override the default `https://nba-mvp.com` link when needed.
+
+## Amazon SES Email Management
+
+The application sends from `predictions@nba-mvp.com` through SES in `us-east-1`. Public subscribers are stored in the `nba-mvp-prod` contact list under the `weekly-predictions` topic. Administrative and test emails are sent directly to the address stored at `/nbamvp/admin-email` in SSM Parameter Store.
+
+1. **Required SSM parameters**:
+   - `/nbamvp/admin-email`: `String` containing the verified administrator email.
+   - `/nbamvp/subscription-token-secret`: `SecureString` containing a random secret of at least 32 bytes. Generate a value locally with:
+     ```bash
+     python3 -c "import secrets; print(secrets.token_urlsafe(48))"
+     ```
+
+2. **Create the subscriber list and topic**:
+   ```bash
+   venv/bin/python src/manage_subscribers.py setup
+   ```
+
+3. **Review subscribers**:
+   ```bash
+   venv/bin/python src/manage_subscribers.py list
+   venv/bin/python src/manage_subscribers.py list --status OPT_IN
+   ```
+
+4. **Import previously consenting recipients**:
+   ```bash
+   venv/bin/python src/manage_subscribers.py import-csv --file data/email/prod_emails.csv --dry-run
+   venv/bin/python src/manage_subscribers.py import-csv --file data/email/prod_emails.csv
+   ```
+
+5. **EC2 permissions**:
+   - Replace `<AWS_ACCOUNT_ID>` in `web/deploy/iam-policy.json`.
+   - Create a customer-managed IAM policy from that file and attach it to the EC2 instance role.
+   - Do not create SES SMTP credentials or store AWS access keys on the instance.
 
 ## Python Env Management
 
