@@ -414,35 +414,35 @@ tr.comparison-miss td:first-child {
 }
 
 .subscription-section {
-  padding: 14px 0 48px;
+  padding: 16px 0 0;
 }
 
 .subscription-card {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr);
-  gap: 36px;
+  grid-template-columns: minmax(0, 0.8fr) minmax(360px, 1fr);
+  gap: 22px;
   align-items: center;
-  padding: 30px;
+  padding: 16px 18px;
   border: 1px solid #fed7aa;
-  border-radius: 20px;
+  border-radius: 14px;
   background:
     radial-gradient(circle at 100% 0, rgba(251, 146, 60, 0.14), transparent 35%),
     #fffaf5;
 }
 
 .subscription-card h2 {
-  margin: 5px 0 6px;
+  margin: 0 0 3px;
   color: #0f172a;
-  font-size: 1.55rem;
+  font-size: 1.05rem;
   font-weight: 750;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.015em;
 }
 
 .subscription-card p {
   margin: 0;
   color: #64748b;
-  font-size: 0.88rem;
-  line-height: 1.55;
+  font-size: 0.76rem;
+  line-height: 1.45;
 }
 
 .subscribe-form {
@@ -491,7 +491,7 @@ tr.comparison-miss td:first-child {
 }
 
 .subscription-response {
-  min-height: 20px;
+  padding-top: 2px;
   grid-column: 2;
 }
 
@@ -536,13 +536,13 @@ tr.comparison-miss td:first-child {
   }
 
   .subscription-section {
-    padding-bottom: 32px;
+    padding-top: 12px;
   }
 
   .subscription-card {
     grid-template-columns: 1fr;
-    gap: 18px;
-    padding: 22px 18px;
+    gap: 12px;
+    padding: 15px;
   }
 
   .subscribe-form {
@@ -550,7 +550,6 @@ tr.comparison-miss td:first-child {
   }
 
   .subscription-response {
-    min-height: 0;
     grid-column: 1;
   }
 

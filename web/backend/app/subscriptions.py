@@ -103,9 +103,13 @@ def _confirmation_html(confirmation_url: str) -> str:
 <html lang="en">
   <body style="margin:0;padding:24px;background:#f1f5f9;font-family:Arial,sans-serif;color:#0f172a;">
     <div style="max-width:560px;margin:0 auto;padding:28px;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;">
-      <div style="font-size:28px;">🏀</div>
-      <h1 style="margin:14px 0 8px;font-size:24px;">Confirm your subscription</h1>
-      <p style="margin:0 0 22px;color:#64748b;line-height:1.6;">
+      <table role="presentation" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+        <tr>
+          <td style="padding:0 10px 0 0;font-size:28px;line-height:1;vertical-align:middle;">🏀</td>
+          <td style="font-size:24px;font-weight:700;line-height:1.2;vertical-align:middle;">Confirm your subscription</td>
+        </tr>
+      </table>
+      <p style="margin:12px 0 22px;color:#64748b;line-height:1.6;">
         Confirm that you want to receive weekly NBA MVP predictions during the season.
       </p>
       <a href="{confirmation_url}" style="display:inline-block;padding:12px 18px;border-radius:9px;background:#ea580c;color:#ffffff;font-weight:700;text-decoration:none;">

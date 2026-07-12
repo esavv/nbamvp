@@ -245,15 +245,12 @@ function SubscriptionCard() {
     <section className="subscription-section" id="newsletter-subscription">
       <div className="page-shell">
         <div className="subscription-card">
-          <div>
-            <p className="eyebrow text-orange-600">
-              {confirmationToken ? 'One last step' : 'Get the weekly forecast'}
-            </p>
+          <div className="subscription-copy">
             <h2>{confirmationToken ? 'Confirm your subscription' : 'Follow the MVP race by email'}</h2>
             <p>
               {confirmationToken
                 ? 'Confirm below to receive NBA MVP predictions during the season.'
-                : 'Get the top 15 predictions in your inbox each week during the NBA season.'}
+                : 'Get the top 15 predictions in your inbox each week.'}
             </p>
           </div>
           {confirmationToken ? (
@@ -278,10 +275,12 @@ function SubscriptionCard() {
               </button>
             </form>
           )}
-          <div className="subscription-response" aria-live="polite">
-            {message && <p className="text-emerald-700">{message}</p>}
-            {error && <p className="text-red-700">{error}</p>}
-          </div>
+          {(message || error) && (
+            <div className="subscription-response" aria-live="polite">
+              {message && <p className="text-emerald-700">{message}</p>}
+              {error && <p className="text-red-700">{error}</p>}
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -405,6 +404,8 @@ function App() {
             )}
           </div>
         </section>
+
+        <SubscriptionCard />
 
         <section className="page-shell py-7 sm:py-9">
           <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -544,7 +545,6 @@ function App() {
             </p>
           )}
         </section>
-        <SubscriptionCard />
       </main>
 
       <footer className="border-t border-slate-200 bg-white">
