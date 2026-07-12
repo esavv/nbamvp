@@ -17,6 +17,19 @@
      ```
    - Dev mode trains a weaker model, saves results as dev files instead of prod files, and emails results to admin users.
 
+3. **Preview the Weekly Email**:
+   - Render an email from an existing production prediction without regenerating data or sending anything:
+     ```bash
+     venv/bin/python src/preview_nba_email.py --season 2026 --week 25
+     open static/html/email_body.html
+     ```
+   - Omit `--week` to use the latest available prediction for the selected season.
+   - To send the preview only to recipients in `data/email/test_emails.csv`:
+     ```bash
+     venv/bin/python src/preview_nba_email.py --season 2026 --week 25 --send
+     ```
+   - The preview command cannot send to the production recipient list. Set `WEBAPP_URL` to override the default `https://nba-mvp.com` link when needed.
+
 ## Python Env Management
 
 1. **Create & Manage Python Virtual Environment**:  
