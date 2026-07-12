@@ -145,8 +145,10 @@ function comparisonClass(row: PredictionRow, showResults: boolean) {
   if (!showResults) return ''
   if (row.rank === 1 && row.actualRank === 1) return 'comparison-mvp'
   if (row.actualRank != null && row.rank === row.actualRank) return 'comparison-exact'
-  if ((row.actualVotes ?? 0) > 0) return 'comparison-vote-getter'
-  if (row.rank <= 15) return 'comparison-miss'
+  if (row.actualRank != null && row.rank <= 15) return 'comparison-vote-getter'
+  if ((row.rank <= 15 && row.actualRank == null) || (row.rank > 15 && row.actualRank != null)) {
+    return 'comparison-miss'
+  }
   return ''
 }
 
@@ -435,9 +437,9 @@ function App() {
             <div>
               {prediction?.isFinal && prediction.resultsAvailable && (
                 <div className="comparison-legend" aria-label="Prediction accuracy legend">
-                  <span className="legend-item"><i className="legend-swatch comparison-mvp" /> MVP predicted correctly</span>
-                  <span className="legend-item"><i className="legend-swatch comparison-exact" /> Exact rank</span>
-                  <span className="legend-item"><i className="legend-swatch comparison-vote-getter" /> Vote-getter predicted</span>
+                  <span className="legend-item"><i className="legend-swatch comparison-mvp" /> MVP correct</span>
+                  <span className="legend-item"><i className="legend-swatch comparison-exact" /> Correct rank</span>
+                  <span className="legend-item"><i className="legend-swatch comparison-vote-getter" /> Close rank</span>
                   <span className="legend-item"><i className="legend-swatch comparison-miss" /> Top-15 miss</span>
                 </div>
               )}
