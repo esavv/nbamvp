@@ -116,7 +116,6 @@ def render_nba_email(prediction_file, year, week, is_last_week):
   table_html = _build_prediction_table(df)
 
   season_label = f'{year - 1}–{str(year)[-2:]}'
-  forecast_label = 'Final forecast' if is_last_week else f'Week {week} forecast'
   prediction_url = escape(f'{webapp_url}/?{urlencode({"season": year, "week": week})}', quote=True)
 
   with open(main_template_path, 'r', encoding='utf-8') as template_file:
@@ -124,7 +123,6 @@ def render_nba_email(prediction_file, year, week, is_last_week):
   html = html_template.format(
     table_html=table_html,
     season_label=season_label,
-    forecast_label=forecast_label,
     prediction_url=prediction_url,
   )
 
