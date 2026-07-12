@@ -279,6 +279,17 @@ function SubscriptionCard() {
         <div className="subscription-response" aria-live="polite">
           {message && <p className="text-emerald-700">{message}</p>}
           {error && <p className="text-red-700">{error}</p>}
+          <button
+            className="subscription-response-dismiss"
+            type="button"
+            aria-label="Dismiss subscription message"
+            onClick={() => {
+              setMessage('')
+              setError('')
+            }}
+          >
+            ×
+          </button>
         </div>
       )}
     </div>
