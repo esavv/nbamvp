@@ -381,7 +381,7 @@ function App() {
 
       <main>
         <section className="hero-section">
-          <div className="page-shell relative pb-3 pt-6 sm:pb-4 sm:pt-7">
+          <div className="page-shell relative pb-2 pt-[14px]">
             <div className="hero-orb hero-orb-one" />
             <div className="hero-orb hero-orb-two" />
             <div className="relative max-w-3xl">
