@@ -546,11 +546,6 @@ function App() {
             </div>
           )}
 
-          {selectedSeason?.resultsAvailable && prediction && !prediction.isFinal && (
-            <p className="mt-5 text-center text-sm text-slate-500">
-              Navigate to the final week to compare this season&apos;s prediction with the official results.
-            </p>
-          )}
         </section>
       </main>
 
