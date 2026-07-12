@@ -34,7 +34,7 @@
      ADMIN_EMAIL=you@example.com \
      venv/bin/python src/preview_nba_email.py --season 2026 --week 25 --send
      ```
-   - The local profile only needs the policy in `web/deploy/local-dev-iam-policy.json`. Replace `<AWS_ACCOUNT_ID>` before creating the policy.
+   - The local profile only needs the policy in `web/deploy/local-dev-iam-policy.json`. Replace `<AWS_ACCOUNT_ID>` and `<VERIFIED_ADMIN_EMAIL>` before creating the policy. While SES is sandboxed, IAM must authorize both the sending domain identity and the verified recipient identity.
    - The preview command cannot send to the production recipient list. Set `WEBAPP_URL` to override the default `https://nba-mvp.com` link when needed.
 
 ## Amazon SES Email Management
