@@ -361,18 +361,18 @@ tbody tr:last-child td {
 }
 
 .comparison-mvp {
-  --comparison-bg: #e8c35a;
-  --comparison-accent: #8a5a00;
+  --comparison-bg: #f5d76e;
+  --comparison-accent: #a66f00;
 }
 
 .comparison-exact {
-  --comparison-bg: #f5dfa0;
-  --comparison-accent: #b7791f;
+  --comparison-bg: #e2e8f0;
+  --comparison-accent: #64748b;
 }
 
 .comparison-vote-getter {
-  --comparison-bg: #fff5cf;
-  --comparison-accent: #d6aa32;
+  --comparison-bg: #f0c5a4;
+  --comparison-accent: #a65f2b;
 }
 
 .comparison-miss {
