@@ -189,6 +189,12 @@ select {
   text-transform: uppercase;
 }
 
+.season-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+
 .season-select select {
   width: 100%;
   padding: 10px 38px 10px 13px;
@@ -219,12 +225,24 @@ select {
 }
 
 .table-toolbar {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   padding: 9px 12px;
   border-bottom: 1px solid #e2e8f0;
   background: rgba(248, 250, 252, 0.72);
+}
+
+.table-toolbar .pager-button:last-child {
+  justify-self: end;
+}
+
+.week-summary {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.76rem;
+  font-weight: 650;
+  text-align: center;
 }
 
 .comparison-legend {
@@ -388,6 +406,10 @@ tr.comparison-miss td:first-child {
   cursor: not-allowed;
 }
 
+.pager-label-mobile {
+  display: none;
+}
+
 .show-more-panel {
   display: flex;
   flex-direction: column;
@@ -549,6 +571,29 @@ tr.comparison-miss td:first-child {
   .subscription-card {
     width: 100%;
     grid-template-columns: 1fr;
+  }
+
+  .table-toolbar {
+    padding-inline: 2px;
+  }
+
+  .table-toolbar .pager-button {
+    gap: 3px;
+    padding-inline: 5px;
+  }
+
+  .pager-label-desktop {
+    display: none;
+  }
+
+  .pager-label-mobile {
+    display: inline;
+    line-height: 1.05;
+  }
+
+  .week-summary {
+    font-size: 0.68rem;
+    white-space: nowrap;
   }
 
   .notice {

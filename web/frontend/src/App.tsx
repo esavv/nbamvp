@@ -244,11 +244,11 @@ function SubscriptionCard() {
   return (
     <div className="subscription-card" id="newsletter-subscription">
       <div className="subscription-copy">
-        <h2>{confirmationToken ? 'Confirm your subscription' : 'Follow the MVP race by email'}</h2>
+        <h2>{confirmationToken ? 'Confirm your subscription' : 'Get predictions in your inbox'}</h2>
         <p>
           {confirmationToken
             ? 'Confirm below to receive NBA MVP predictions during the season.'
-            : 'One weekly email during the season, nothing more.'}
+            : 'One weekly email during the season, no spam.'}
         </p>
       </div>
       {confirmationToken ? (
@@ -373,7 +373,6 @@ function App() {
             <span className="logo-mark" aria-hidden="true">🏀</span>
             <div>
               <p className="text-sm font-bold tracking-tight text-slate-950 sm:text-base">NBA MVP Predictions</p>
-              <p className="hidden text-xs text-slate-500 sm:block">Weekly, data-driven forecasts</p>
             </div>
           </a>
           <SubscriptionCard />
@@ -400,19 +399,7 @@ function App() {
         </section>
 
         <section className="page-shell py-7 sm:py-9">
-          <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="eyebrow text-orange-600">{prediction?.isFinal ? 'Final forecast' : 'Weekly forecast'}</p>
-              <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-                {prediction?.seasonLabel ?? 'MVP predictions'}
-              </h2>
-              {prediction && (
-                <p className="mt-2 text-sm text-slate-500">
-                  {prediction.isFinal ? 'Final week' : `Week ${prediction.week}`} · Generated{' '}
-                  {shortDateFormatter.format(new Date(prediction.generatedAt))}
-                </p>
-              )}
-            </div>
+          <div className="season-toolbar">
             <label className="season-select">
               <span>Season</span>
               <select
@@ -456,14 +443,23 @@ function App() {
                     disabled={prediction?.previousWeek == null}
                     onClick={() => prediction?.previousWeek != null && selectWeek(prediction.previousWeek)}
                   >
-                    <Arrow direction="left" /> Previous week
+                    <Arrow direction="left" />
+                    <span className="pager-label-desktop">Previous week</span>
+                    <span className="pager-label-mobile">Prev.<br />week</span>
                   </button>
+                  {prediction && (
+                    <p className="week-summary">
+                      Week {prediction.week} · {shortDateFormatter.format(new Date(prediction.generatedAt))}
+                    </p>
+                  )}
                   <button
                     className="pager-button"
                     disabled={prediction?.nextWeek == null}
                     onClick={() => prediction?.nextWeek != null && selectWeek(prediction.nextWeek)}
                   >
-                    Next week <Arrow direction="right" />
+                    <span className="pager-label-desktop">Next week</span>
+                    <span className="pager-label-mobile">Next<br />week</span>
+                    <Arrow direction="right" />
                   </button>
                 </div>
                 <div className="table-scroll">
