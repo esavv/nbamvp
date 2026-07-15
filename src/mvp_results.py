@@ -11,6 +11,25 @@ MVP_RESULTS_DIR = '../data/mvp_results'
 USER_AGENT = 'nbamvp-bot/1.0 (+https://github.com/esavv/nbamvp)'
 
 
+def _contains_mojibake(value):
+  text = str(value)
+  if not ('Ä' in text or 'Ã' in text or any('\u0080' <= character <= '\u009f' for character in text)):
+    return False
+  try:
+    repaired = text.encode('latin-1').decode('utf-8')
+  except (UnicodeEncodeError, UnicodeDecodeError):
+    return False
+  return repaired != text
+
+
+def _existing_results_need_repair(results_path):
+  try:
+    players = pd.read_csv(results_path, usecols=['Player'], encoding='utf-8-sig')['Player']
+  except Exception:
+    return False
+  return players.astype(str).map(_contains_mojibake).any()
+
+
 def _find_mvp_table(html):
   soup = BeautifulSoup(html, 'html.parser')
   table = soup.find('table', id='mvp')
@@ -59,7 +78,8 @@ def fetch_mvp_results(season_year, timeout=10.0, results_dir=MVP_RESULTS_DIR):
     'results_path': results_path,
   }
 
-  if os.path.exists(results_path):
+  repair_existing = os.path.exists(results_path) and _existing_results_need_repair(results_path)
+  if os.path.exists(results_path) and not repair_existing:
     result.update({
       'status': 'already_exists',
       'message': f'MVP voting results for {season_year} are already available locally.',
@@ -91,7 +111,9 @@ def fetch_mvp_results(season_year, timeout=10.0, results_dir=MVP_RESULTS_DIR):
     })
     return result
 
-  table = _find_mvp_table(response.text)
+  # Pass the response bytes to BeautifulSoup so it honors the page's UTF-8
+  # declaration. requests otherwise defaults this response to ISO-8859-1.
+  table = _find_mvp_table(response.content)
   if table is None:
     result.update({
       'status': 'results_unavailable',
@@ -149,9 +171,16 @@ def fetch_mvp_results(season_year, timeout=10.0, results_dir=MVP_RESULTS_DIR):
     })
     return result
 
-  result.update({
-    'status': 'saved',
-    'message': f'Fetched MVP voting results for {season_year}.',
-    'csv_note': f'Saved results_{season_year}.csv with {len(dataframe)} candidates.',
-  })
+  if repair_existing:
+    result.update({
+      'status': 'repaired',
+      'message': f'Re-fetched MVP voting results for {season_year} to repair player name encoding.',
+      'csv_note': f'Replaced results_{season_year}.csv with {len(dataframe)} correctly encoded candidates.',
+    })
+  else:
+    result.update({
+      'status': 'saved',
+      'message': f'Fetched MVP voting results for {season_year}.',
+      'csv_note': f'Saved results_{season_year}.csv with {len(dataframe)} candidates.',
+    })
   return result
