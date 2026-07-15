@@ -151,7 +151,16 @@ def send_test_nba_email(subject, html):
   ses_service.send_admin_email('[TEST] ' + subject, html)
 
 
-def send_preseason_email(year, season_start, season_end, weeks_til_start, predict_start_date, mode, next_season_info):
+def send_preseason_email(
+  year,
+  season_start,
+  season_end,
+  weeks_til_start,
+  predict_start_date,
+  mode,
+  next_season_info,
+  voting_results_info,
+):
   if weeks_til_start == 1:
     subject = str(year) + ' NBA MVP Preseason: First Prediction in ' + str(weeks_til_start) + ' Week!'
   else:
@@ -170,12 +179,17 @@ def send_preseason_email(year, season_start, season_end, weeks_til_start, predic
     message=next_season_info.get('message', 'No update available.'),
     wiki_url=next_season_info.get('wiki_url', ''),
     csv_note=next_season_info.get('csv_note', ''),
+    voting_season_year=voting_results_info.get('season_year', ''),
+    voting_status=voting_results_info.get('status', 'unknown'),
+    voting_message=voting_results_info.get('message', 'No update available.'),
+    voting_url=voting_results_info.get('results_url', ''),
+    voting_csv_note=voting_results_info.get('csv_note', ''),
   )
 
   ses_service.send_admin_email(subject, html)
 
 
-def send_postseason_email(year, season_end, mode, next_season_info):
+def send_postseason_email(year, season_end, mode, next_season_info, voting_results_info):
   subject = str(year) + ' NBA MVP Postseason Notification'
   if mode == 'dev':
     subject = '[TEST] ' + subject
@@ -190,6 +204,11 @@ def send_postseason_email(year, season_end, mode, next_season_info):
     csv_note=next_season_info.get('csv_note', ''),
     start_date=next_season_info.get('start_date', ''),
     end_date=next_season_info.get('end_date', ''),
+    voting_season_year=voting_results_info.get('season_year', ''),
+    voting_status=voting_results_info.get('status', 'unknown'),
+    voting_message=voting_results_info.get('message', 'No update available.'),
+    voting_url=voting_results_info.get('results_url', ''),
+    voting_csv_note=voting_results_info.get('csv_note', ''),
   )
 
   ses_service.send_admin_email(subject, html)

@@ -2,13 +2,12 @@
 
 ## Running the Application
 
-1. **Add Last Season's Voting Results**:
-   - TODO: Automate this.
-   - Navigate to the following URL:  
-     `https://www.basketball-reference.com/awards/awards_YYYY.html#mvp`  
-   - Replace `YYYY` with the last season's end year. Example: [2024 MVP Results](https://www.basketball-reference.com/awards/awards_2024.html#mvp)
-   - Use "Share & Export" → "Get table as CSV (for Excel)" to download the data.  
-   - Save it as `/data/mvp_results/results_YYYY.csv`.  
+1. **Last Season's Voting Results**:
+   - During postseason and preseason runs, the application checks for last season's MVP voting results at:
+     `https://www.basketball-reference.com/awards/awards_YYYY.html#mvp`
+   - If `/data/mvp_results/results_YYYY.csv` already exists, it is left unchanged.
+   - Otherwise, the application downloads and validates the MVP table before saving it.
+   - The postseason and preseason administrator emails report the season checked, fetch status, source URL, and CSV update result.
 
 2. **Dev Mode**:  
    - To run the application in dev mode:

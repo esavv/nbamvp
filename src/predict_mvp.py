@@ -3,6 +3,7 @@ import generate_data as gd
 import preprocess_data as ppd
 import mvp_model as mvp
 import nba_email as em
+from mvp_results import fetch_mvp_results
 from season_dates import load_current_season_dates, fetch_next_season_dates
 
 # Standard imports
@@ -66,6 +67,11 @@ def main():
     print("  The season starts on: " + str(season_start))
     print("  The season ends on:   " + str(season_end) + "\n")
 
+    voting_results_info = fetch_mvp_results(target_year - 1)
+    print(f"  MVP voting results fetch status: {voting_results_info.get('status')}")
+    print(f"  Details: {voting_results_info.get('message')}")
+    print(f"  CSV note: {voting_results_info.get('csv_note')}")
+
     next_season_info = fetch_next_season_dates(target_year, mode='preseason', existing_dates=(season_start, season_end))
     print(f"  Upcoming season verification status: {next_season_info.get('status')}")
     print(f"  Details: {next_season_info.get('message')}")
@@ -95,7 +101,16 @@ def main():
 
     print("\n  Sending a preseason email notification!\n")
     try:
-      em.send_preseason_email(target_year, season_start, season_end, weeks_til_start, predict_start_date, mode, next_season_info)
+      em.send_preseason_email(
+        target_year,
+        season_start,
+        season_end,
+        weeks_til_start,
+        predict_start_date,
+        mode,
+        next_season_info,
+        voting_results_info,
+      )
     except Exception:
       print(f"  ERROR: Sending preseason email failed.")
       traceback_str = traceback.format_exc()
@@ -107,6 +122,11 @@ def main():
     print("  Today is:             " + str(today))
     print("  The season starts on: " + str(season_start))
     print("  The season ends on:   " + str(season_end) + '\n')
+
+    voting_results_info = fetch_mvp_results(target_year)
+    print(f"  MVP voting results fetch status: {voting_results_info.get('status')}")
+    print(f"  Details: {voting_results_info.get('message')}")
+    print(f"  CSV note: {voting_results_info.get('csv_note')}")
 
     next_season_info = fetch_next_season_dates(target_year)
     print(f"  Next season fetch status: {next_season_info.get('status')}")
@@ -123,7 +143,7 @@ def main():
         print(traceback.format_exc())
 
     try:
-      em.send_postseason_email(target_year, season_end, mode, next_season_info)
+      em.send_postseason_email(target_year, season_end, mode, next_season_info, voting_results_info)
     except Exception:
       print(f"  ERROR: Sending postseason email failed.")
       traceback_str = traceback.format_exc()
