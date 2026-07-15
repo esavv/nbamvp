@@ -306,7 +306,7 @@ select {
 
 table {
   width: 100%;
-  min-width: 1020px;
+  min-width: 1060px;
   border-collapse: collapse;
   font-size: 0.84rem;
 }
@@ -342,8 +342,51 @@ tbody tr:last-child td {
 }
 
 .rank-column {
-  width: 64px;
+  width: 58px;
+  padding-right: 5px;
   text-align: center;
+}
+
+.rank-change-column {
+  width: 54px;
+  padding-left: 0;
+  padding-right: 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.change-heading {
+  display: inline-flex;
+  gap: 1px;
+  font-size: 0.55rem;
+}
+
+.change-heading i {
+  color: #65a30d;
+  font-style: normal;
+}
+
+.change-heading b {
+  color: #e11d48;
+  font-weight: inherit;
+}
+
+.rank-change {
+  font-size: 0.78rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.rank-change-up {
+  color: #65a30d;
+}
+
+.rank-change-down {
+  color: #e11d48;
+}
+
+.rank-change-none {
+  color: #94a3b8;
 }
 
 .player-column {

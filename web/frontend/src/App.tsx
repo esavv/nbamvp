@@ -26,6 +26,7 @@ type Season = {
 
 type PredictionRow = {
   rank: number
+  rankChange: number | null
   player: string
   team: string
   predictedVotes: number
@@ -150,6 +151,23 @@ function comparisonClass(row: PredictionRow, showResults: boolean) {
     return 'comparison-miss'
   }
   return ''
+}
+
+function RankChange({ value }: { value: number | null }) {
+  if (!value) {
+    return <span className="rank-change rank-change-none">-</span>
+  }
+
+  const direction = value > 0 ? 'up' : 'down'
+  const amount = Math.abs(value)
+  return (
+    <span
+      className={`rank-change rank-change-${direction}`}
+      aria-label={`Moved ${direction} ${amount} ${amount === 1 ? 'position' : 'positions'}`}
+    >
+      <span aria-hidden="true">{value > 0 ? '▲' : '▼'} {amount}</span>
+    </span>
+  )
 }
 
 function StatusCopy({ home }: { home: HomeState }) {
@@ -486,6 +504,10 @@ function App() {
                     <thead>
                       <tr>
                         <th className="rank-column">Rank</th>
+                        <th className="rank-change-column">
+                          <span className="sr-only">Change</span>
+                          <span className="change-heading" aria-hidden="true"><i>▲</i><b>▼</b></span>
+                        </th>
                         {prediction?.isFinal && prediction.resultsAvailable && (
                           <th className="rank-column actual-column">Actual rank</th>
                         )}
@@ -509,6 +531,7 @@ function App() {
                         return (
                           <tr key={row.player} className={comparisonClass(row, showResults)}>
                             <td className="rank-column"><span className={row.rank <= 3 ? 'top-rank' : ''}>{row.rank}</span></td>
+                            <td className="rank-change-column"><RankChange value={row.rankChange} /></td>
                             {showResults && <td className="rank-column actual-column">{row.actualRank || '—'}</td>}
                             <td className="player-column font-semibold text-slate-950">{row.player}</td>
                             <td className="whitespace-nowrap text-slate-500">{row.team}</td>

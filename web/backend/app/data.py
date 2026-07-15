@@ -237,6 +237,18 @@ def prediction_week(year: int, week: int, limit: int = 30) -> dict[str, Any] | N
     position = weeks.index(week)
     is_final = week == weeks[-1]
     all_rows = _prediction_rows(selected.path)
+    previous_week = weeks[position - 1] if position > 0 else None
+    previous_ranks: dict[str, int | float] = {}
+    if previous_week is not None:
+        previous_file = [item for item in files if item.week == previous_week][-1]
+        previous_ranks = {
+            row["player"]: row["rank"]
+            for row in _prediction_rows(previous_file.path)
+        }
+    for row in all_rows:
+        previous_rank = previous_ranks.get(row["player"])
+        row["rankChange"] = previous_rank - row["rank"] if previous_rank is not None else None
+
     rows = all_rows[:limit]
     results_available = (RESULTS_DIR / f"results_{year}.csv").exists()
 
@@ -254,7 +266,7 @@ def prediction_week(year: int, week: int, limit: int = 30) -> dict[str, Any] | N
         "generatedAt": selected.generated_at.isoformat(),
         "isFinal": is_final,
         "resultsAvailable": results_available,
-        "previousWeek": weeks[position - 1] if position > 0 else None,
+        "previousWeek": previous_week,
         "nextWeek": weeks[position + 1] if position < len(weeks) - 1 else None,
         "totalRows": len(all_rows),
         "hasMore": len(rows) < len(all_rows),

@@ -1,7 +1,7 @@
 from html import escape
 from pathlib import Path
 from urllib.parse import urlencode
-import os
+import os, re
 
 import pandas as pd
 import ses_service
@@ -11,6 +11,10 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 STATIC_HTML_DIR = PROJECT_ROOT / 'static' / 'html'
 
 webapp_url = os.getenv('WEBAPP_URL', 'https://nba-mvp.com')
+
+PREDICTION_PATTERN = re.compile(
+  r'^predictions_(?P<year>\d{4})_wk(?P<week>\d+)_(?P<timestamp>\d{8}_\d{4})\.csv$'
+)
 
 main_template_path = STATIC_HTML_DIR / 'email_template.html'
 main_body_path = STATIC_HTML_DIR / 'email_body.html'
@@ -25,9 +29,45 @@ def _format_number(value, decimals=1):
   return f'{float(value):.{decimals}f}'
 
 
+def _previous_prediction_file(prediction_file, year, week):
+  candidates = []
+  for path in Path(prediction_file).parent.glob('predictions_*.csv'):
+    match = PREDICTION_PATTERN.match(path.name)
+    if not match:
+      continue
+    candidate_year = int(match.group('year'))
+    candidate_week = int(match.group('week'))
+    if candidate_year == int(year) and candidate_week < int(week):
+      candidates.append((candidate_week, match.group('timestamp'), path))
+  return max(candidates, default=(None, None, None))[-1]
+
+
+def _rank_changes(df, previous_prediction_file):
+  if previous_prediction_file is None:
+    return [None] * len(df)
+
+  previous_df = pd.read_csv(previous_prediction_file)
+  previous_ranks = {
+    str(row['Player']).split('\\', 1)[0].strip(): int(row['Rank'])
+    for _, row in previous_df.iterrows()
+  }
+  return [
+    previous_ranks.get(str(row['Player']).split('\\', 1)[0].strip()) - int(row['Rank'])
+    if str(row['Player']).split('\\', 1)[0].strip() in previous_ranks
+    else None
+    for _, row in df.iterrows()
+  ]
+
+
 def _build_prediction_table(df):
   columns = [
     ('Rank', 'Rank', 'center'),
+    (
+      'Rank Change',
+      '<span style="color:#65a30d;">&#9650;</span>'
+      '<span style="color:#e11d48;">&#9660;</span>',
+      'left',
+    ),
     ('Player', 'Player', 'left'),
     ('Team', 'Team', 'left'),
     ('Predicted Votes', 'Predicted Votes', 'right'),
@@ -40,11 +80,12 @@ def _build_prediction_table(df):
   ]
 
   header_cells = ''.join(
-    f'<th style="padding:10px 9px;border-bottom:1px solid #e2e8f0;'
+    f'<th style="padding:{"10px 7px 10px 0" if key == "Rank Change" else "10px 9px"};'
+    f'border-bottom:1px solid #e2e8f0;'
     f'background:#f8fafc;color:#64748b;font-family:Arial,sans-serif;'
     f'font-size:10px;font-weight:700;letter-spacing:.5px;text-align:{alignment};'
     f'text-transform:uppercase;white-space:nowrap;">{label}</th>'
-    for _, label, alignment in columns
+    for key, label, alignment in columns
   )
 
   body_rows = []
@@ -58,8 +99,23 @@ def _build_prediction_table(df):
         f'text-align:center;">{rank}</span>'
       )
 
+    rank_change = row['Rank Change']
+    if pd.isna(rank_change) or int(rank_change) == 0:
+      rank_change_html = '<span style="color:#94a3b8;">-</span>'
+    elif rank_change > 0:
+      rank_change_html = (
+        '<span style="color:#65a30d;font-weight:700;">'
+        f'&#9650;&nbsp;{int(rank_change)}</span>'
+      )
+    else:
+      rank_change_html = (
+        '<span style="color:#e11d48;font-weight:700;">'
+        f'&#9660;&nbsp;{abs(int(rank_change))}</span>'
+      )
+
     values = {
       'Rank': rank_html,
+      'Rank Change': rank_change_html,
       'Player': escape(str(row['Player'])),
       'Team': escape(str(row['Team'])),
       'Predicted Votes': f"{int(row['Predicted Votes']):,}",
@@ -75,8 +131,9 @@ def _build_prediction_table(df):
     for key, _, alignment in columns:
       weight = '700' if key in {'Player', 'Predicted Votes'} else '400'
       color = '#0f172a' if key in {'Player', 'Predicted Votes'} else '#475569'
+      padding = '11px 7px 11px 0' if key == 'Rank Change' else '11px 9px'
       cells.append(
-        f'<td style="padding:11px 9px;border-bottom:1px solid #f1f5f9;'
+        f'<td style="padding:{padding};border-bottom:1px solid #f1f5f9;'
         f'color:{color};font-family:Arial,sans-serif;font-size:12px;'
         f'font-weight:{weight};text-align:{alignment};white-space:nowrap;">'
         f'{values[key]}</td>'
@@ -98,9 +155,12 @@ def render_nba_email(prediction_file, year, week, is_last_week, unsubscribe_url=
     subject = f'{year} NBA MVP Predictions - Final Week (Week {week})'
 
   df = pd.read_csv(prediction_file)
-  df = df.sort_values(by=['Predicted Votes', 'PTS'], ascending=[False, False]).head(n=15).copy()
+  df = df.sort_values(by=['Predicted Votes', 'PTS'], ascending=[False, False]).copy()
   df['Rank'] = df['Rank'].astype(int)
   df['Predicted Votes'] = df['Predicted Votes'].astype(int)
+  previous_prediction_file = _previous_prediction_file(prediction_file, year, week)
+  df['Rank Change'] = _rank_changes(df, previous_prediction_file)
+  df = df.head(n=15)
   table_html = _build_prediction_table(df)
 
   season_label = f'{year - 1}–{str(year)[-2:]}'
