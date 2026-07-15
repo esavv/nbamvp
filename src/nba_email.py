@@ -66,7 +66,7 @@ def _build_prediction_table(df):
       'Rank Change',
       '<span style="color:#65a30d;">&#9650;</span>'
       '<span style="color:#e11d48;">&#9660;</span>',
-      'left',
+      'center',
     ),
     ('Player', 'Player', 'left'),
     ('Team', 'Team', 'left'),
@@ -80,7 +80,7 @@ def _build_prediction_table(df):
   ]
 
   header_cells = ''.join(
-    f'<th style="padding:{"10px 7px 10px 0" if key == "Rank Change" else "10px 9px"};'
+    f'<th style="padding:{"10px 4px" if key == "Rank Change" else "10px 9px"};'
     f'border-bottom:1px solid #e2e8f0;'
     f'background:#f8fafc;color:#64748b;font-family:Arial,sans-serif;'
     f'font-size:10px;font-weight:700;letter-spacing:.5px;text-align:{alignment};'
@@ -131,7 +131,7 @@ def _build_prediction_table(df):
     for key, _, alignment in columns:
       weight = '700' if key in {'Player', 'Predicted Votes'} else '400'
       color = '#0f172a' if key in {'Player', 'Predicted Votes'} else '#475569'
-      padding = '11px 7px 11px 0' if key == 'Rank Change' else '11px 9px'
+      padding = '11px 4px' if key == 'Rank Change' else '11px 9px'
       cells.append(
         f'<td style="padding:{padding};border-bottom:1px solid #f1f5f9;'
         f'color:{color};font-family:Arial,sans-serif;font-size:12px;'

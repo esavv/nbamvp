@@ -349,9 +349,8 @@ tbody tr:last-child td {
 
 .rank-change-column {
   width: 54px;
-  padding-left: 0;
-  padding-right: 10px;
-  text-align: left;
+  padding-inline: 4px;
+  text-align: center;
   white-space: nowrap;
 }
 
