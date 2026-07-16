@@ -265,11 +265,9 @@ function SubscriptionCard() {
     <div className="subscription-card" id="newsletter-subscription">
       <div className="subscription-copy">
         <h2>{confirmationToken ? 'Confirm your subscription' : 'Get predictions in your inbox'}</h2>
-        <p>
-          {confirmationToken
-            ? 'Confirm below to receive NBA MVP predictions during the season.'
-            : 'One weekly email during the season, no spam.'}
-        </p>
+        {confirmationToken && (
+          <p>Confirm below to receive NBA MVP predictions during the season.</p>
+        )}
       </div>
       {confirmationToken ? (
         <button className="subscribe-button" disabled={loading} onClick={confirmSubscription}>
@@ -411,7 +409,7 @@ function App() {
       <main>
         {home && home.status !== 'in_season' && home.status !== 'no_data' && (
           <section className="hero-section">
-            <div className="page-shell relative pb-2 pt-[14px]">
+            <div className="page-shell relative py-2">
               <div className="hero-orb hero-orb-one" />
               <div className="hero-orb hero-orb-two" />
               <div className="relative max-w-3xl">

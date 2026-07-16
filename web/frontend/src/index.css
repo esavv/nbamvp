@@ -366,6 +366,10 @@ tbody tr:last-child td {
   text-align: center;
 }
 
+.rank-column.actual-column {
+  padding-left: 5px;
+}
+
 .rank-change-column {
   width: 54px;
   padding-inline: 4px;
@@ -544,9 +548,9 @@ tr.comparison-miss td:first-child {
 }
 
 .subscription-card h2 {
-  margin: 0 0 1px;
+  margin: 0;
   color: #0f172a;
-  font-size: 0.79rem;
+  font-size: 1rem;
   font-weight: 750;
   letter-spacing: -0.01em;
 }
@@ -669,6 +673,16 @@ tr.comparison-miss td:first-child {
 
   .subscription-response {
     grid-column: 1;
+  }
+}
+
+@media (min-width: 901px) {
+  .site-title {
+    font-size: 1.4rem;
+  }
+
+  .notice {
+    font-size: 0.98rem;
   }
 }
 
