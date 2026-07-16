@@ -176,7 +176,7 @@ function StatusCopy({ home }: { home: HomeState }) {
       <div className="notice">
         <span className="notice-dot bg-amber-400" />
         <p>
-          The final {home.seasonLabel} prediction is in. Official MVP results aren&apos;t available here yet.
+          The final {home.seasonLabel} prediction is in! Check back soon for official results.
         </p>
       </div>
     )
@@ -193,7 +193,12 @@ function StatusCopy({ home }: { home: HomeState }) {
     return (
       <div className="notice">
         <span className="notice-dot bg-orange-500" />
-        <p>The {home.seasonLabel} season has started. The model needs one week of games before its first prediction.</p>
+        <p>
+          The {home.seasonLabel} season has started! The first prediction will be available on{' '}
+          {home.countdown?.kind === 'first_prediction'
+            ? dateFormatter.format(parseLocalDate(home.countdown.target))
+            : 'the first Wednesday after opening week'}.
+        </p>
       </div>
     )
   }
