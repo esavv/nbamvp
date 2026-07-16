@@ -166,6 +166,14 @@ select {
   box-shadow: 0 24px 55px rgba(15, 23, 42, 0.18);
 }
 
+.countdown-title {
+  margin: 0;
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
 .countdown-unit {
   display: flex;
   min-width: 0;
@@ -178,7 +186,7 @@ select {
 }
 
 .countdown-unit span {
-  font-size: clamp(1.35rem, 5vw, 2.2rem);
+  font-size: clamp(0.9rem, 2.5vw, 1.15rem);
   font-weight: 700;
   letter-spacing: -0.04em;
 }
@@ -187,7 +195,7 @@ select {
   margin-top: 2px;
   overflow: hidden;
   color: #94a3b8;
-  font-size: clamp(0.54rem, 1.8vw, 0.68rem);
+  font-size: clamp(0.5rem, 1.4vw, 0.62rem);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-overflow: ellipsis;

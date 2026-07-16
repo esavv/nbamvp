@@ -113,7 +113,7 @@ function Countdown({ info }: { info: CountdownInfo }) {
 
   return (
     <section className="countdown-card" aria-label={title}>
-      <h2 className="text-2xl font-semibold text-white sm:text-3xl">{title}</h2>
+      <h2 className="countdown-title">{title}</h2>
       <div className="mt-4 grid grid-cols-5 gap-2 sm:gap-4">
         {([
           ['months', timeLeft.months],
@@ -415,7 +415,7 @@ function App() {
             <div className="page-shell relative py-2">
               <div className="hero-orb hero-orb-one" />
               <div className="hero-orb hero-orb-two" />
-              <div className="relative max-w-3xl">
+              <div className={`relative ${home.countdown?.kind === 'next_season' ? '' : 'max-w-3xl'}`}>
                 {home.countdown?.kind === 'next_season'
                   ? <Countdown info={home.countdown} />
                   : <StatusCopy home={home} />}
