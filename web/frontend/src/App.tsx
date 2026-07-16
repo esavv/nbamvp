@@ -54,7 +54,7 @@ type PredictionWeek = {
   rows: PredictionRow[]
 }
 
-type TimeLeft = { months: number; days: number; hours: number; seconds: number }
+type TimeLeft = { months: number; days: number; hours: number; minutes: number; seconds: number }
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
   month: 'long',
@@ -75,7 +75,7 @@ function parseLocalDate(value: string) {
 function getTimeLeft(target: string): TimeLeft {
   const now = new Date()
   const end = parseLocalDate(target)
-  if (end <= now) return { months: 0, days: 0, hours: 0, seconds: 0 }
+  if (end <= now) return { months: 0, days: 0, hours: 0, minutes: 0, seconds: 0 }
 
   let cursor = new Date(now)
   let months = 0
@@ -92,6 +92,7 @@ function getTimeLeft(target: string): TimeLeft {
     months,
     days: Math.floor(remainingSeconds / 86400),
     hours: Math.floor((remainingSeconds % 86400) / 3600),
+    minutes: Math.floor((remainingSeconds % 3600) / 60),
     seconds: remainingSeconds % 60,
   }
 }
@@ -112,16 +113,13 @@ function Countdown({ info }: { info: CountdownInfo }) {
 
   return (
     <section className="countdown-card" aria-label={title}>
-      <div>
-        <p className="eyebrow text-amber-300">{info.kind === 'next_season' ? 'Next tip-off' : 'Opening week'}</p>
-        <h2 className="mt-2 text-2xl font-semibold text-white sm:text-3xl">{title}</h2>
-        <p className="mt-2 text-sm text-slate-300">{dateFormatter.format(parseLocalDate(info.target))}</p>
-      </div>
-      <div className="mt-7 grid grid-cols-4 gap-2 sm:gap-4">
+      <h2 className="text-2xl font-semibold text-white sm:text-3xl">{title}</h2>
+      <div className="mt-4 grid grid-cols-5 gap-2 sm:gap-4">
         {([
           ['months', timeLeft.months],
           ['days', timeLeft.days],
           ['hours', timeLeft.hours],
+          ['minutes', timeLeft.minutes],
           ['seconds', timeLeft.seconds],
         ] as const).map(([label, value]) => (
           <div className="countdown-unit" key={label}>
@@ -418,13 +416,10 @@ function App() {
               <div className="hero-orb hero-orb-one" />
               <div className="hero-orb hero-orb-two" />
               <div className="relative max-w-3xl">
-                <StatusCopy home={home} />
+                {home.countdown?.kind === 'next_season'
+                  ? <Countdown info={home.countdown} />
+                  : <StatusCopy home={home} />}
               </div>
-              {home.countdown && (
-                <div className="relative mt-6 max-w-3xl">
-                  <Countdown info={home.countdown} />
-                </div>
-              )}
             </div>
           </section>
         )}
