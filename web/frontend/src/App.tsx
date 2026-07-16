@@ -185,7 +185,7 @@ function StatusCopy({ home }: { home: HomeState }) {
     return (
       <div className="notice">
         <span className="notice-dot bg-emerald-400" />
-        <p>The official results are in. See how the final {home.seasonLabel} prediction performed.</p>
+        <p>The official {home.seasonLabel} results are in! See how our predictions stacked up below.</p>
       </div>
     )
   }
@@ -400,34 +400,31 @@ function App() {
     <div className="min-h-screen">
       <header className="border-b border-slate-200/80 bg-white/80 backdrop-blur-xl">
         <div className="site-header-inner page-shell">
-          <a className="flex items-center gap-3" href="/" aria-label="NBA MVP Predictor home">
+          <a className="site-brand" href="/" aria-label="NBA MVP Predictor home">
             <span className="logo-mark" aria-hidden="true">🏀</span>
-            <div>
-              <p className="text-sm font-bold tracking-tight text-slate-950 sm:text-base">NBA MVP Predictions</p>
-            </div>
+            <p className="site-title">NBA MVP Predictions</p>
           </a>
           <SubscriptionCard />
         </div>
       </header>
 
       <main>
-        <section className="hero-section">
-          <div className="page-shell relative pb-2 pt-[14px]">
-            <div className="hero-orb hero-orb-one" />
-            <div className="hero-orb hero-orb-two" />
-            <div className="relative max-w-3xl">
-              <h1 className="text-3xl font-bold leading-tight tracking-[-0.04em] text-slate-950 sm:text-5xl">
-                Who&apos;s leading the <span className="text-gradient">NBA MVP race?</span>
-              </h1>
-              {home && <StatusCopy home={home} />}
-            </div>
-            {home?.countdown && (
-              <div className="relative mt-6 max-w-3xl">
-                <Countdown info={home.countdown} />
+        {home && home.status !== 'in_season' && home.status !== 'no_data' && (
+          <section className="hero-section">
+            <div className="page-shell relative pb-2 pt-[14px]">
+              <div className="hero-orb hero-orb-one" />
+              <div className="hero-orb hero-orb-two" />
+              <div className="relative max-w-3xl">
+                <StatusCopy home={home} />
               </div>
-            )}
-          </div>
-        </section>
+              {home.countdown && (
+                <div className="relative mt-6 max-w-3xl">
+                  <Countdown info={home.countdown} />
+                </div>
+              )}
+            </div>
+          </section>
+        )}
 
         <section className="page-shell pb-7 pt-2 sm:pb-9">
           <div className="season-toolbar">
@@ -450,6 +447,14 @@ function App() {
                 </span>
               </span>
             </label>
+            {prediction?.isFinal && prediction.resultsAvailable && (
+              <div className="comparison-legend" aria-label="Prediction accuracy legend">
+                <span className="legend-item"><i className="legend-swatch comparison-mvp" /> MVP correct</span>
+                <span className="legend-item"><i className="legend-swatch comparison-exact" /> Exact rank</span>
+                <span className="legend-item"><i className="legend-swatch comparison-vote-getter" /> Close rank</span>
+                <span className="legend-item"><i className="legend-swatch comparison-miss" /> Bad miss</span>
+              </div>
+            )}
           </div>
 
           {error && <div className="error-card">{error}</div>}
@@ -464,14 +469,6 @@ function App() {
             </div>
           ) : (
             <div>
-              {prediction?.isFinal && prediction.resultsAvailable && (
-                <div className="comparison-legend" aria-label="Prediction accuracy legend">
-                  <span className="legend-item"><i className="legend-swatch comparison-mvp" /> MVP correct</span>
-                  <span className="legend-item"><i className="legend-swatch comparison-exact" /> Correct rank</span>
-                  <span className="legend-item"><i className="legend-swatch comparison-vote-getter" /> Close rank</span>
-                  <span className="legend-item"><i className="legend-swatch comparison-miss" /> Top-15 miss</span>
-                </div>
-              )}
               <div className={`table-card ${loading ? 'opacity-60' : ''}`}>
                 <div className="table-toolbar">
                   <button
