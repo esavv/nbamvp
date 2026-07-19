@@ -113,7 +113,7 @@ The application sends from `predictions@nba-mvp.com` through SES in `us-east-1`.
 
      # [local] copy over the data bundle
      BUNDLE="data_bundle_$(date +%Y%m%d%H%M%S).zip"
-     zip -r "$BUNDLE" data/adv_stats/ data/email/ data/per_game_stats/ data/standings/ data/stats/
+     zip -r "$BUNDLE" data/adv_stats/ data/per_game_stats/ data/standings/ data/stats/
      scp -i aws_ec2.pem "$BUNDLE" ubuntu@ec2-3-94-191-77.compute-1.amazonaws.com:/home/ubuntu/nbamvp/
 
      # [remote] unzip the data (from /home/ubuntu/nbamvp); assumes at most one data_bundle_*.zip in the dir
