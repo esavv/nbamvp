@@ -145,6 +145,6 @@ The application sends from `predictions@nba-mvp.com` through SES in `us-east-1`.
    - Before deploying updated source code to AWS we need to ensure our local codebase has the lastest predictions from the existing deployment.
    - To copy AWS predictions back to local directory, run this locally:
      ```bash  
-     scp -i nbamvp_ec2.pem ec2-user@ec2-34-230-90-208.compute-1.amazonaws.com:'/home/ec2-user/nbamvp/data/mvp_predictions/2025/predictions_2025_wk05*' data/mvp_predictions/2025/
+     scp -i aws_ec2.pem ec2-user@ec2-3-94-191-77.compute-1.amazonaws.com:'/home/ec2-user/nbamvp/data/mvp_predictions/2025/predictions_2025_wk05*' data/mvp_predictions/2025/
      ```
    - Note: In the command above, update the source pattern ('...2024_wk23*') to target the right files
