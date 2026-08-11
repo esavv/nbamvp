@@ -1,4 +1,4 @@
-Agent: Do not modify this file unless explicitly requested
+AGENT: DO NOT MODIFY THIS FILE UNLESS EXPLICITLY ASKED
 
 ## Project Context
 - This project is basically a python script that runs weekly during the NBA season and predicts the NBA MVP based on current season stats so far, using a machine learning model trained on previous season stats and results
