@@ -148,9 +148,24 @@ The application sends from `predictions@nba-mvp.com` through SES in `us-east-1`.
      # prod job: weekly Wednesdays 9am ET
      0 9 * * 3 cd /home/ubuntu/nbamvp/src && /home/ubuntu/nbamvp/venv/bin/python predict_mvp.py --mode 'prod' >> /home/ubuntu/nbamvp/data/logs/prod_job.log 2>&1
      ```
-   - If you need a Python version newer than the system `python3`, install it (for example from [deadsnakes](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa) on LTS) and run that interpreter’s `-m venv /home/ubuntu/nbamvp/venv` instead of `python3 -m venv`.
+    - If you need a Python version newer than the system `python3`, install it (for example from [deadsnakes](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa) on LTS) and run that interpreter’s `-m venv /home/ubuntu/nbamvp/venv` instead of `python3 -m venv`.
 
-3. **Copy AWS Results Back to Local**:  
+3. **Deploy frontend updates to EC2**:
+   - SSH into the instance, then run:
+     ```bash
+     cd /home/ubuntu/nbamvp
+     git pull --ff-only
+     cd web/frontend
+     npm ci
+     npm run build
+     ```
+   - `npm ci` installs the exact versions in `package-lock.json`. The build replaces `web/frontend/dist`, which FastAPI serves directly. A backend restart is not required for frontend-only changes.
+   - Confirm that the deployed site responds, then check it in a browser:
+     ```bash
+     curl --fail --show-error --silent --output /dev/null https://nba-mvp.com
+     ```
+
+4. **Copy AWS Results Back to Local**:
    - Before deploying updated source code to AWS we need to ensure our local codebase has the lastest predictions from the existing deployment.
    - To copy AWS predictions back to local directory, run this locally:
      ```bash  
