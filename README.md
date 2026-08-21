@@ -1,24 +1,6 @@
 # NBA MVP Predictions
 
-## Overview
+[nba-mvp.com](https://nba-mvp.com)
 
-This application predicts the [NBA MVP](https://en.wikipedia.org/wiki/NBA_Most_Valuable_Player) on a weekly basis as the NBA season progresses and shares results with users. For each active player, the app predicts how many MVP votes they'll receive at the end of the season.
+Weekly predictions for the [NBA MVP](https://en.wikipedia.org/wiki/NBA_Most_Valuable_Player).
 
-The predictions can also be explored through the CSV-backed web app in [`web/`](web/README.md).
-
----
-
-## Scripts
-
-- `predict_mvp.py`: Main entrypoint and coordinates all other scripts. Runs weekly.  
-- `generate_data.py`: Pulls the latest NBA stats using the `basketball_reference_web_scraper` package.
-- `mvp_model.py`: Trains the ML models used to make predictions.  
-- `preprocess_data.py`: Prepares the data for model training.  
-- `nba_email.py`: Emails results to users.
-- `season_dates.py`: Fetches next season dates from Wikipedia after the current season ends.
-
----
-
-## Acknowledgements
-
-Thanks to [basketball_reference_web_scraper](https://github.com/jaebradley/basketball_reference_web_scraper) and [Basketball Reference](https://www.basketball-reference.com/) for making this possible. Go Heat!

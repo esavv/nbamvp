@@ -1,5 +1,14 @@
 # Admin Documentation
 
+## Scripts
+
+- `predict_mvp.py`: Main entrypoint and coordinates all other scripts. Runs weekly.
+- `generate_data.py`: Pulls the latest NBA stats using the `basketball_reference_web_scraper` package.
+- `mvp_model.py`: Trains the ML models used to make predictions.
+- `preprocess_data.py`: Prepares the data for model training.
+- `nba_email.py`: Emails results to users.
+- `season_dates.py`: Fetches next season dates from Wikipedia after the current season ends.
+
 ## Running the Application
 
 1. **Last Season's Voting Results**:
