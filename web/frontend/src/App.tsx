@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 
-type CountdownInfo = {
+export type CountdownInfo = {
   kind: 'first_prediction' | 'next_season'
   target: string
   seasonYear?: number
   seasonLabel?: string
 }
 
-type HomeState = {
+export type HomeState = {
   status: 'in_season' | 'awaiting_first_prediction' | 'offseason_results' | 'offseason_waiting_results' | 'no_data'
   seasonYear: number | null
   seasonLabel: string | null
@@ -16,7 +16,7 @@ type HomeState = {
   countdown: CountdownInfo | null
 }
 
-type Season = {
+export type Season = {
   year: number
   label: string
   weeks: number[]
@@ -24,7 +24,7 @@ type Season = {
   resultsAvailable: boolean
 }
 
-type PredictionRow = {
+export type PredictionRow = {
   rank: number
   rankChange: number | null
   player: string
@@ -40,7 +40,7 @@ type PredictionRow = {
   actualVotes?: number
 }
 
-type PredictionWeek = {
+export type PredictionWeek = {
   year: number
   seasonLabel: string
   week: number
@@ -55,6 +55,30 @@ type PredictionWeek = {
 }
 
 type TimeLeft = { months: number; days: number; hours: number; minutes: number; seconds: number }
+
+export type AppDataSource = {
+  getHome: () => Promise<HomeState>
+  getSeasons: () => Promise<Season[]>
+  getPrediction: (year: number, week: number, limit: number) => Promise<PredictionWeek>
+}
+
+const httpDataSource: AppDataSource = {
+  async getHome() {
+    const response = await fetch('/api/home')
+    if (!response.ok) throw new Error('Could not load the current season')
+    return response.json() as Promise<HomeState>
+  },
+  async getSeasons() {
+    const response = await fetch('/api/seasons')
+    if (!response.ok) throw new Error('Could not load the season archive')
+    return response.json() as Promise<Season[]>
+  },
+  async getPrediction(year, week, limit) {
+    const response = await fetch(`/api/seasons/${year}/weeks/${week}?limit=${limit}`)
+    if (!response.ok) throw new Error('That prediction could not be loaded')
+    return response.json() as Promise<PredictionWeek>
+  },
+}
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
   month: 'long',
@@ -315,7 +339,7 @@ function SubscriptionCard() {
   )
 }
 
-function App() {
+function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
   const [home, setHome] = useState<HomeState | null>(null)
   const [seasons, setSeasons] = useState<Season[]>([])
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
@@ -326,16 +350,7 @@ function App() {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    Promise.all([
-      fetch('/api/home').then((response) => {
-        if (!response.ok) throw new Error('Could not load the current season')
-        return response.json() as Promise<HomeState>
-      }),
-      fetch('/api/seasons').then((response) => {
-        if (!response.ok) throw new Error('Could not load the season archive')
-        return response.json() as Promise<Season[]>
-      }),
-    ])
+    Promise.all([dataSource.getHome(), dataSource.getSeasons()])
       .then(([homeData, seasonData]) => {
         setHome(homeData)
         setSeasons(seasonData)
@@ -355,7 +370,7 @@ function App() {
       })
       .catch((reason: Error) => setError(reason.message))
       .finally(() => setLoading(false))
-  }, [])
+  }, [dataSource])
 
   useEffect(() => {
     if (selectedYear === null || selectedWeek === null) {
@@ -364,11 +379,7 @@ function App() {
     }
     setLoading(true)
     setError('')
-    fetch(`/api/seasons/${selectedYear}/weeks/${selectedWeek}?limit=${visibleLimit}`)
-      .then((response) => {
-        if (!response.ok) throw new Error('That prediction could not be loaded')
-        return response.json() as Promise<PredictionWeek>
-      })
+    dataSource.getPrediction(selectedYear, selectedWeek, visibleLimit)
       .then((data) => {
         setPrediction(data)
         const url = new URL(window.location.href)
@@ -378,7 +389,7 @@ function App() {
       })
       .catch((reason: Error) => setError(reason.message))
       .finally(() => setLoading(false))
-  }, [selectedYear, selectedWeek, visibleLimit])
+  }, [dataSource, selectedYear, selectedWeek, visibleLimit])
 
   const selectedSeason = useMemo(
     () => seasons.find((season) => season.year === selectedYear),
