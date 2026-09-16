@@ -65,14 +65,8 @@ function offseasonHome(
 }
 
 const scenarios = {
-  inSeason: {
-    label: 'During the season',
-    home: { status: 'in_season', seasonYear: 2026, seasonLabel: '2025–26', week: 24, countdown: null },
-    seasons: [archivedSeason(false)],
-    predictions: [prediction(24, false), prediction(25, false)],
-  },
   awaitingFirstPrediction: {
-    label: 'Season started, awaiting first prediction',
+    label: 'Season start, awaiting first prediction',
     home: {
       status: 'awaiting_first_prediction',
       seasonYear: 2027,
@@ -83,14 +77,20 @@ const scenarios = {
     seasons: [archivedSeason(true)],
     predictions: [prediction(24, true), prediction(25, true)],
   },
+  inSeason: {
+    label: 'In season',
+    home: { status: 'in_season', seasonYear: 2026, seasonLabel: '2025–26', week: 24, countdown: null },
+    seasons: [archivedSeason(false)],
+    predictions: [prediction(24, false), prediction(25, false)],
+  },
   waitingResults: {
-    label: 'Offseason, awaiting results',
+    label: 'Off season, awaiting results',
     home: offseasonHome('offseason_waiting_results'),
     seasons: [archivedSeason(false)],
     predictions: [prediction(24, false), prediction(25, false)],
   },
   waitingResultsCountdown: {
-    label: 'Awaiting results, next season announced',
+    label: 'Off season, awaiting results, next season announced',
     home: offseasonHome('offseason_waiting_results', {
       kind: 'next_season',
       target: futureDate(45),
@@ -101,13 +101,13 @@ const scenarios = {
     predictions: [prediction(24, false), prediction(25, false)],
   },
   results: {
-    label: 'Offseason, results available',
+    label: 'Off season, results available',
     home: offseasonHome('offseason_results'),
     seasons: [archivedSeason(true)],
     predictions: [prediction(24, true), prediction(25, true)],
   },
   resultsCountdown: {
-    label: 'Results available, next season announced',
+    label: 'Off season, results available, next season announced',
     home: offseasonHome('offseason_results', {
       kind: 'next_season',
       target: futureDate(45),
@@ -150,7 +150,7 @@ function dataSourceFor(scenario: Scenario): AppDataSource {
 
 function initialScenario(): ScenarioName {
   const requested = new URLSearchParams(window.location.search).get('scenario')
-  return isScenarioName(requested) ? requested : 'inSeason'
+  return isScenarioName(requested) ? requested : 'awaitingFirstPrediction'
 }
 
 function PreviewApp() {
