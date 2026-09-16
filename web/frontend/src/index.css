@@ -75,46 +75,8 @@ select {
 }
 
 .hero-section {
-  position: relative;
-  overflow: hidden;
   border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-  background:
-    linear-gradient(120deg, rgba(255, 247, 237, 0.95), rgba(248, 250, 252, 0.72) 50%, rgba(255, 255, 255, 0.95)),
-    radial-gradient(circle at 80% 20%, rgba(251, 146, 60, 0.14), transparent 32%);
-}
-
-.hero-section::before {
-  position: absolute;
-  inset: 0;
-  content: "";
-  opacity: 0.3;
-  background-image: linear-gradient(rgba(148, 163, 184, 0.15) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148, 163, 184, 0.15) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: linear-gradient(to bottom, black, transparent 85%);
-}
-
-.hero-orb {
-  position: absolute;
-  border-radius: 999px;
-  filter: blur(2px);
-  pointer-events: none;
-}
-
-.hero-orb-one {
-  top: 30px;
-  right: 5%;
-  height: 280px;
-  width: 280px;
-  border: 1px solid rgba(249, 115, 22, 0.13);
-}
-
-.hero-orb-two {
-  top: 90px;
-  right: 12%;
-  height: 150px;
-  width: 150px;
-  border: 1px solid rgba(249, 115, 22, 0.18);
+  background: #f8fafc;
 }
 
 .eyebrow {
@@ -122,13 +84,6 @@ select {
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-}
-
-.text-gradient {
-  color: transparent;
-  background: linear-gradient(120deg, #ea580c, #f59e0b);
-  background-clip: text;
-  -webkit-background-clip: text;
 }
 
 .notice {

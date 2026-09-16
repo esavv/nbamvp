@@ -426,7 +426,7 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
 
   return (
     <div className="min-h-screen">
-      <header className="border-b border-slate-200/80 bg-white/80 backdrop-blur-xl">
+      <header className="border-b border-slate-200 bg-white">
         <div className="site-header-inner page-shell">
           <a className="site-brand" href="/" aria-label="NBA MVP Predictor home">
             <span className="logo-mark" aria-hidden="true">🏀</span>
@@ -440,8 +440,6 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
         {home && home.status !== 'no_data' && (
           <section className="hero-section">
             <div className="page-shell relative py-2">
-              <div className="hero-orb hero-orb-one" />
-              <div className="hero-orb hero-orb-two" />
               <div className={`relative ${home.countdown?.kind === 'next_season' ? '' : 'max-w-3xl'}`}>
                 <StatusCopy home={home} />
               </div>
