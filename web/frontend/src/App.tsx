@@ -591,11 +591,6 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
         </section>
       </main>
 
-      <footer className="border-t border-slate-200 bg-white">
-        <div className="page-shell py-8 text-sm text-slate-500">
-          <p>A machine-learning forecast trained on decades of NBA stats and voting results, updated every week.</p>
-        </div>
-      </footer>
     </div>
   )
 }
