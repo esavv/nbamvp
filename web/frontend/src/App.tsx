@@ -398,6 +398,8 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
     () => seasons.find((season) => season.year === selectedYear),
     [seasons, selectedYear],
   )
+  const previousSeasonYear = home?.seasonYear == null ? null : home.seasonYear - 1
+  const previousSeason = seasons.find((season) => season.year === previousSeasonYear)
 
   function selectSeason(year: number) {
     const season = seasons.find((item) => item.year === year)
@@ -470,13 +472,20 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
           {error && <div className="error-card">{error}</div>}
 
           {!error && home?.status === 'awaiting_first_prediction' && selectedYear === home.seasonYear && !prediction ? (
-            <div className="empty-card">
-              <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-100 text-2xl">🏀</div>
-              <h3 className="text-xl font-bold text-slate-950">The model is warming up</h3>
-              <p className="mx-auto mt-2 max-w-md text-slate-500">
-                Check back after the first full week of games for this season&apos;s opening prediction.
-              </p>
-            </div>
+            previousSeason && (
+              <div className="empty-card">
+                <a
+                  className="text-sm font-semibold text-orange-700 underline underline-offset-4"
+                  href={`${window.location.pathname}?season=${previousSeason.year}&week=${previousSeason.latestWeek}`}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    selectSeason(previousSeason.year)
+                  }}
+                >
+                  See last season&apos;s results
+                </a>
+              </div>
+            )
           ) : (
             <div>
               <div className={`table-card ${loading ? 'opacity-60' : ''}`}>
