@@ -155,51 +155,13 @@ select {
   box-shadow: 0 0 0 4px rgba(148, 163, 184, 0.12);
 }
 
-.countdown-card {
-  padding: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
-  color: white;
-  background:
-    radial-gradient(circle at 90% -10%, rgba(249, 115, 22, 0.34), transparent 38%),
-    #111827;
-  box-shadow: 0 24px 55px rgba(15, 23, 42, 0.18);
-}
-
-.countdown-title {
-  margin: 0;
-  color: white;
-  font-size: 1.125rem;
-  font-weight: 650;
-  letter-spacing: -0.015em;
-}
-
-.countdown-unit {
+.notice-stack {
   display: flex;
-  min-width: 0;
+  width: fit-content;
+  max-width: 100%;
   flex-direction: column;
-  padding: 13px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.055);
-}
-
-.countdown-unit span {
-  font-size: clamp(0.9rem, 2.5vw, 1.15rem);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-}
-
-.countdown-unit small {
-  margin-top: 2px;
-  overflow: hidden;
-  color: #94a3b8;
-  font-size: clamp(0.5rem, 1.4vw, 0.62rem);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-overflow: ellipsis;
-  text-transform: uppercase;
+  align-items: stretch;
+  gap: 6px;
 }
 
 .season-select {
@@ -787,10 +749,6 @@ tr.comparison-miss td:first-child {
 
   .notice {
     border-radius: 16px;
-  }
-
-  .countdown-card {
-    padding: 21px 16px;
   }
 
   .player-column {

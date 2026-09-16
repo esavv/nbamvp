@@ -134,26 +134,15 @@ function Countdown({ info }: { info: CountdownInfo }) {
     info.kind === 'next_season'
       ? `The ${info.seasonLabel} season starts in`
       : 'The first MVP prediction arrives in'
+  const units = ([
+    ['month', timeLeft.months],
+    ['day', timeLeft.days],
+    ['hour', timeLeft.hours],
+    ['minute', timeLeft.minutes],
+    ['second', timeLeft.seconds],
+  ] as const).map(([label, value]) => `${value} ${label}${value === 1 ? '' : 's'}`)
 
-  return (
-    <section className="countdown-card" aria-label={title}>
-      <h2 className="countdown-title">{title}</h2>
-      <div className="mt-4 grid grid-cols-5 gap-2 sm:gap-4">
-        {([
-          ['months', timeLeft.months],
-          ['days', timeLeft.days],
-          ['hours', timeLeft.hours],
-          ['minutes', timeLeft.minutes],
-          ['seconds', timeLeft.seconds],
-        ] as const).map(([label, value]) => (
-          <div className="countdown-unit" key={label}>
-            <span className="tabular-nums">{String(value).padStart(2, '0')}</span>
-            <small>{label}</small>
-          </div>
-        ))}
-      </div>
-    </section>
-  )
+  return <p>{title} {units.join(', ')}.</p>
 }
 
 function Arrow({ direction }: { direction: 'left' | 'right' }) {
@@ -195,26 +184,40 @@ function RankChange({ value }: { value: number | null }) {
 function StatusCopy({ home }: { home: HomeState }) {
   if (home.status === 'offseason_waiting_results') {
     return (
-      <div className="notice">
-        <span className="notice-dot bg-amber-400" />
-        <p>
-          The final {home.seasonLabel} prediction is in! Check back soon for official results.
-        </p>
+      <div className="notice-stack">
+        <div className="notice">
+          <span className="notice-dot bg-emerald-400" />
+          <p>The final {home.seasonLabel} prediction is in! Check back soon for official results.</p>
+        </div>
+        {home.countdown?.kind === 'next_season' && (
+          <div className="notice">
+            <span className="notice-dot bg-yellow-400" />
+            <Countdown info={home.countdown} />
+          </div>
+        )}
       </div>
     )
   }
   if (home.status === 'offseason_results') {
     return (
-      <div className="notice">
-        <span className="notice-dot bg-emerald-400" />
-        <p>The official {home.seasonLabel} results are in! See how our predictions stacked up below.</p>
+      <div className="notice-stack">
+        <div className="notice">
+          <span className="notice-dot bg-blue-400" />
+          <p>The official {home.seasonLabel} results are in! See how our predictions stacked up below.</p>
+        </div>
+        {home.countdown?.kind === 'next_season' && (
+          <div className="notice">
+            <span className="notice-dot bg-yellow-400" />
+            <Countdown info={home.countdown} />
+          </div>
+        )}
       </div>
     )
   }
   if (home.status === 'awaiting_first_prediction') {
     return (
       <div className="notice">
-        <span className="notice-dot bg-orange-500" />
+        <span className="notice-dot bg-yellow-400" />
         <p>
           The {home.seasonLabel} season has started! The first prediction will be available on{' '}
           {home.countdown?.kind === 'first_prediction'
@@ -427,9 +430,7 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
               <div className="hero-orb hero-orb-one" />
               <div className="hero-orb hero-orb-two" />
               <div className={`relative ${home.countdown?.kind === 'next_season' ? '' : 'max-w-3xl'}`}>
-                {home.countdown?.kind === 'next_season'
-                  ? <Countdown info={home.countdown} />
-                  : <StatusCopy home={home} />}
+                <StatusCopy home={home} />
               </div>
             </div>
           </section>
