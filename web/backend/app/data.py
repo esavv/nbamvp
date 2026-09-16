@@ -130,6 +130,9 @@ def home_state(today: date | None = None) -> dict[str, Any]:
         available = [item for item in predictions if item.generated_at.date() <= today]
         if available:
             latest = available[-1]
+            next_prediction = latest.generated_at.date() + timedelta(days=7)
+            while next_prediction < today:
+                next_prediction += timedelta(days=7)
             return {
                 "status": "in_season",
                 "seasonYear": active.year,
@@ -137,7 +140,10 @@ def home_state(today: date | None = None) -> dict[str, Any]:
                 "week": latest.week,
                 "seasonStart": active.start.isoformat(),
                 "seasonEnd": active.end.isoformat(),
-                "countdown": None,
+                "countdown": {
+                    "kind": "next_prediction",
+                    "target": next_prediction.isoformat(),
+                },
             }
 
         first_prediction = _first_prediction_date(active.start)

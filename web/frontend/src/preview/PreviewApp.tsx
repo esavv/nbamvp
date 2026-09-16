@@ -79,7 +79,13 @@ const scenarios = {
   },
   inSeason: {
     label: 'In season',
-    home: { status: 'in_season', seasonYear: 2026, seasonLabel: '2025–26', week: 24, countdown: null },
+    home: {
+      status: 'in_season',
+      seasonYear: 2026,
+      seasonLabel: '2025–26',
+      week: 24,
+      countdown: { kind: 'next_prediction', target: futureDate(7) },
+    },
     seasons: [archivedSeason(false)],
     predictions: [prediction(24, false), prediction(25, false)],
   },

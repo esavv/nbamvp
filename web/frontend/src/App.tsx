@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 
 export type CountdownInfo = {
-  kind: 'first_prediction' | 'next_season'
+  kind: 'first_prediction' | 'next_prediction' | 'next_season'
   target: string
   seasonYear?: number
   seasonLabel?: string
@@ -182,6 +182,14 @@ function RankChange({ value }: { value: number | null }) {
 }
 
 function StatusCopy({ home }: { home: HomeState }) {
+  if (home.status === 'in_season' && home.countdown?.kind === 'next_prediction') {
+    return (
+      <div className="notice">
+        <span className="notice-dot bg-emerald-400" />
+        <p>Next week&apos;s prediction will be available on {dateFormatter.format(parseLocalDate(home.countdown.target))}.</p>
+      </div>
+    )
+  }
   if (home.status === 'offseason_waiting_results') {
     return (
       <div className="notice-stack">
@@ -429,7 +437,7 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
       </header>
 
       <main>
-        {home && home.status !== 'in_season' && home.status !== 'no_data' && (
+        {home && home.status !== 'no_data' && (
           <section className="hero-section">
             <div className="page-shell relative py-2">
               <div className="hero-orb hero-orb-one" />
