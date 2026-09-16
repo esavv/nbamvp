@@ -20,7 +20,7 @@
 
 2. **Dev Mode**:  
    - To run the application in dev mode:
-     ```bash  
+     ```bash
      python3 predict_mvp --mode 'dev'  
      ```
    - Dev mode trains a weaker model, saves results as dev files instead of prod files, and emails results to admin users.
@@ -81,19 +81,29 @@ The application sends from `predictions@nba-mvp.com` through SES in `us-east-1`.
 ## Python Env Management
 
 1. **Create & Manage Python Virtual Environment**:  
-    ```bash  
-    # Create a virtual environment from main project directory
-    python3 -m venv venv
+   - Run these commands from the main project directory. `mise` selects the latest Python 3.12 patch release for this repository without changing the system Python.
+     ```bash
+     # Configure and install Python 3.12 for this repository
+     mise use python@3.12
 
-    # Activate the virtual environment
-    source venv/bin/activate
+     # Create a virtual environment with the mise-managed Python
+     mise exec -- python -m venv venv
 
-    # Deactivate it when done with the current session
-    deactivate
+     # Activate the virtual environment
+     source venv/bin/activate
 
-    # If the terminal prompt gets messed up after deactivating
-    export PS1="\h:\W \u$ "
-    ```
+     # Confirm the virtual environment uses Python 3.12
+     python --version
+
+     # Install the project and web backend dependencies
+     python -m pip install --upgrade pip
+     python -m pip install -r requirements.txt
+     python -m pip install -r web/backend/requirements.txt
+
+     # Deactivate it when done with the current session
+     deactivate
+     ```
+   - For later setup runs, use `mise install` to install the Python version recorded in `mise.toml`, then recreate the virtual environment with `mise exec -- python -m venv venv`.
 
 ## AWS Management
 
