@@ -511,10 +511,14 @@ tr.comparison-miss td:first-child {
 
 .subscription-card {
   display: grid;
-  grid-template-columns: max-content minmax(300px, 340px);
+  grid-template-columns: minmax(300px, 340px);
   column-gap: 14px;
   row-gap: 2px;
   align-items: center;
+}
+
+.subscription-card-confirmation {
+  grid-template-columns: max-content minmax(300px, 340px);
 }
 
 .subscription-card h2 {
@@ -581,6 +585,10 @@ tr.comparison-miss td:first-child {
   display: flex;
   align-items: center;
   gap: 6px;
+  grid-column: 1;
+}
+
+.subscription-card-confirmation .subscription-response {
   grid-column: 2;
 }
 
@@ -641,7 +649,8 @@ tr.comparison-miss td:first-child {
     grid-template-columns: minmax(260px, 340px);
   }
 
-  .subscription-response {
+  .subscription-response,
+  .subscription-card-confirmation .subscription-response {
     grid-column: 1;
   }
 }

@@ -292,13 +292,16 @@ function SubscriptionCard() {
   }
 
   return (
-    <div className="subscription-card" id="newsletter-subscription">
-      <div className="subscription-copy">
-        <h2>{confirmationToken ? 'Confirm your subscription' : 'Get predictions in your inbox'}</h2>
-        {confirmationToken && (
+    <div
+      className={`subscription-card${confirmationToken ? ' subscription-card-confirmation' : ''}`}
+      id="newsletter-subscription"
+    >
+      {confirmationToken && (
+        <div className="subscription-copy">
+          <h2>Confirm your subscription</h2>
           <p>Confirm below to receive NBA MVP predictions during the season.</p>
-        )}
-      </div>
+        </div>
+      )}
       {confirmationToken ? (
         <button className="subscribe-button" disabled={loading} onClick={confirmSubscription}>
           {loading ? 'Confirming…' : 'Confirm subscription'}
