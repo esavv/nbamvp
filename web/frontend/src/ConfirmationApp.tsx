@@ -18,6 +18,10 @@ const httpConfirmationDataSource: ConfirmationDataSource = {
 }
 
 function ConfirmationIcon({ status }: { status: 'ready' | 'success' | 'error' }) {
+  if (status === 'ready') {
+    return <span className="confirmation-spinner" />
+  }
+
   if (status === 'success') {
     return (
       <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -34,11 +38,7 @@ function ConfirmationIcon({ status }: { status: 'ready' | 'success' | 'error' })
     )
   }
 
-  return (
-    <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 6.8 12 13l9-6.2M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2Z" />
-    </svg>
-  )
+  return null
 }
 
 function ConfirmationApp({
@@ -59,8 +59,8 @@ function ConfirmationApp({
     setStatus('loading')
     setMessage('')
     try {
-      const body = await dataSource.confirm(token)
-      setMessage(body.message)
+      await dataSource.confirm(token)
+      setMessage("You're subscribed! The next prediction will arrive by email.")
       setStatus('success')
       const url = new URL(window.location.href)
       url.searchParams.delete('subscription_token')
@@ -102,25 +102,16 @@ function ConfirmationApp({
             <>
               <h1>Subscription confirmed</h1>
               <p>{message}</p>
-              <a className="confirmation-home-link" href="/">View the latest predictions</a>
+              <a className="confirmation-home-link" href="/">Return to home</a>
             </>
           ) : (
             <>
-              <h1>{status === 'error' ? 'Could not confirm subscription' : 'Confirming your subscription'}</h1>
-              <p>
-                {message || 'Please wait while we confirm your NBA MVP prediction emails.'}
-              </p>
-              {status === 'error' && token && (
-                <button
-                  className="subscribe-button confirmation-button"
-                  type="button"
-                  onClick={confirmSubscription}
-                >
-                  Try again
-                </button>
-              )}
-              {status === 'error' && !token && (
-                <a className="confirmation-home-link" href="/">Return to the home page</a>
+              <h1>{status === 'error' ? 'Could not confirm subscription' : 'Confirming subscription...'}</h1>
+              {status === 'error' && (
+                <>
+                  <p>{message}</p>
+                  <a className="confirmation-home-link" href="/">Return to home</a>
+                </>
               )}
             </>
           )}

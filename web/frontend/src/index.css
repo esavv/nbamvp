@@ -80,9 +80,10 @@ select {
 
 .confirmation-main {
   display: grid;
+  grid-template-rows: 50% 1fr;
   min-height: calc(100vh - 65px);
   place-items: center;
-  padding: 48px 16px;
+  padding: 24px 16px;
   background: #f8fafc;
 }
 
@@ -122,6 +123,21 @@ select {
   width: 26px;
 }
 
+.confirmation-spinner {
+  height: 24px;
+  width: 24px;
+  border: 3px solid #fed7aa;
+  border-top-color: #ea580c;
+  border-radius: 50%;
+  animation: confirmation-spin 700ms linear infinite;
+}
+
+@keyframes confirmation-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .confirmation-panel h1 {
   margin: 0;
   color: #0f172a;
@@ -137,20 +153,16 @@ select {
   line-height: 1.65;
 }
 
-.confirmation-button,
 .confirmation-home-link {
   display: inline-block;
   margin-top: 24px;
   padding: 11px 17px;
-  font-size: 0.82rem;
-  text-decoration: none;
-}
-
-.confirmation-home-link {
   border-radius: 8px;
   color: white;
   background: #ea580c;
+  font-size: 0.82rem;
   font-weight: 750;
+  text-decoration: none;
   box-shadow: 0 5px 14px rgba(234, 88, 12, 0.16);
 }
 
@@ -828,8 +840,6 @@ tr.comparison-miss td:first-child {
 
   .confirmation-main {
     min-height: calc(100vh - 57px);
-    align-items: start;
-    padding-top: 40px;
   }
 
   .confirmation-panel {
@@ -1011,5 +1021,9 @@ tr.comparison-miss td:first-child {
   *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .confirmation-spinner {
+    animation: none;
   }
 }
