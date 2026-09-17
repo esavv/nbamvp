@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 export type ConfirmationDataSource = {
   confirm: (token: string) => Promise<{ message: string }>
@@ -51,10 +51,11 @@ function ConfirmationApp({
   const [token] = useState(
     () => initialToken ?? new URLSearchParams(window.location.search).get('subscription_token') ?? '',
   )
-  const [status, setStatus] = useState<'ready' | 'loading' | 'success' | 'error'>(token ? 'ready' : 'error')
+  const [status, setStatus] = useState<'loading' | 'success' | 'error'>(token ? 'loading' : 'error')
   const [message, setMessage] = useState(token ? '' : 'This confirmation link is missing or invalid.')
+  const confirmationStarted = useRef(false)
 
-  async function confirmSubscription() {
+  const confirmSubscription = useCallback(async () => {
     setStatus('loading')
     setMessage('')
     try {
@@ -68,7 +69,15 @@ function ConfirmationApp({
       setMessage(reason instanceof Error ? reason.message : 'Unable to confirm this subscription.')
       setStatus('error')
     }
-  }
+  }, [dataSource, token])
+
+  useEffect(() => {
+    if (!token || confirmationStarted.current) return
+    confirmationStarted.current = true
+
+    // The email link only loads this page. Link scanners that only fetch the URL cannot trigger the POST.
+    void confirmSubscription()
+  }, [confirmSubscription, token])
 
   const iconStatus = status === 'loading' ? 'ready' : status
 
@@ -97,19 +106,21 @@ function ConfirmationApp({
             </>
           ) : (
             <>
-              <h1>{status === 'error' ? 'Could not confirm subscription' : 'Confirm your subscription'}</h1>
+              <h1>{status === 'error' ? 'Could not confirm subscription' : 'Confirming your subscription'}</h1>
               <p>
-                {message || 'Confirm that you want to receive NBA MVP predictions by email during the season.'}
+                {message || 'Please wait while we confirm your NBA MVP prediction emails.'}
               </p>
-              {token && (
+              {status === 'error' && token && (
                 <button
                   className="subscribe-button confirmation-button"
                   type="button"
-                  disabled={status === 'loading'}
                   onClick={confirmSubscription}
                 >
-                  {status === 'loading' ? 'Confirming…' : status === 'error' ? 'Try again' : 'Confirm subscription'}
+                  Try again
                 </button>
+              )}
+              {status === 'error' && !token && (
+                <a className="confirmation-home-link" href="/">Return to the home page</a>
               )}
             </>
           )}

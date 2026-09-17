@@ -3,6 +3,7 @@ import type { ConfirmationDataSource } from '../ConfirmationApp.tsx'
 
 const previewConfirmationDataSource: ConfirmationDataSource = {
   async confirm() {
+    await new Promise((resolve) => window.setTimeout(resolve, 900))
     return { message: "You're subscribed! The next NBA MVP prediction will arrive by email." }
   },
 }
