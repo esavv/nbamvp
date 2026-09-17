@@ -848,7 +848,7 @@ tr.comparison-miss td:first-child {
 
 @media (max-width: 640px) {
   .page-shell {
-    width: min(100% - 24px, 1180px);
+    width: min(100% - 10px, 1180px);
   }
 
   .site-header-inner {
