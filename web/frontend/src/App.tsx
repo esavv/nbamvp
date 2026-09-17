@@ -511,7 +511,7 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
                   >
                     <Arrow direction="left" />
                     <span className="pager-label-desktop">Previous week</span>
-                    <span className="pager-label-mobile">Prev.<br />week</span>
+                    <span className="pager-label-mobile">Prev</span>
                   </button>
                   {prediction && (
                     <p className="week-summary">
@@ -525,7 +525,7 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
                     onClick={() => prediction?.nextWeek != null && selectWeek(prediction.nextWeek)}
                   >
                     <span className="pager-label-desktop">Next week</span>
-                    <span className="pager-label-mobile">Next<br />week</span>
+                    <span className="pager-label-mobile">Next</span>
                     <Arrow direction="right" />
                   </button>
                 </div>
