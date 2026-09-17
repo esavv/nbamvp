@@ -483,9 +483,16 @@ tr.comparison-miss td:first-child {
   gap: 8px;
 }
 
-.subscribe-form input[type="email"] {
+.subscription-email-control {
+  display: grid;
   min-width: 0;
   flex: 1;
+}
+
+.subscribe-form input[type="email"] {
+  grid-area: 1 / 1;
+  min-width: 0;
+  width: 100%;
   padding: 8px 10px;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
@@ -493,6 +500,10 @@ tr.comparison-miss td:first-child {
   color: #0f172a;
   background: white;
   font-size: 0.8rem;
+}
+
+.subscription-email-sizer {
+  display: none;
 }
 
 .subscribe-form input[type="email"]:focus {
@@ -623,14 +634,77 @@ tr.comparison-miss td:first-child {
   }
 
   .site-header-inner {
-    flex-wrap: wrap;
-    gap: 5px 12px;
+    gap: 8px;
     padding-block: 8px;
   }
 
+  .logo-mark {
+    display: none;
+  }
+
+  .site-title {
+    font-size: clamp(0.78rem, 4.2vw, 1.2rem);
+  }
+
   .subscription-card {
-    width: 100%;
-    grid-template-columns: 1fr;
+    min-width: 0;
+    grid-template-columns: auto;
+  }
+
+  .subscribe-form {
+    gap: 5px;
+  }
+
+  .subscription-email-control {
+    width: clamp(84px, 29vw, 120px);
+    flex: none;
+  }
+
+  .subscribe-form input[type="email"] {
+    padding-inline: 7px;
+    font-size: 0.7rem;
+  }
+
+  .subscription-email-control:focus-within {
+    position: absolute;
+    right: calc(100% + 5px);
+    z-index: 1;
+    width: max-content;
+    min-width: clamp(84px, 29vw, 120px);
+    max-width: calc(100vw - 88px);
+  }
+
+  .subscription-email-control:focus-within::before {
+    position: absolute;
+    top: -4px;
+    right: 100%;
+    bottom: -4px;
+    width: 28px;
+    content: "";
+    pointer-events: none;
+    background: linear-gradient(to left, white, rgba(255, 255, 255, 0));
+  }
+
+  .subscription-email-control:focus-within input {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
+  }
+
+  .subscription-email-control:focus-within .subscription-email-sizer {
+    display: block;
+    grid-area: 1 / 1;
+    visibility: hidden;
+    padding: 8px 7px;
+    border: 1px solid transparent;
+    font-size: 0.7rem;
+    white-space: pre;
+  }
+
+  .subscribe-button {
+    padding: 8px 9px;
+    font-size: 0.67rem;
   }
 
   .season-select select {

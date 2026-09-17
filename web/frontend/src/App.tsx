@@ -317,15 +317,20 @@ function SubscriptionCard() {
       ) : (
         <form className="subscribe-form" onSubmit={subscribe}>
           <label className="sr-only" htmlFor="subscription-email">Email address</label>
-          <input
-            id="subscription-email"
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            placeholder="you@example.com"
-            autoComplete="email"
-            required
-          />
+          <span className="subscription-email-control">
+            <input
+              id="subscription-email"
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="you@example.com"
+              autoComplete="email"
+              required
+            />
+            <span className="subscription-email-sizer" aria-hidden="true">
+              {`${email} `}
+            </span>
+          </span>
           <input className="honeypot" type="text" name="website" tabIndex={-1} autoComplete="off" />
           <button className="subscribe-button" type="submit" disabled={loading}>
             {loading ? 'Sending…' : 'Subscribe'}
