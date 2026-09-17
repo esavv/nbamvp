@@ -875,7 +875,8 @@ tr.comparison-miss td:first-child {
   }
 
   .site-title {
-    font-size: clamp(0.78rem, 4.2vw, 1.2rem);
+    margin-left: 4px;
+    font-size: clamp(1.22rem, 4.5vw, 1.2rem);
   }
 
   .subscription-card {
