@@ -207,3 +207,24 @@ The application sends from `predictions@nba-mvp.com` through SES in `us-east-1`.
    - Replace `<AWS_ACCOUNT_ID>` in `web/deploy/iam-policy.json`.
    - Create a customer-managed IAM policy from that file and attach it to the EC2 instance role.
    - Do not create SES SMTP credentials or store AWS access keys on the instance.
+
+## Web Systemd Service
+
+The production web app runs as `nbamvp-web.service`. Nginx proxies public HTTPS requests to Uvicorn on `127.0.0.1:8000`. The versioned unit file is [`web/deploy/nbamvp-web.service`](web/deploy/nbamvp-web.service), and it loads runtime configuration from `/home/ubuntu/nbamvp/.env`.
+
+On a new server, create `.env` from [`.env.example`](.env.example), replace its placeholders with the production values, install and start the service, then check its status:
+
+```bash
+cp .env.example .env
+sudo cp web/deploy/nbamvp-web.service /etc/systemd/system/nbamvp-web.service
+sudo systemctl daemon-reload
+sudo systemctl enable --now nbamvp-web.service
+sudo systemctl status nbamvp-web.service
+```
+
+After a backend deployment or environment change, restart the service:
+
+```bash
+sudo systemctl restart nbamvp-web.service
+sudo journalctl -u nbamvp-web.service -n 50 --no-pager
+```

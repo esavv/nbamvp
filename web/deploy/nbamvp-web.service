@@ -1,0 +1,14 @@
+[Unit]
+Description=NBA MVP Predictions Web App
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/nbamvp/web/backend
+EnvironmentFile=/home/ubuntu/nbamvp/.env
+ExecStart=/home/ubuntu/nbamvp/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

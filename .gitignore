@@ -1,4 +1,5 @@
 .DS_Store
+.env
 __old_files/
 __pycache__/
 basketball_reference_web_scraper/
