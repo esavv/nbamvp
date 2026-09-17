@@ -392,17 +392,6 @@ tr.comparison-miss td:first-child {
   background: var(--comparison-bg);
 }
 
-.top-rank {
-  display: inline-grid;
-  height: 26px;
-  width: 26px;
-  place-items: center;
-  border-radius: 8px;
-  color: #9a3412;
-  background: #ffedd5;
-  font-weight: 800;
-}
-
 .pager-button {
   display: inline-flex;
   align-items: center;

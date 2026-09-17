@@ -542,10 +542,10 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
                         {prediction?.isFinal && prediction.resultsAvailable && (
                           <th className="number-column actual-column">Actual votes</th>
                         )}
-                        <th className="number-column">GP</th>
                         <th className="number-column">PTS</th>
                         <th className="number-column">REB</th>
                         <th className="number-column">AST</th>
+                        <th className="number-column">GP</th>
                         <th className="number-column">TS%</th>
                         <th className="number-column">Win%</th>
                       </tr>
@@ -555,7 +555,7 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
                         const showResults = prediction.isFinal && prediction.resultsAvailable
                         return (
                           <tr key={row.player} className={comparisonClass(row, showResults)}>
-                            <td className="rank-column"><span className={row.rank <= 3 ? 'top-rank' : ''}>{row.rank}</span></td>
+                            <td className="rank-column">{row.rank}</td>
                             <td className="rank-change-column"><RankChange value={row.rankChange} /></td>
                             {showResults && <td className="rank-column actual-column">{row.actualRank || '—'}</td>}
                             <td className="player-column font-semibold text-slate-950">{row.player}</td>
@@ -564,10 +564,10 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
                             {showResults && (
                               <td className="number-column actual-column font-semibold">{row.actualVotes?.toLocaleString() ?? '—'}</td>
                             )}
-                            <td className="number-column">{row.gamesPlayed}</td>
                             <td className="number-column">{row.points.toFixed(1)}</td>
                             <td className="number-column">{row.rebounds.toFixed(1)}</td>
                             <td className="number-column">{row.assists.toFixed(1)}</td>
+                            <td className="number-column">{row.gamesPlayed}</td>
                             <td className="number-column">{(row.trueShooting * 100).toFixed(1)}</td>
                             <td className="number-column">{(row.winPercentage * 100).toFixed(1)}</td>
                           </tr>
