@@ -120,7 +120,7 @@ select {
 }
 
 .season-select {
-  min-width: 172px;
+  display: inline-block;
 }
 
 .season-toolbar {
@@ -133,7 +133,7 @@ select {
 
 .season-select-control {
   position: relative;
-  display: block;
+  display: inline-grid;
 }
 
 .season-select-control::after {
@@ -150,6 +150,7 @@ select {
 }
 
 .season-select select {
+  grid-area: 1 / 1;
   appearance: none;
   width: 100%;
   padding: 10px 38px 10px 13px;
@@ -170,19 +171,15 @@ select {
 }
 
 .season-select-value {
-  position: absolute;
-  top: 50%;
-  left: 13px;
-  overflow: hidden;
-  max-width: calc(100% - 43px);
+  grid-area: 1 / 1;
+  align-self: center;
+  margin: 0 38px 0 13px;
   color: #0f172a;
   font-size: 0.9rem;
   font-weight: 650;
   line-height: 1;
   pointer-events: none;
-  text-overflow: ellipsis;
   white-space: nowrap;
-  transform: translateY(-50%);
 }
 
 .season-select select:focus {
@@ -636,10 +633,6 @@ tr.comparison-miss td:first-child {
     grid-template-columns: 1fr;
   }
 
-  .season-select {
-    min-width: 136px;
-  }
-
   .season-select select {
     padding: 8px 30px 8px 10px;
     font-size: 0.76rem;
@@ -652,8 +645,7 @@ tr.comparison-miss td:first-child {
   }
 
   .season-select-value {
-    left: 10px;
-    max-width: calc(100% - 35px);
+    margin: 0 30px 0 10px;
     font-size: 0.76rem;
   }
 
