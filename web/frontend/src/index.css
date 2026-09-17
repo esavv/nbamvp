@@ -1020,6 +1020,7 @@ tr.comparison-miss td:first-child {
     position: sticky;
     left: 0;
     z-index: 1;
+    padding-left: 8px;
     background: white;
     box-shadow: 10px 0 12px -14px #0f172a;
   }
@@ -1027,6 +1028,26 @@ tr.comparison-miss td:first-child {
   .predictions-only-table .player-column {
     width: 1%;
     min-width: 0;
+  }
+
+  .rank-column:not(.actual-column) {
+    width: 44px;
+    min-width: 44px;
+    max-width: 44px;
+    padding-right: 0px;
+    padding-left: 8px;
+  }
+
+  .rank-column.actual-column {
+    padding-right: 0px;
+    padding-left: 8px;
+  }
+
+  .rank-change-column {
+    width: 38px;
+    min-width: 38px;
+    max-width: 38px;
+    padding-inline: 0px;
   }
 
   th.player-column {
