@@ -244,19 +244,13 @@ def render_error_email(year, week, traceback_str):
 
 
 def render_subscription_confirmation_email(confirmation_url):
-  subject = 'Confirm your NBA MVP Predictions subscription'
+  subject = 'Confirm your NBA MVP subscription'
   html = f"""<!doctype html>
 <html lang="en">
   <body style="margin:0;padding:24px;background:#f1f5f9;font-family:Arial,sans-serif;color:#0f172a;">
     <div style="max-width:560px;margin:0 auto;padding:28px;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;">
-      <table role="presentation" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
-        <tr>
-          <td style="padding:0 10px 0 0;font-size:28px;line-height:1;vertical-align:middle;">🏀</td>
-          <td style="font-size:24px;font-weight:700;line-height:1.2;vertical-align:middle;">Confirm your subscription</td>
-        </tr>
-      </table>
-      <p style="margin:12px 0 22px;color:#64748b;line-height:1.6;">
-        Confirm that you want to receive weekly NBA MVP predictions during the season.
+      <p style="margin:0 0 22px;color:#64748b;line-height:1.6;">
+        Thanks for subscribing to nba-mvp.com! Please confirm that you want to receive weekly NBA MVP predictions during the season below.
       </p>
       <a href="{confirmation_url}" style="display:inline-block;padding:12px 18px;border-radius:9px;background:#ea580c;color:#ffffff;font-weight:700;text-decoration:none;">
         Confirm subscription
