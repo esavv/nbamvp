@@ -85,10 +85,10 @@ def _build_prediction_table(df):
     ('Player', 'Player', 'left'),
     ('Team', 'Team', 'left'),
     ('Predicted Votes', 'Predicted Votes', 'right'),
-    ('GP', 'GP', 'right'),
     ('PTS', 'PTS', 'right'),
     ('REB', 'REB', 'right'),
     ('AST', 'AST', 'right'),
+    ('GP', 'GP', 'right'),
     ('TS %', 'TS%', 'right'),
     ('Win %', 'Win%', 'right'),
   ]
@@ -104,15 +104,6 @@ def _build_prediction_table(df):
 
   body_rows = []
   for _, row in df.iterrows():
-    rank = int(row['Rank'])
-    rank_html = str(rank)
-    if rank <= 3:
-      rank_html = (
-        '<span style="display:inline-block;min-width:20px;padding:3px 2px;'
-        'border-radius:6px;background:#ffedd5;color:#9a3412;font-weight:700;'
-        f'text-align:center;">{rank}</span>'
-      )
-
     rank_change = row['Rank Change']
     if pd.isna(rank_change) or int(rank_change) == 0:
       rank_change_html = '<span style="color:#94a3b8;">-</span>'
@@ -128,15 +119,15 @@ def _build_prediction_table(df):
       )
 
     values = {
-      'Rank': rank_html,
+      'Rank': str(int(row['Rank'])),
       'Rank Change': rank_change_html,
       'Player': escape(str(row['Player'])),
       'Team': escape(str(row['Team'])),
       'Predicted Votes': f"{int(row['Predicted Votes']):,}",
-      'GP': str(int(row['GP'])),
       'PTS': _format_number(row['PTS']),
       'REB': _format_number(row['REB']),
       'AST': _format_number(row['AST']),
+      'GP': str(int(row['GP'])),
       'TS %': _format_number(float(row.get('TS %', row.get('TS%', 0))) * 100),
       'Win %': _format_number(float(row['Win %']) * 100),
     }
