@@ -562,7 +562,7 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
                           <tr key={row.player} className={comparisonClass(row, showResults)}>
                             <td className="rank-column">{row.rank}</td>
                             <td className="rank-change-column"><RankChange value={row.rankChange} /></td>
-                            {showResults && <td className="rank-column actual-column">{row.actualRank || '—'}</td>}
+                            {showResults && <td className="rank-column actual-column">{row.actualRank || '-'}</td>}
                             <td className="player-column font-semibold text-slate-950">{row.player}</td>
                             <td className="whitespace-nowrap text-slate-500">{row.team}</td>
                             <td className="number-column font-semibold text-slate-950">{row.predictedVotes.toLocaleString()}</td>
