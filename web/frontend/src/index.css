@@ -335,6 +335,7 @@ tbody tr:last-child td {
 
 .player-column {
   min-width: 190px;
+  white-space: nowrap;
 }
 
 .number-column {
