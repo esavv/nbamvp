@@ -1024,6 +1024,11 @@ tr.comparison-miss td:first-child {
     box-shadow: 10px 0 12px -14px #0f172a;
   }
 
+  .predictions-only-table .player-column {
+    width: 1%;
+    min-width: 0;
+  }
+
   th.player-column {
     background: #f8fafc;
   }

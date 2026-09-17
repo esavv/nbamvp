@@ -553,7 +553,7 @@ function App({
                   </button>
                 </div>
                 <div className="table-scroll">
-                  <table>
+                  <table className={showResults ? undefined : 'predictions-only-table'}>
                     <thead>
                       <tr>
                         <th className="rank-column">Rank</th>
