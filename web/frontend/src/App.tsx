@@ -539,7 +539,7 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
                           <span className="change-heading" aria-hidden="true"><i>▲</i><b>▼</b></span>
                         </th>
                         {prediction?.isFinal && prediction.resultsAvailable && (
-                          <th className="rank-column actual-column">Actual rank</th>
+                          <th className="rank-column actual-column">Actual</th>
                         )}
                         <th className="player-column">Player</th>
                         <th>Team</th>
