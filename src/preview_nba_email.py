@@ -61,6 +61,7 @@ def main():
     week,
     is_last_week,
   )
+  nba_email.main_body_path.write_text(html, encoding='utf-8')
 
   print(f'Rendered: {subject}')
   print(f'Prediction source: {prediction_path}')

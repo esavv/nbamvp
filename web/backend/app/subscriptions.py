@@ -24,6 +24,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from src import ses_service  # noqa: E402
+from src.email_rendering import render_subscription_confirmation_email  # noqa: E402
 
 
 logger = logging.getLogger(__name__)
@@ -98,31 +99,6 @@ def _rate_limited(key: str) -> bool:
         return False
 
 
-def _confirmation_html(confirmation_url: str) -> str:
-    return f"""<!doctype html>
-<html lang="en">
-  <body style="margin:0;padding:24px;background:#f1f5f9;font-family:Arial,sans-serif;color:#0f172a;">
-    <div style="max-width:560px;margin:0 auto;padding:28px;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;">
-      <table role="presentation" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
-        <tr>
-          <td style="padding:0 10px 0 0;font-size:28px;line-height:1;vertical-align:middle;">🏀</td>
-          <td style="font-size:24px;font-weight:700;line-height:1.2;vertical-align:middle;">Confirm your subscription</td>
-        </tr>
-      </table>
-      <p style="margin:12px 0 22px;color:#64748b;line-height:1.6;">
-        Confirm that you want to receive weekly NBA MVP predictions during the season.
-      </p>
-      <a href="{confirmation_url}" style="display:inline-block;padding:12px 18px;border-radius:9px;background:#ea580c;color:#ffffff;font-weight:700;text-decoration:none;">
-        Confirm subscription
-      </a>
-      <p style="margin:22px 0 0;color:#94a3b8;font-size:12px;line-height:1.5;">
-        If you did not request this email, you can ignore it. This link expires in 48 hours.
-      </p>
-    </div>
-  </body>
-</html>"""
-
-
 @router.post("", status_code=status.HTTP_202_ACCEPTED)
 def request_subscription(payload: SubscriptionRequest, request: Request) -> dict[str, str]:
     response = {
@@ -143,11 +119,12 @@ def request_subscription(payload: SubscriptionRequest, request: Request) -> dict
     try:
         token = create_confirmation_token(email)
         confirmation_url = f"{WEBAPP_URL}/?subscription_token={quote(token)}"
+        rendered = render_subscription_confirmation_email(confirmation_url)
         ses_service.send_email(
             email,
-            "Confirm your NBA MVP Predictions subscription",
-            _confirmation_html(confirmation_url),
-            f"Confirm your subscription: {confirmation_url}",
+            rendered.subject,
+            rendered.html,
+            rendered.text,
             tags={"message_type": "subscription-confirmation"},
         )
     except (BotoCoreError, ClientError):
