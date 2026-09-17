@@ -332,7 +332,7 @@ function App({
   const [selectedWeek, setSelectedWeek] = useState<number | null>(null)
   const [prediction, setPrediction] = useState<PredictionWeek | null>(null)
   const [visibleLimit, setVisibleLimit] = useState(30)
-  const [showOfficialResults, setShowOfficialResults] = useState(true)
+  const [showOfficialResults, setShowOfficialResults] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const lastTrackedPrediction = useRef('')
