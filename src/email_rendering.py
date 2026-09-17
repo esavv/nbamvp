@@ -103,13 +103,13 @@ def _build_prediction_table(df):
       'center',
     ),
     ('Player', 'Player', 'left'),
-    ('Predicted Votes', 'Predicted Votes', 'right'),
     ('PTS', 'PTS', 'right'),
     ('REB', 'REB', 'right'),
     ('AST', 'AST', 'right'),
     ('GP', 'GP', 'right'),
     ('TS %', 'TS%', 'right'),
     ('Win %', 'Win%', 'right'),
+    ('Predicted Votes', 'Predicted Votes', 'right'),
   ]
 
   header_cells = ''.join(
