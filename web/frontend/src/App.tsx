@@ -565,12 +565,12 @@ function App({
                           <th className="rank-column actual-column">Actual</th>
                         )}
                         <th className="player-column">Player</th>
-                        <th className="number-column">PTS</th>
-                        <th className="number-column">REB</th>
-                        <th className="number-column">AST</th>
-                        <th className="number-column">GP</th>
-                        <th className="number-column">TS%</th>
-                        <th className="number-column">Win%</th>
+                        <th className="number-column stat-column">PTS</th>
+                        <th className="number-column stat-column">REB</th>
+                        <th className="number-column stat-column">AST</th>
+                        <th className="number-column stat-column">GP</th>
+                        <th className="number-column stat-column">TS%</th>
+                        <th className="number-column stat-column">Win%</th>
                         <th className="number-column">Predicted votes</th>
                         {showResults && (
                           <th className="number-column actual-column">Actual votes</th>
@@ -596,12 +596,12 @@ function App({
                                 {row.player}
                               </span>
                             </td>
-                            <td className="number-column">{row.points.toFixed(1)}</td>
-                            <td className="number-column">{row.rebounds.toFixed(1)}</td>
-                            <td className="number-column">{row.assists.toFixed(1)}</td>
-                            <td className="number-column">{row.gamesPlayed}</td>
-                            <td className="number-column">{(row.trueShooting * 100).toFixed(1)}</td>
-                            <td className="number-column">{(row.winPercentage * 100).toFixed(1)}</td>
+                            <td className="number-column stat-column">{row.points.toFixed(1)}</td>
+                            <td className="number-column stat-column">{row.rebounds.toFixed(1)}</td>
+                            <td className="number-column stat-column">{row.assists.toFixed(1)}</td>
+                            <td className="number-column stat-column">{row.gamesPlayed}</td>
+                            <td className="number-column stat-column">{(row.trueShooting * 100).toFixed(1)}</td>
+                            <td className="number-column stat-column">{(row.winPercentage * 100).toFixed(1)}</td>
                             <td className="number-column font-semibold text-slate-950">{row.predictedVotes.toLocaleString()}</td>
                             {showResults && (
                               <td className="number-column actual-column font-semibold">{row.actualVotes?.toLocaleString() ?? '—'}</td>

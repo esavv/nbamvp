@@ -998,6 +998,11 @@ tr.comparison-miss td:first-child {
     padding-inline: 5px;
   }
 
+  .table-scroll table {
+    width: max-content;
+    min-width: 100%;
+  }
+
   .pager-label-desktop {
     display: none;
   }
@@ -1021,8 +1026,13 @@ tr.comparison-miss td:first-child {
     left: 0;
     z-index: 1;
     padding-left: 8px;
+    padding-right: 16px;
     background: white;
     box-shadow: 10px 0 6px -14px #0f172a;
+  }
+
+  .stat-column {
+    width: 52px;
   }
 
   .predictions-only-table .player-column {
