@@ -150,8 +150,8 @@ const scenarios = {
     predictions: [prediction(24, false), prediction(25, false)],
     toast: {
       type: 'success',
-      title: 'Check your inbox',
-      description: 'Woohoo! Check your inbox for a confirmation link.',
+      title: 'Check your email',
+      description: 'Check your inbox for a confirmation link.',
     },
   },
   subscribeError: {
@@ -168,7 +168,7 @@ const scenarios = {
     toast: {
       type: 'error',
       title: 'Could not subscribe',
-      description: 'Subscriptions are temporarily unavailable. Please try again later.',
+      description: 'Please try again later.',
     },
   },
 } satisfies Record<string, Scenario>
@@ -202,7 +202,7 @@ function subscriptionDataSourceFor(scenario: Scenario): SubscriptionDataSource {
       if (scenario.toast?.type === 'error') {
         throw new Error(scenario.toast.description)
       }
-      return { message: 'Woohoo! Check your inbox for a confirmation link.' }
+      return { message: 'Check your inbox for a confirmation link.' }
     },
   }
 }

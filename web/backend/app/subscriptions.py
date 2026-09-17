@@ -102,7 +102,7 @@ def _rate_limited(key: str) -> bool:
 @router.post("", status_code=status.HTTP_202_ACCEPTED)
 def request_subscription(payload: SubscriptionRequest, request: Request) -> dict[str, str]:
     response = {
-        "message": "Woohoo! Check your inbox for a confirmation link."
+        "message": "Check your inbox for a confirmation link."
     }
     if payload.website:
         return response
@@ -131,7 +131,7 @@ def request_subscription(payload: SubscriptionRequest, request: Request) -> dict
         logger.exception("Unable to send subscription confirmation")
         raise HTTPException(
             status_code=503,
-            detail="Subscriptions are temporarily unavailable. Please try again later.",
+            detail="Please try again later.",
         )
     return response
 

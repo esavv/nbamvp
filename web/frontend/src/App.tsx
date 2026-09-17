@@ -270,7 +270,7 @@ function SubscriptionCard({ dataSource }: { dataSource: SubscriptionDataSource }
       toast.add({
         id: 'subscription-response',
         type: 'success',
-        title: 'Check your inbox',
+        title: 'Check your email',
         description: body.message,
       })
       setEmail('')

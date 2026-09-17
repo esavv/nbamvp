@@ -679,7 +679,8 @@ tr.comparison-miss td:first-child {
   position: absolute;
   top: 0;
   right: 0;
-  width: 100%;
+  width: max-content;
+  max-width: 100%;
   height: var(--toast-frontmost-height, var(--toast-height));
   z-index: calc(200 - var(--toast-index));
   overflow: hidden;
