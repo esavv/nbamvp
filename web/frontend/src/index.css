@@ -44,7 +44,7 @@ select {
   height: 38px;
   width: 38px;
   place-items: center;
-  font-size: 30px;
+  font-size: 1.2rem;
   line-height: 1;
 }
 
@@ -662,6 +662,7 @@ tr.comparison-miss td:first-child {
 }
 
 @media (min-width: 901px) {
+  .logo-mark,
   .site-title {
     font-size: 1.4rem;
   }
