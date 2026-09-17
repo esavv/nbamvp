@@ -396,7 +396,7 @@ select {
 
 table {
   width: 100%;
-  min-width: 1060px;
+  min-width: 990px;
   border-collapse: collapse;
   font-size: 0.84rem;
 }
@@ -483,8 +483,25 @@ tbody tr:last-child td {
 }
 
 .player-column {
-  min-width: 190px;
+  min-width: 230px;
   white-space: nowrap;
+}
+
+.player-with-team {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.team-label {
+  display: inline-block;
+  width: 30px;
+  padding: 3px 0px;
+  border-radius: 4px;
+  font-size: 0.62rem;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
 }
 
 .number-column {

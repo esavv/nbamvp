@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 from html import escape
+import json
 import os
 from pathlib import Path
 import re
@@ -10,6 +11,8 @@ from urllib.parse import urlencode
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 STATIC_HTML_DIR = PROJECT_ROOT / 'static' / 'html'
+TEAM_STYLES_PATH = PROJECT_ROOT / 'data' / 'team_styles.json'
+TEAM_STYLES = json.loads(TEAM_STYLES_PATH.read_text(encoding='utf-8'))
 
 MAIN_TEMPLATE_PATH = STATIC_HTML_DIR / 'email_template.html'
 PRESEASON_TEMPLATE_PATH = STATIC_HTML_DIR / 'email_template_preseason.html'
@@ -37,6 +40,23 @@ def _format_number(value, decimals=1):
   if pd.isna(value):
     return '—'
   return f'{float(value):.{decimals}f}'
+
+
+def _team_label(team):
+  team_name = str(team).removeprefix('Team.').replace('_', ' ').title()
+  team_name = team_name.replace('76Ers', '76ers').replace('Oronto Raptors', 'Toronto Raptors')
+  style = TEAM_STYLES.get(team_name)
+  if style is None:
+    acronym = ''.join(word[0] for word in team_name.split())[:3].upper() or 'NBA'
+    style = {'acronym': acronym, 'background': '#475569', 'color': '#FFFFFF'}
+  return (
+    f'<span title="{escape(team_name, quote=True)}" style="display:inline-block;'
+    f'box-sizing:border-box;width:28px;margin-right:7px;padding:3px 0px;border-radius:4px;'
+    f'background:{style["background"]};color:{style["color"]};'
+    f'font-family:Arial,sans-serif;font-size:9px;font-weight:900;'
+    f'letter-spacing:-.2px;line-height:1;text-align:center;vertical-align:1px;">'
+    f'{escape(style["acronym"])}</span>'
+  )
 
 
 def _previous_prediction_file(prediction_file, year, week):
@@ -83,7 +103,6 @@ def _build_prediction_table(df):
       'center',
     ),
     ('Player', 'Player', 'left'),
-    ('Team', 'Team', 'left'),
     ('Predicted Votes', 'Predicted Votes', 'right'),
     ('PTS', 'PTS', 'right'),
     ('REB', 'REB', 'right'),
@@ -121,8 +140,7 @@ def _build_prediction_table(df):
     values = {
       'Rank': str(int(row['Rank'])),
       'Rank Change': rank_change_html,
-      'Player': escape(str(row['Player'])),
-      'Team': escape(str(row['Team'])),
+      'Player': _team_label(row['Team']) + escape(str(row['Player'])),
       'Predicted Votes': f"{int(row['Predicted Votes']):,}",
       'PTS': _format_number(row['PTS']),
       'REB': _format_number(row['REB']),

@@ -31,6 +31,9 @@ export type PredictionRow = {
   rankChange: number | null
   player: string
   team: string
+  teamAcronym: string
+  teamBackground: string
+  teamColor: string
   predictedVotes: number
   gamesPlayed: number
   points: number
@@ -520,7 +523,6 @@ function App({
                           <th className="rank-column actual-column">Actual</th>
                         )}
                         <th className="player-column">Player</th>
-                        <th>Team</th>
                         <th className="number-column">Predicted votes</th>
                         {showResults && (
                           <th className="number-column actual-column">Actual votes</th>
@@ -540,8 +542,18 @@ function App({
                             <td className="rank-column">{row.rank}</td>
                             <td className="rank-change-column"><RankChange value={row.rankChange} /></td>
                             {showResults && <td className="rank-column actual-column">{row.actualRank || '-'}</td>}
-                            <td className="player-column font-semibold text-slate-950">{row.player}</td>
-                            <td className="whitespace-nowrap text-slate-500">{row.team}</td>
+                            <td className="player-column font-semibold text-slate-950">
+                              <span className="player-with-team">
+                                <span
+                                  className="team-label"
+                                  style={{ backgroundColor: row.teamBackground, color: row.teamColor }}
+                                  title={row.team}
+                                >
+                                  {row.teamAcronym}
+                                </span>
+                                {row.player}
+                              </span>
+                            </td>
                             <td className="number-column font-semibold text-slate-950">{row.predictedVotes.toLocaleString()}</td>
                             {showResults && (
                               <td className="number-column actual-column font-semibold">{row.actualVotes?.toLocaleString() ?? '—'}</td>

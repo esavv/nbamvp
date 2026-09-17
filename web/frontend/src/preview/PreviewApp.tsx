@@ -18,12 +18,12 @@ type Scenario = {
 }
 
 const predictionRows: PredictionRow[] = [
-  { rank: 1, rankChange: 0, player: 'Nikola Jokic', team: 'DEN', predictedVotes: 892, gamesPlayed: 70, points: 29.6, rebounds: 12.7, assists: 10.2, trueShooting: 0.671, winPercentage: 0.659, actualRank: 1, actualVotes: 926 },
-  { rank: 2, rankChange: 1, player: 'Shai Gilgeous-Alexander', team: 'OKC', predictedVotes: 731, gamesPlayed: 72, points: 31.4, rebounds: 5.1, assists: 6.4, trueShooting: 0.642, winPercentage: 0.817, actualRank: 2, actualVotes: 739 },
-  { rank: 3, rankChange: -1, player: 'Luka Doncic', team: 'LAL', predictedVotes: 486, gamesPlayed: 66, points: 28.8, rebounds: 8.4, assists: 8.1, trueShooting: 0.612, winPercentage: 0.598, actualRank: 5, actualVotes: 311 },
-  { rank: 4, rankChange: 2, player: 'Giannis Antetokounmpo', team: 'MIL', predictedVotes: 352, gamesPlayed: 68, points: 30.3, rebounds: 11.9, assists: 6.5, trueShooting: 0.658, winPercentage: 0.573, actualRank: 3, actualVotes: 470 },
-  { rank: 5, rankChange: -1, player: 'Jayson Tatum', team: 'BOS', predictedVotes: 218, gamesPlayed: 74, points: 27.1, rebounds: 8.6, assists: 5.4, trueShooting: 0.604, winPercentage: 0.744, actualRank: 5, actualVotes: 172 },
-  { rank: 6, rankChange: 0, player: 'Anthony Edwards', team: 'MIN', predictedVotes: 129, gamesPlayed: 76, points: 27.6, rebounds: 5.8, assists: 4.7, trueShooting: 0.591, winPercentage: 0.622 },
+  { rank: 1, rankChange: 0, player: 'Nikola Jokic', team: 'Denver Nuggets', teamAcronym: 'DEN', teamBackground: '#0E2240', teamColor: '#FEC524', predictedVotes: 892, gamesPlayed: 70, points: 29.6, rebounds: 12.7, assists: 10.2, trueShooting: 0.671, winPercentage: 0.659, actualRank: 1, actualVotes: 926 },
+  { rank: 2, rankChange: 1, player: 'Shai Gilgeous-Alexander', team: 'Oklahoma City Thunder', teamAcronym: 'OKC', teamBackground: '#007AC1', teamColor: '#EF3B24', predictedVotes: 731, gamesPlayed: 72, points: 31.4, rebounds: 5.1, assists: 6.4, trueShooting: 0.642, winPercentage: 0.817, actualRank: 2, actualVotes: 739 },
+  { rank: 3, rankChange: -1, player: 'Luka Doncic', team: 'Los Angeles Lakers', teamAcronym: 'LAL', teamBackground: '#552583', teamColor: '#FDB927', predictedVotes: 486, gamesPlayed: 66, points: 28.8, rebounds: 8.4, assists: 8.1, trueShooting: 0.612, winPercentage: 0.598, actualRank: 5, actualVotes: 311 },
+  { rank: 4, rankChange: 2, player: 'Giannis Antetokounmpo', team: 'Milwaukee Bucks', teamAcronym: 'MIL', teamBackground: '#00471B', teamColor: '#EEE1C6', predictedVotes: 352, gamesPlayed: 68, points: 30.3, rebounds: 11.9, assists: 6.5, trueShooting: 0.658, winPercentage: 0.573, actualRank: 3, actualVotes: 470 },
+  { rank: 5, rankChange: -1, player: 'Jayson Tatum', team: 'Boston Celtics', teamAcronym: 'BOS', teamBackground: '#007A33', teamColor: '#FFFFFF', predictedVotes: 218, gamesPlayed: 74, points: 27.1, rebounds: 8.6, assists: 5.4, trueShooting: 0.604, winPercentage: 0.744, actualRank: 5, actualVotes: 172 },
+  { rank: 6, rankChange: 0, player: 'Anthony Edwards', team: 'Minnesota Timberwolves', teamAcronym: 'MIN', teamBackground: '#0C2340', teamColor: '#78BE20', predictedVotes: 129, gamesPlayed: 76, points: 27.6, rebounds: 5.8, assists: 4.7, trueShooting: 0.591, winPercentage: 0.622 },
 ]
 
 function futureDate(days: number) {

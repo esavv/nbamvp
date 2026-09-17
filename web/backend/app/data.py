@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import re
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
@@ -13,6 +14,8 @@ DATA_DIR = REPO_ROOT / "data"
 PREDICTIONS_DIR = DATA_DIR / "mvp_predictions"
 RESULTS_DIR = DATA_DIR / "mvp_results"
 SEASON_DATES_PATH = DATA_DIR / "season_dates.csv"
+TEAM_STYLES_PATH = DATA_DIR / "team_styles.json"
+TEAM_STYLES = json.loads(TEAM_STYLES_PATH.read_text(encoding="utf-8"))
 
 PREDICTION_PATTERN = re.compile(
     r"^predictions_(?P<year>\d{4})_wk(?P<week>\d+)_(?P<timestamp>\d{8}_\d{4})\.csv$"
@@ -48,7 +51,15 @@ def _number(value: str | None, *, integer: bool = False) -> int | float:
 
 def _clean_team(value: str | None) -> str:
     team = (value or "").removeprefix("Team.").replace("_", " ").title()
-    return team.replace("76Ers", "76ers")
+    return team.replace("76Ers", "76ers").replace("Oronto Raptors", "Toronto Raptors")
+
+
+def _team_style(team: str) -> dict[str, str]:
+    style = TEAM_STYLES.get(team)
+    if style:
+        return style
+    acronym = "".join(word[0] for word in team.split())[:3].upper()
+    return {"acronym": acronym or "NBA", "background": "#475569", "color": "#FFFFFF"}
 
 
 def _clean_player(value: str | None) -> str:
@@ -195,11 +206,17 @@ def home_state(today: date | None = None) -> dict[str, Any]:
 def _prediction_rows(path: Path) -> list[dict[str, Any]]:
     with path.open(newline="", encoding="utf-8-sig") as handle:
         rows = csv.DictReader(handle)
-        normalized = [
-            {
+        normalized = []
+        for row in rows:
+            team = _clean_team(row.get("Team"))
+            team_style = _team_style(team)
+            normalized.append({
                 "rank": _number(row.get("Rank"), integer=True),
                 "player": _clean_player(row.get("Player")),
-                "team": _clean_team(row.get("Team")),
+                "team": team,
+                "teamAcronym": team_style["acronym"],
+                "teamBackground": team_style["background"],
+                "teamColor": team_style["color"],
                 "predictedVotes": _number(row.get("Predicted Votes"), integer=True),
                 "gamesPlayed": _number(row.get("GP"), integer=True),
                 "points": _number(row.get("PTS")),
@@ -207,9 +224,7 @@ def _prediction_rows(path: Path) -> list[dict[str, Any]]:
                 "assists": _number(row.get("AST")),
                 "trueShooting": _number(row.get("TS %") or row.get("TS%")),
                 "winPercentage": _number(row.get("Win %")),
-            }
-            for row in rows
-        ]
+            })
     normalized.sort(key=lambda row: (-row["predictedVotes"], -row["points"]))
     return normalized
 
