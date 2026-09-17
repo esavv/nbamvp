@@ -7,6 +7,7 @@ from pathlib import Path
 from threading import Lock
 from time import time
 from urllib.parse import quote
+from uuid import UUID, uuid4
 import hmac
 import json
 import logging
@@ -17,6 +18,8 @@ import sys
 from botocore.exceptions import BotoCoreError, ClientError
 from fastapi import APIRouter, HTTPException, Request, status
 from pydantic import BaseModel
+
+from .analytics import capture_event
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -40,6 +43,7 @@ _attempts_lock = Lock()
 class SubscriptionRequest(BaseModel):
     email: str
     website: str = ""
+    analytics_id: UUID | None = None
 
 
 class ConfirmationRequest(BaseModel):
@@ -54,9 +58,10 @@ def _decode(value: str) -> bytes:
     return urlsafe_b64decode(value + "=" * (-len(value) % 4))
 
 
-def create_confirmation_token(email: str) -> str:
+def create_confirmation_token(email: str, analytics_id: str) -> str:
     payload = {
         "email": ses_service.normalize_email(email),
+        "analytics_id": analytics_id,
         "expires": int(time()) + TOKEN_LIFETIME_SECONDS,
         "nonce": secrets.token_urlsafe(8),
     }
@@ -69,7 +74,7 @@ def create_confirmation_token(email: str) -> str:
     return f"{encoded}.{_encode(signature)}"
 
 
-def verify_confirmation_token(token: str) -> str:
+def verify_confirmation_token(token: str) -> tuple[str, str]:
     try:
         encoded, provided_signature = token.split(".", 1)
         expected_signature = hmac.new(
@@ -82,7 +87,8 @@ def verify_confirmation_token(token: str) -> str:
         payload = json.loads(_decode(encoded))
         if int(payload["expires"]) < int(time()):
             raise ValueError("Expired token")
-        return ses_service.normalize_email(payload["email"])
+        analytics_id = str(payload.get("analytics_id") or uuid4())
+        return ses_service.normalize_email(payload["email"]), analytics_id
     except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
         raise ValueError("Invalid or expired confirmation link") from exc
 
@@ -116,8 +122,9 @@ def request_subscription(payload: SubscriptionRequest, request: Request) -> dict
     if _rate_limited(f"ip:{client_address}") or _rate_limited(f"email:{email}"):
         return response
 
+    analytics_id = str(payload.analytics_id or uuid4())
     try:
-        token = create_confirmation_token(email)
+        token = create_confirmation_token(email, analytics_id)
         confirmation_url = f"{WEBAPP_URL}/confirm?subscription_token={quote(token)}"
         rendered = render_subscription_confirmation_email(confirmation_url)
         ses_service.send_email(
@@ -129,24 +136,30 @@ def request_subscription(payload: SubscriptionRequest, request: Request) -> dict
         )
     except (BotoCoreError, ClientError):
         logger.exception("Unable to send subscription confirmation")
+        capture_event("subscription_service_failed", analytics_id, {"stage": "confirmation_email"})
         raise HTTPException(
             status_code=503,
             detail="Please try again later.",
         )
+    capture_event("subscription_confirmation_sent", analytics_id)
     return response
 
 
 @router.post("/confirm")
 def confirm_subscription(payload: ConfirmationRequest) -> dict[str, str]:
+    analytics_id = str(uuid4())
     try:
-        email = verify_confirmation_token(payload.token)
+        email, analytics_id = verify_confirmation_token(payload.token)
         ses_service.subscribe_contact(email, source="web-double-opt-in")
     except ValueError as exc:
+        capture_event("subscription_confirmation_failed", analytics_id, {"reason": "invalid_token"})
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except (BotoCoreError, ClientError):
         logger.exception("Unable to confirm newsletter subscription")
+        capture_event("subscription_service_failed", analytics_id, {"stage": "confirmation"})
         raise HTTPException(
             status_code=503,
             detail="Confirmation is temporarily unavailable. Please try again later.",
         )
+    capture_event("subscription_confirmed", analytics_id)
     return {"message": "You're subscribed! The next NBA MVP prediction will arrive by email."}

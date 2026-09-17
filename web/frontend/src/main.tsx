@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import ConfirmationApp from './ConfirmationApp.tsx'
+import { track } from './analytics.ts'
 
 const container = document.getElementById('root')
 if (!container) throw new Error('Root element not found')
@@ -26,12 +27,15 @@ if (import.meta.env.DEV && window.location.pathname === '/preview/confirm') {
     )
   })
 } else if (window.location.pathname === '/confirm') {
+  track('page_viewed', { page: 'confirmation' })
+  track('confirmation_page_viewed', {})
   root.render(
     <StrictMode>
       <ConfirmationApp />
     </StrictMode>,
   )
 } else {
+  track('page_viewed', { page: 'home' })
   root.render(
     <StrictMode>
       <App />

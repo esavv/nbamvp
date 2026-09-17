@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Toaster } from './Toast.tsx'
+import { getAnalyticsId, track } from './analytics.ts'
 import { toast } from './toast-manager.ts'
 
 export type CountdownInfo = {
@@ -94,7 +95,7 @@ const httpSubscriptionDataSource: SubscriptionDataSource = {
     const response = await fetch('/api/subscriptions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, website }),
+      body: JSON.stringify({ email, website, analytics_id: getAnalyticsId() }),
     })
     const body = await response.json()
     if (!response.ok) throw new Error(body.detail ?? 'Unable to subscribe right now.')
@@ -266,6 +267,7 @@ function SubscriptionCard({ dataSource }: { dataSource: SubscriptionDataSource }
 
   async function subscribe(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    track('subscription_requested', {})
     setLoading(true)
     const form = new FormData(event.currentTarget)
     try {
@@ -333,6 +335,7 @@ function App({
   const [showOfficialResults, setShowOfficialResults] = useState(true)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const lastTrackedPrediction = useRef('')
 
   useEffect(() => {
     Promise.all([dataSource.getHome(), dataSource.getSeasons()])
@@ -367,6 +370,15 @@ function App({
     dataSource.getPrediction(selectedYear, selectedWeek, visibleLimit)
       .then((data) => {
         setPrediction(data)
+        const predictionKey = `${data.year}:${data.week}`
+        if (predictionKey !== lastTrackedPrediction.current) {
+          track('prediction_viewed', {
+            season: data.year,
+            week: data.week,
+            has_official_results: data.resultsAvailable,
+          })
+          lastTrackedPrediction.current = predictionKey
+        }
         const url = new URL(window.location.href)
         url.searchParams.set('season', String(selectedYear))
         url.searchParams.set('week', String(selectedWeek))
@@ -387,14 +399,44 @@ function App({
 
   function selectSeason(year: number) {
     const season = seasons.find((item) => item.year === year)
+    if (selectedYear !== null && selectedYear !== year) {
+      track('season_changed', { from_season: selectedYear, to_season: year })
+    }
     setVisibleLimit(30)
     setSelectedYear(year)
     setSelectedWeek(season?.latestWeek ?? null)
   }
 
   function selectWeek(week: number) {
+    if (selectedYear !== null && selectedWeek !== null && selectedWeek !== week) {
+      track('week_changed', { season: selectedYear, from_week: selectedWeek, to_week: week })
+    }
     setVisibleLimit(30)
     setSelectedWeek(week)
+  }
+
+  function toggleResults() {
+    if (selectedYear !== null && selectedWeek !== null) {
+      track('results_toggled', {
+        season: selectedYear,
+        week: selectedWeek,
+        from: showOfficialResults,
+        to: !showOfficialResults,
+      })
+    }
+    setShowOfficialResults((current) => !current)
+  }
+
+  function showMorePlayers() {
+    if (!prediction) return
+    const nextLimit = Math.min(visibleLimit + 30, prediction.totalRows)
+    track('more_players_shown', {
+      season: prediction.year,
+      week: prediction.week,
+      from: visibleLimit,
+      to: nextLimit,
+    })
+    setVisibleLimit(nextLimit)
   }
 
   return (
@@ -447,7 +489,7 @@ function App({
                 className="results-toggle"
                 role="switch"
                 aria-checked={showOfficialResults}
-                onClick={() => setShowOfficialResults((current) => !current)}
+                onClick={toggleResults}
               >
                 <span className="results-toggle-track" aria-hidden="true"><i /></span>
                 <span className="results-toggle-label-desktop">Official results</span>
@@ -575,7 +617,7 @@ function App({
                     <button
                       className="show-more-button"
                       disabled={loading}
-                      onClick={() => setVisibleLimit((current) => Math.min(current + 30, prediction.totalRows))}
+                      onClick={showMorePlayers}
                     >
                       {loading ? 'Loading…' : 'Show more players'}
                     </button>

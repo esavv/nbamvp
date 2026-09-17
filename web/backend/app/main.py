@@ -1,5 +1,6 @@
-from pathlib import Path
+from contextlib import asynccontextmanager
 from datetime import datetime
+from pathlib import Path
 from typing import Annotated
 from zoneinfo import ZoneInfo
 
@@ -7,15 +8,24 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from .analytics import router as analytics_router, shutdown_analytics
 from .data import available_seasons, home_state, prediction_week
 from .subscriptions import router as subscriptions_router
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    yield
+    shutdown_analytics()
 
 
 app = FastAPI(
     title="NBA MVP Predictor",
     description="CSV-backed API for weekly NBA MVP predictions.",
     version="1.0.0",
+    lifespan=lifespan,
 )
+app.include_router(analytics_router)
 app.include_router(subscriptions_router)
 
 

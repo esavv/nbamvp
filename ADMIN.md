@@ -92,6 +92,7 @@
      source /home/ubuntu/nbamvp/venv/bin/activate
      pip install --upgrade pip
      pip install -r requirements.txt
+     pip install -r web/backend/requirements.txt
      deactivate
 
      # [remote] schedule prod runs with cron (Ubuntu service unit is `cron`)
@@ -122,7 +123,17 @@
      curl --fail --show-error --silent --output /dev/null https://nba-mvp.com
      ```
 
-4. **Copy AWS Results Back to Local**:
+4. **Enable web analytics**:
+   - Copy the PostHog project API key from the project settings. It starts with `phc_`. Do not use a personal API key.
+   - Add these values to the environment used to start the FastAPI process:
+     ```bash
+     POSTHOG_API_KEY=phc_...
+     POSTHOG_HOST=https://us.i.posthog.com
+     ```
+   - `POSTHOG_HOST` is optional. Use the host for the PostHog project region.
+   - Install the updated backend dependencies, build the frontend, and restart the FastAPI process. Analytics failures do not stop web or subscription requests. If `POSTHOG_API_KEY` is absent, events are accepted and discarded.
+
+5. **Copy AWS Results Back to Local**:
    - Before deploying updated source code to AWS we need to ensure our local codebase has the lastest predictions from the existing deployment.
    - To copy AWS predictions back to local directory, run this locally:
      ```bash  

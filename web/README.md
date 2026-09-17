@@ -37,6 +37,15 @@ export WEBAPP_URL="http://localhost:5173"
 
 SES sandbox restrictions still apply to confirmation-email recipients.
 
+Analytics events are accepted locally but discarded unless `POSTHOG_API_KEY` is set. To send them to a non-production PostHog project, set:
+
+```bash
+export POSTHOG_API_KEY="phc_..."
+export POSTHOG_HOST="https://us.i.posthog.com"
+```
+
+`POSTHOG_HOST` is optional and defaults to the US PostHog host. The project API key is safe to use for event ingestion, but do not use a PostHog personal API key.
+
 ## Production build
 
 Build the frontend:
@@ -53,4 +62,4 @@ When `web/frontend/dist` exists, FastAPI serves the compiled site as well as the
 ../../venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
-In production, the backend uses the EC2 instance role and reads its administrator email and subscription signing secret from SSM Parameter Store. See [`ADMIN.md`](../ADMIN.md) and [`deploy/iam-policy.json`](deploy/iam-policy.json).
+In production, the backend uses the EC2 instance role and reads its administrator email and subscription signing secret from SSM Parameter Store. Set `POSTHOG_API_KEY` in the backend process environment to enable analytics. See [`ADMIN.md`](../ADMIN.md) and [`deploy/iam-policy.json`](deploy/iam-policy.json).

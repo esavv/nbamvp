@@ -1,4 +1,5 @@
 boto3==1.43.46
 email-validator==2.3.0
 fastapi==0.139.0
+posthog==7.9.12
 uvicorn==0.51.0
