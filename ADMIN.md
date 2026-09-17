@@ -25,59 +25,6 @@
      ```
    - Dev mode trains a weaker model, saves results as dev files instead of prod files, and emails results to admin users.
 
-3. **Preview the Weekly Email**:
-   - Render an email from an existing production prediction without regenerating data or sending anything:
-     ```bash
-     venv/bin/python src/preview_nba_email.py --season 2026 --week 25
-     open static/html/email_body.html
-     ```
-   - Omit `--week` to use the latest available prediction for the selected season.
-   - To send the preview only to the administrator stored in SSM Parameter Store:
-     ```bash
-     venv/bin/python src/preview_nba_email.py --season 2026 --week 25 --send
-     ```
-   - From a local machine, use a restricted AWS profile and override the SSM administrator address:
-     ```bash
-     AWS_PROFILE=nbamvp-dev \
-     ADMIN_EMAIL=you@example.com \
-     venv/bin/python src/preview_nba_email.py --season 2026 --week 25 --send
-     ```
-   - The local profile only needs the policy in `web/deploy/local-dev-iam-policy.json`. Replace `<AWS_ACCOUNT_ID>` and `<VERIFIED_ADMIN_EMAIL>` before creating the policy. While SES is sandboxed, IAM must authorize both the sending domain identity and the verified recipient identity.
-   - The preview command cannot send to the production recipient list. Set `WEBAPP_URL` to override the default `https://nba-mvp.com` link when needed.
-
-## Amazon SES Email Management
-
-The application sends from `predictions@nba-mvp.com` through SES in `us-east-1`. Public subscribers are stored in the `nba-mvp-prod` contact list under the `weekly-predictions` topic. Administrative and test emails are sent directly to the address stored at `/nbamvp/admin-email` in SSM Parameter Store.
-
-1. **Required SSM parameters**:
-   - `/nbamvp/admin-email`: `String` containing the verified administrator email.
-   - `/nbamvp/subscription-token-secret`: `SecureString` containing a random secret of at least 32 bytes. Generate a value locally with:
-     ```bash
-     python3 -c "import secrets; print(secrets.token_urlsafe(48))"
-     ```
-
-2. **Create the subscriber list and topic**:
-   ```bash
-   venv/bin/python src/manage_subscribers.py setup
-   ```
-
-3. **Review subscribers**:
-   ```bash
-   venv/bin/python src/manage_subscribers.py list
-   venv/bin/python src/manage_subscribers.py list --status OPT_IN
-   ```
-
-4. **Import previously consenting recipients**:
-   ```bash
-   venv/bin/python src/manage_subscribers.py import-csv --file data/email/prod_emails.csv --dry-run
-   venv/bin/python src/manage_subscribers.py import-csv --file data/email/prod_emails.csv
-   ```
-
-5. **EC2 permissions**:
-   - Replace `<AWS_ACCOUNT_ID>` in `web/deploy/iam-policy.json`.
-   - Create a customer-managed IAM policy from that file and attach it to the EC2 instance role.
-   - Do not create SES SMTP credentials or store AWS access keys on the instance.
-
 ## Python Env Management
 
 1. **Create & Manage Python Virtual Environment**:  
@@ -182,3 +129,83 @@ The application sends from `predictions@nba-mvp.com` through SES in `us-east-1`.
      scp -i aws_ec2.pem ec2-user@ec2-3-94-191-77.compute-1.amazonaws.com:'/home/ec2-user/nbamvp/data/mvp_predictions/2025/predictions_2025_wk05*' data/mvp_predictions/2025/
      ```
    - Note: In the command above, update the source pattern ('...2024_wk23*') to target the right files
+
+## Previewing the Webapp
+
+While the backend and Vite development server are running, open [http://localhost:5173/preview](http://localhost:5173/preview) to select and view each web app status. This route and its fixtures are available only in development and are excluded from production builds.
+
+## Previewing Emails
+
+1. **Preview the Weekly Email**:
+   - Render an email from an existing production prediction without regenerating data or sending anything:
+     ```bash
+     venv/bin/python src/preview_nba_email.py --season 2026 --week 25
+     open static/html/email_body.html
+     ```
+   - Omit `--week` to use the latest available prediction for the selected season.
+   - To send the preview only to the administrator stored in SSM Parameter Store:
+     ```bash
+     venv/bin/python src/preview_nba_email.py --season 2026 --week 25 --send
+     ```
+   - From a local machine, use a restricted AWS profile and override the SSM administrator address:
+     ```bash
+     AWS_PROFILE=nbamvp-dev \
+     ADMIN_EMAIL=you@example.com \
+     venv/bin/python src/preview_nba_email.py --season 2026 --week 25 --send
+     ```
+   - The local profile only needs the policy in `web/deploy/local-dev-iam-policy.json`. Replace `<AWS_ACCOUNT_ID>` and `<VERIFIED_ADMIN_EMAIL>` before creating the policy. While SES is sandboxed, IAM must authorize both the sending domain identity and the verified recipient identity.
+   - The preview command cannot send to the production recipient list. Set `WEBAPP_URL` to override the default `https://nba-mvp.com` link when needed.
+
+2. **Preview All User and Administrator Emails Without Sending**:
+   - Generate the complete preview gallery from existing prediction data and fixed admin-email fixtures:
+     ```bash
+     venv/bin/python src/preview_emails.py
+     open static/html/previews/index.html
+     ```
+   - Generated user and administrator emails are separated under `static/html/previews/user` and `static/html/previews/admin`.
+   - Preseason and postseason previews include every combination of successful and unavailable season-date and voting-result fetches.
+   - Generate one admin-email state with explicit source results:
+     ```bash
+     venv/bin/python src/preview_emails.py preseason --season-dates-state success --voting-results-state not-found
+     venv/bin/python src/preview_emails.py postseason --season-dates-state not-found --voting-results-state success
+     ```
+   - Generate one email type or select a weekly prediction:
+     ```bash
+     venv/bin/python src/preview_emails.py subscription
+     venv/bin/python src/preview_emails.py error
+     venv/bin/python src/preview_emails.py weekly --season 2026 --week 25 --final-week
+     ```
+   - This command has no send option. It does not use SES, SSM, Wikipedia, or Basketball Reference.
+
+## Amazon SES Email Management
+
+The application sends from `predictions@nba-mvp.com` through SES in `us-east-1`. Public subscribers are stored in the `nba-mvp-prod` contact list under the `weekly-predictions` topic. Administrative and test emails are sent directly to the address stored at `/nbamvp/admin-email` in SSM Parameter Store.
+
+1. **Required SSM parameters**:
+   - `/nbamvp/admin-email`: `String` containing the verified administrator email.
+   - `/nbamvp/subscription-token-secret`: `SecureString` containing a random secret of at least 32 bytes. Generate a value locally with:
+     ```bash
+     python3 -c "import secrets; print(secrets.token_urlsafe(48))"
+     ```
+
+2. **Create the subscriber list and topic**:
+   ```bash
+   venv/bin/python src/manage_subscribers.py setup
+   ```
+
+3. **Review subscribers**:
+   ```bash
+   venv/bin/python src/manage_subscribers.py list
+   venv/bin/python src/manage_subscribers.py list --status OPT_IN
+   ```
+
+4. **Import previously consenting recipients**:
+   ```bash
+   venv/bin/python src/manage_subscribers.py import-csv --file data/email/prod_emails.csv --dry-run
+   venv/bin/python src/manage_subscribers.py import-csv --file data/email/prod_emails.csv
+   ```
+
+5. **EC2 permissions**:
+   - Replace `<AWS_ACCOUNT_ID>` in `web/deploy/iam-policy.json`.
+   - Create a customer-managed IAM policy from that file and attach it to the EC2 instance role.
+   - Do not create SES SMTP credentials or store AWS access keys on the instance.
