@@ -177,14 +177,12 @@ def render_weekly_email(prediction_file, year, week, is_last_week, unsubscribe_u
   df['Rank Change'] = _rank_changes(df, previous_prediction_file)
   table_html = _build_prediction_table(df.head(n=15))
 
-  season_label = f'{year - 1}–{str(year)[-2:]}'
   webapp_url = os.getenv('WEBAPP_URL', 'https://nba-mvp.com').rstrip('/')
   prediction_url = escape(f'{webapp_url}/?{urlencode({"season": year, "week": week})}', quote=True)
 
   html_template = MAIN_TEMPLATE_PATH.read_text(encoding='utf-8')
   html = html_template.format(
     table_html=table_html,
-    season_label=season_label,
     prediction_url=prediction_url,
     unsubscribe_url=unsubscribe_url,
   )
