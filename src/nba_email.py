@@ -1,25 +1,7 @@
 """Render and deliver NBA MVP emails."""
 
-from pathlib import Path
-
 import email_rendering
 import ses_service
-
-
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-main_body_path = PROJECT_ROOT / 'static' / 'html' / 'email_body.html'
-
-
-def render_nba_email(prediction_file, year, week, is_last_week, unsubscribe_url='#'):
-  """Return the weekly subject and HTML body without sending an email."""
-  rendered = email_rendering.render_weekly_email(
-    prediction_file,
-    year,
-    week,
-    is_last_week,
-    unsubscribe_url,
-  )
-  return rendered.subject, rendered.html
 
 
 def send_nba_email(prediction_file, year, week, mode, is_last_week):
@@ -45,11 +27,6 @@ def send_nba_email(prediction_file, year, week, mode, is_last_week):
   else:
     rendered = email_rendering.render_weekly_email(prediction_file, year, week, is_last_week)
     ses_service.send_admin_email('[TEST] ' + rendered.subject, rendered.html)
-
-
-def send_test_nba_email(subject, html):
-  """Send an already-rendered weekly email only to the administrator."""
-  ses_service.send_admin_email('[TEST] ' + subject, html)
 
 
 def send_preseason_email(

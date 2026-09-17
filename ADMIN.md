@@ -136,46 +136,31 @@ While the backend and Vite development server are running, open [http://localhos
 
 ## Previewing Emails
 
-1. **Preview the Weekly Email**:
-   - Render an email from an existing production prediction without regenerating data or sending anything:
-     ```bash
-     venv/bin/python src/preview_nba_email.py --season 2026 --week 25
-     open static/html/email_body.html
-     ```
-   - Omit `--week` to use the latest available prediction for the selected season.
-   - To send the preview only to the administrator stored in SSM Parameter Store:
-     ```bash
-     venv/bin/python src/preview_nba_email.py --season 2026 --week 25 --send
-     ```
-   - From a local machine, use a restricted AWS profile and override the SSM administrator address:
-     ```bash
-     AWS_PROFILE=nbamvp-dev \
-     ADMIN_EMAIL=you@example.com \
-     venv/bin/python src/preview_nba_email.py --season 2026 --week 25 --send
-     ```
-   - The local profile only needs the policy in `web/deploy/local-dev-iam-policy.json`. Replace `<AWS_ACCOUNT_ID>` and `<VERIFIED_ADMIN_EMAIL>` before creating the policy. While SES is sandboxed, IAM must authorize both the sending domain identity and the verified recipient identity.
-   - The preview command cannot send to the production recipient list. Set `WEBAPP_URL` to override the default `https://nba-mvp.com` link when needed.
+Generate the complete preview gallery from existing prediction data and fixed admin-email fixtures:
 
-2. **Preview All User and Administrator Emails Without Sending**:
-   - Generate the complete preview gallery from existing prediction data and fixed admin-email fixtures:
-     ```bash
-     venv/bin/python src/preview_emails.py
-     open static/html/previews/index.html
-     ```
-   - Generated user and administrator emails are separated under `static/html/previews/user` and `static/html/previews/admin`.
-   - Preseason and postseason previews include every combination of successful and unavailable season-date and voting-result fetches.
-   - Generate one admin-email state with explicit source results:
-     ```bash
-     venv/bin/python src/preview_emails.py preseason --season-dates-state success --voting-results-state not-found
-     venv/bin/python src/preview_emails.py postseason --season-dates-state not-found --voting-results-state success
-     ```
-   - Generate one email type or select a weekly prediction:
-     ```bash
-     venv/bin/python src/preview_emails.py subscription
-     venv/bin/python src/preview_emails.py error
-     venv/bin/python src/preview_emails.py weekly --season 2026 --week 25 --final-week
-     ```
-   - This command has no send option. It does not use SES, SSM, Wikipedia, or Basketball Reference.
+```bash
+venv/bin/python src/preview_emails.py
+open static/html/previews/index.html
+```
+
+Generated user and administrator emails are separated under `static/html/previews/user` and `static/html/previews/admin`. Preseason and postseason previews include every combination of successful and unavailable season-date and voting-result fetches.
+
+Generate one admin-email state with explicit source results:
+
+```bash
+venv/bin/python src/preview_emails.py preseason --season-dates-state success --voting-results-state not-found
+venv/bin/python src/preview_emails.py postseason --season-dates-state not-found --voting-results-state success
+```
+
+Generate one email type or select a weekly prediction:
+
+```bash
+venv/bin/python src/preview_emails.py subscription
+venv/bin/python src/preview_emails.py error
+venv/bin/python src/preview_emails.py weekly --season 2026 --week 25 --final-week
+```
+
+This command has no send option. It does not use SES, SSM, Wikipedia, or Basketball Reference.
 
 ## Amazon SES Email Management
 

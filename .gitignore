@@ -18,7 +18,6 @@ data/player_slugs.csv
 data/test_slugs.csv
 older_models/
 src/__pycache__/
-static/html/email_body.html
 static/html/previews/
 venv/
 *.pem
