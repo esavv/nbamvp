@@ -365,6 +365,7 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
   const [selectedWeek, setSelectedWeek] = useState<number | null>(null)
   const [prediction, setPrediction] = useState<PredictionWeek | null>(null)
   const [visibleLimit, setVisibleLimit] = useState(30)
+  const [showOfficialResults, setShowOfficialResults] = useState(true)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -416,6 +417,8 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
   )
   const previousSeasonYear = home?.seasonYear == null ? null : home.seasonYear - 1
   const previousSeason = seasons.find((season) => season.year === previousSeasonYear)
+  const resultsAvailable = prediction?.isFinal === true && prediction.resultsAvailable
+  const showResults = resultsAvailable && showOfficialResults
 
   function selectSeason(year: number) {
     const season = seasons.find((item) => item.year === year)
@@ -473,7 +476,20 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
                 </span>
               </span>
             </label>
-            {prediction?.isFinal && prediction.resultsAvailable && (
+            {resultsAvailable && (
+              <button
+                type="button"
+                className="results-toggle"
+                role="switch"
+                aria-checked={showOfficialResults}
+                onClick={() => setShowOfficialResults((current) => !current)}
+              >
+                <span className="results-toggle-track" aria-hidden="true"><i /></span>
+                <span className="results-toggle-label-desktop">Official results</span>
+                <span className="results-toggle-label-mobile">Official</span>
+              </button>
+            )}
+            {showResults && (
               <div className="comparison-legend" aria-label="Prediction accuracy legend">
                 <span className="legend-item"><i className="legend-swatch comparison-mvp" /> MVP correct</span>
                 <span className="legend-item"><i className="legend-swatch comparison-exact" /> Exact rank</span>
@@ -538,13 +554,13 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
                           <span className="sr-only">Change</span>
                           <span className="change-heading" aria-hidden="true"><i>▲</i><b>▼</b></span>
                         </th>
-                        {prediction?.isFinal && prediction.resultsAvailable && (
+                        {showResults && (
                           <th className="rank-column actual-column">Actual</th>
                         )}
                         <th className="player-column">Player</th>
                         <th>Team</th>
                         <th className="number-column">Predicted votes</th>
-                        {prediction?.isFinal && prediction.resultsAvailable && (
+                        {showResults && (
                           <th className="number-column actual-column">Actual votes</th>
                         )}
                         <th className="number-column">PTS</th>
@@ -557,7 +573,6 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
                     </thead>
                     <tbody>
                       {prediction?.rows.map((row) => {
-                        const showResults = prediction.isFinal && prediction.resultsAvailable
                         return (
                           <tr key={row.player} className={comparisonClass(row, showResults)}>
                             <td className="rank-column">{row.rank}</td>

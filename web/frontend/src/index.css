@@ -124,11 +124,64 @@ select {
 }
 
 .season-toolbar {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: max-content max-content 1fr;
+  align-items: center;
   gap: 16px;
   margin-bottom: 8px;
+}
+
+.results-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 0;
+  border: 0;
+  color: #475569;
+  background: transparent;
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.results-toggle-track {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 18px;
+  border-radius: 999px;
+  background: #cbd5e1;
+  transition: background-color 120ms ease;
+}
+
+.results-toggle-track i {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.25);
+  transition: transform 120ms ease;
+}
+
+.results-toggle[aria-checked="true"] .results-toggle-track {
+  background: #ea580c;
+}
+
+.results-toggle[aria-checked="true"] .results-toggle-track i {
+  transform: translateX(12px);
+}
+
+.results-toggle:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.results-toggle-label-mobile {
+  display: none;
 }
 
 .season-select-control {
@@ -220,8 +273,8 @@ select {
 .comparison-legend {
   display: flex;
   flex-wrap: wrap;
+  justify-self: end;
   gap: 8px 18px;
-  margin-left: auto;
   color: #64748b;
   font-size: 0.72rem;
   font-weight: 650;
@@ -725,7 +778,21 @@ tr.comparison-miss td:first-child {
   }
 
   .season-toolbar {
+    grid-template-columns: max-content max-content 1fr;
     gap: 8px;
+  }
+
+  .results-toggle {
+    justify-self: start;
+    font-size: 0.68rem;
+  }
+
+  .results-toggle-label-desktop {
+    display: none;
+  }
+
+  .results-toggle-label-mobile {
+    display: inline;
   }
 
   .comparison-legend {
