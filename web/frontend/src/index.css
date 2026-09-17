@@ -624,6 +624,124 @@ tr.comparison-miss td:first-child {
   color: #0f172a;
 }
 
+.toast-viewport {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 200;
+  width: min(390px, calc(100vw - 32px));
+  margin: 0;
+  outline: 0;
+}
+
+.toast-root {
+  --toast-offset: calc(var(--toast-offset-y) + (var(--toast-index) * 8px));
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: var(--toast-frontmost-height, var(--toast-height));
+  z-index: calc(200 - var(--toast-index));
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  color: #0f172a;
+  background: white;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18), 0 2px 8px rgba(15, 23, 42, 0.08);
+  transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--toast-offset));
+  transition: opacity 180ms ease, transform 220ms ease, height 220ms ease;
+}
+
+.toast-root[data-starting-style],
+.toast-root[data-ending-style] {
+  opacity: 0;
+  transform: translateX(calc(var(--toast-swipe-movement-x) + 110%)) translateY(var(--toast-offset));
+}
+
+.toast-root[data-limited] {
+  opacity: 0;
+}
+
+.toast-content {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 28px;
+  gap: 11px;
+  align-items: start;
+  padding: 14px;
+  transition: opacity 180ms ease;
+}
+
+.toast-content[data-behind]:not([data-expanded]) {
+  opacity: 0;
+}
+
+.toast-status {
+  display: grid;
+  height: 34px;
+  width: 34px;
+  place-items: center;
+  border-radius: 9px;
+  color: #047857;
+  background: #ecfdf5;
+}
+
+.toast-root[data-type="error"] .toast-status {
+  color: #b91c1c;
+  background: #fef2f2;
+}
+
+.toast-icon {
+  height: 18px;
+  width: 18px;
+}
+
+.toast-copy {
+  min-width: 0;
+  padding-top: 1px;
+}
+
+.toast-title {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 750;
+  line-height: 1.3;
+}
+
+.toast-description {
+  margin: 3px 0 0;
+  color: #64748b;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.toast-close {
+  display: grid;
+  height: 28px;
+  width: 28px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  color: #94a3b8;
+  background: transparent;
+  cursor: pointer;
+}
+
+.toast-close svg {
+  height: 15px;
+  width: 15px;
+}
+
+.toast-close:hover {
+  color: #334155;
+  background: #f1f5f9;
+}
+
+.toast-close:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 1px;
+}
+
 .honeypot {
   position: absolute !important;
   left: -10000px !important;
@@ -691,6 +809,12 @@ tr.comparison-miss td:first-child {
   .site-header-inner {
     gap: 8px;
     padding-block: 8px;
+  }
+
+  .toast-viewport {
+    top: 12px;
+    right: 12px;
+    width: calc(100vw - 24px);
   }
 
   .logo-mark {

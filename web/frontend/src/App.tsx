@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
+import { Toaster } from './Toast.tsx'
+import { toast } from './toast-manager.ts'
 
 export type CountdownInfo = {
   kind: 'first_prediction' | 'next_prediction' | 'next_season'
@@ -62,6 +64,10 @@ export type AppDataSource = {
   getPrediction: (year: number, week: number, limit: number) => Promise<PredictionWeek>
 }
 
+export type SubscriptionDataSource = {
+  subscribe: (email: string, website: string) => Promise<{ message: string }>
+}
+
 const httpDataSource: AppDataSource = {
   async getHome() {
     const response = await fetch('/api/home')
@@ -77,6 +83,19 @@ const httpDataSource: AppDataSource = {
     const response = await fetch(`/api/seasons/${year}/weeks/${week}?limit=${limit}`)
     if (!response.ok) throw new Error('That prediction could not be loaded')
     return response.json() as Promise<PredictionWeek>
+  },
+}
+
+const httpSubscriptionDataSource: SubscriptionDataSource = {
+  async subscribe(email, website) {
+    const response = await fetch('/api/subscriptions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, website }),
+    })
+    const body = await response.json()
+    if (!response.ok) throw new Error(body.detail ?? 'Unable to subscribe right now.')
+    return body
   },
 }
 
@@ -238,7 +257,7 @@ function StatusCopy({ home }: { home: HomeState }) {
   return null
 }
 
-function SubscriptionCard() {
+function SubscriptionCard({ dataSource }: { dataSource: SubscriptionDataSource }) {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
@@ -256,21 +275,24 @@ function SubscriptionCard() {
   async function subscribe(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setLoading(true)
-    setError('')
-    setMessage('')
     const form = new FormData(event.currentTarget)
     try {
-      const response = await fetch('/api/subscriptions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, website: form.get('website') ?? '' }),
+      const body = await dataSource.subscribe(email, String(form.get('website') ?? ''))
+      toast.add({
+        id: 'subscription-response',
+        type: 'success',
+        title: 'Check your inbox',
+        description: body.message,
       })
-      const body = await response.json()
-      if (!response.ok) throw new Error(body.detail ?? 'Unable to subscribe right now.')
-      setMessage(body.message)
       setEmail('')
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : 'Unable to subscribe right now.')
+      toast.add({
+        id: 'subscription-response',
+        type: 'error',
+        title: 'Could not subscribe',
+        description: reason instanceof Error ? reason.message : 'Unable to subscribe right now.',
+        priority: 'high',
+      })
     } finally {
       setLoading(false)
     }
@@ -358,7 +380,13 @@ function SubscriptionCard() {
   )
 }
 
-function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
+function App({
+  dataSource = httpDataSource,
+  subscriptionDataSource = httpSubscriptionDataSource,
+}: {
+  dataSource?: AppDataSource
+  subscriptionDataSource?: SubscriptionDataSource
+}) {
   const [home, setHome] = useState<HomeState | null>(null)
   const [seasons, setSeasons] = useState<Season[]>([])
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
@@ -440,7 +468,7 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
             <span className="logo-mark" aria-hidden="true">🏀</span>
             <p className="site-title">NBA MVP Predictions</p>
           </a>
-          <SubscriptionCard />
+          <SubscriptionCard dataSource={subscriptionDataSource} />
         </div>
       </header>
 
@@ -616,7 +644,7 @@ function App({ dataSource = httpDataSource }: { dataSource?: AppDataSource }) {
 
         </section>
       </main>
-
+      <Toaster />
     </div>
   )
 }

@@ -1,12 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import App from '../App.tsx'
-import type { AppDataSource, HomeState, PredictionRow, PredictionWeek, Season } from '../App.tsx'
+import type { AppDataSource, HomeState, PredictionRow, PredictionWeek, Season, SubscriptionDataSource } from '../App.tsx'
+import { toast } from '../toast-manager.ts'
+
+type PreviewToast = {
+  type: 'success' | 'error'
+  title: string
+  description: string
+}
 
 type Scenario = {
   label: string
   home: HomeState
   seasons: Season[]
   predictions: PredictionWeek[]
+  toast?: PreviewToast
 }
 
 const predictionRows: PredictionRow[] = [
@@ -129,6 +137,40 @@ const scenarios = {
     seasons: [],
     predictions: [],
   },
+  subscribeSuccess: {
+    label: 'Subscribe success toast',
+    home: {
+      status: 'in_season',
+      seasonYear: 2026,
+      seasonLabel: '2025–26',
+      week: 24,
+      countdown: { kind: 'next_prediction', target: futureDate(7) },
+    },
+    seasons: [archivedSeason(false)],
+    predictions: [prediction(24, false), prediction(25, false)],
+    toast: {
+      type: 'success',
+      title: 'Check your inbox',
+      description: 'Woohoo! Check your inbox for a confirmation link.',
+    },
+  },
+  subscribeError: {
+    label: 'Subscribe error toast',
+    home: {
+      status: 'in_season',
+      seasonYear: 2026,
+      seasonLabel: '2025–26',
+      week: 24,
+      countdown: { kind: 'next_prediction', target: futureDate(7) },
+    },
+    seasons: [archivedSeason(false)],
+    predictions: [prediction(24, false), prediction(25, false)],
+    toast: {
+      type: 'error',
+      title: 'Could not subscribe',
+      description: 'Subscriptions are temporarily unavailable. Please try again later.',
+    },
+  },
 } satisfies Record<string, Scenario>
 
 type ScenarioName = keyof typeof scenarios
@@ -154,6 +196,17 @@ function dataSourceFor(scenario: Scenario): AppDataSource {
   }
 }
 
+function subscriptionDataSourceFor(scenario: Scenario): SubscriptionDataSource {
+  return {
+    async subscribe() {
+      if (scenario.toast?.type === 'error') {
+        throw new Error(scenario.toast.description)
+      }
+      return { message: 'Woohoo! Check your inbox for a confirmation link.' }
+    },
+  }
+}
+
 function initialScenario(): ScenarioName {
   const requested = new URLSearchParams(window.location.search).get('scenario')
   return isScenarioName(requested) ? requested : 'awaitingFirstPrediction'
@@ -162,6 +215,21 @@ function initialScenario(): ScenarioName {
 function PreviewApp() {
   const [scenarioName, setScenarioName] = useState<ScenarioName>(initialScenario)
   const scenario = scenarios[scenarioName]
+  const scenarioToast = 'toast' in scenario ? scenario.toast : undefined
+  const displayedToastScenario = useRef<ScenarioName | null>(null)
+
+  useEffect(() => {
+    if (!scenarioToast || displayedToastScenario.current === scenarioName) return
+    displayedToastScenario.current = scenarioName
+    toast.add({
+      id: 'preview-subscription-response',
+      type: scenarioToast.type,
+      title: scenarioToast.title,
+      description: scenarioToast.description,
+      timeout: 0,
+      priority: scenarioToast.type === 'error' ? 'high' : 'low',
+    })
+  }, [scenarioName, scenarioToast])
 
   function selectScenario(nextScenario: ScenarioName) {
     const url = new URL(window.location.href)
@@ -169,6 +237,8 @@ function PreviewApp() {
     url.searchParams.delete('season')
     url.searchParams.delete('week')
     window.history.replaceState({}, '', url)
+    displayedToastScenario.current = null
+    toast.close('preview-subscription-response')
     setScenarioName(nextScenario)
   }
 
@@ -203,7 +273,11 @@ function PreviewApp() {
           </select>
         </label>
       </aside>
-      <App key={scenarioName} dataSource={dataSourceFor(scenario)} />
+      <App
+        key={scenarioName}
+        dataSource={dataSourceFor(scenario)}
+        subscriptionDataSource={subscriptionDataSourceFor(scenario)}
+      />
     </>
   )
 }
