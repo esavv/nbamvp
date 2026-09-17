@@ -143,7 +143,7 @@ def error_preview():
 
 def subscription_preview():
   rendered = render_subscription_confirmation_email(
-    'http://localhost:5173/?subscription_token=preview-token'
+    'http://localhost:5173/confirm?subscription_token=preview-token'
   )
   return Preview('user', 'subscription-confirmation.html', 'Subscription confirmation', rendered)
 

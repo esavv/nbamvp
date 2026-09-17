@@ -134,6 +134,8 @@
 
 While the backend and Vite development server are running, open [http://localhost:5173/preview](http://localhost:5173/preview) to select and view each web app status. This route and its fixtures are available only in development and are excluded from production builds.
 
+Open [http://localhost:5173/preview/confirm](http://localhost:5173/preview/confirm) to preview the subscription confirmation route without calling the backend or AWS.
+
 ## Previewing Emails
 
 Generate the complete preview gallery from existing prediction data and fixed admin-email fixtures:

@@ -259,18 +259,7 @@ function StatusCopy({ home }: { home: HomeState }) {
 
 function SubscriptionCard({ dataSource }: { dataSource: SubscriptionDataSource }) {
   const [email, setEmail] = useState('')
-  const [message, setMessage] = useState('')
-  const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [confirmationToken, setConfirmationToken] = useState(
-    () => new URLSearchParams(window.location.search).get('subscription_token') ?? '',
-  )
-
-  useEffect(() => {
-    if (confirmationToken) {
-      document.getElementById('newsletter-subscription')?.scrollIntoView({ block: 'center' })
-    }
-  }, [confirmationToken])
 
   async function subscribe(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -298,84 +287,29 @@ function SubscriptionCard({ dataSource }: { dataSource: SubscriptionDataSource }
     }
   }
 
-  async function confirmSubscription() {
-    setLoading(true)
-    setError('')
-    try {
-      const response = await fetch('/api/subscriptions/confirm', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: confirmationToken }),
-      })
-      const body = await response.json()
-      if (!response.ok) throw new Error(body.detail ?? 'Unable to confirm this subscription.')
-      setMessage(body.message)
-      setConfirmationToken('')
-      const url = new URL(window.location.href)
-      url.searchParams.delete('subscription_token')
-      window.history.replaceState({}, '', url)
-    } catch (reason) {
-      setError(reason instanceof Error ? reason.message : 'Unable to confirm this subscription.')
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
-    <div
-      className={`subscription-card${confirmationToken ? ' subscription-card-confirmation' : ''}`}
-      id="newsletter-subscription"
-    >
-      {confirmationToken && (
-        <div className="subscription-copy">
-          <h2>Confirm your subscription</h2>
-          <p>Confirm below to receive NBA MVP predictions during the season.</p>
-        </div>
-      )}
-      {confirmationToken ? (
-        <button className="subscribe-button" disabled={loading} onClick={confirmSubscription}>
-          {loading ? 'Confirming…' : 'Confirm subscription'}
-        </button>
-      ) : (
-        <form className="subscribe-form" onSubmit={subscribe}>
-          <label className="sr-only" htmlFor="subscription-email">Email address</label>
-          <span className="subscription-email-control">
-            <input
-              id="subscription-email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="you@example.com"
-              autoComplete="email"
-              required
-            />
-            <span className="subscription-email-sizer" aria-hidden="true">
-              {`${email} `}
-            </span>
+    <div className="subscription-card" id="newsletter-subscription">
+      <form className="subscribe-form" onSubmit={subscribe}>
+        <label className="sr-only" htmlFor="subscription-email">Email address</label>
+        <span className="subscription-email-control">
+          <input
+            id="subscription-email"
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="you@example.com"
+            autoComplete="email"
+            required
+          />
+          <span className="subscription-email-sizer" aria-hidden="true">
+            {`${email} `}
           </span>
-          <input className="honeypot" type="text" name="website" tabIndex={-1} autoComplete="off" />
-          <button className="subscribe-button" type="submit" disabled={loading}>
-            {loading ? 'Sending…' : 'Subscribe'}
-          </button>
-        </form>
-      )}
-      {(message || error) && (
-        <div className="subscription-response" aria-live="polite">
-          {message && <p className="text-emerald-700">{message}</p>}
-          {error && <p className="text-red-700">{error}</p>}
-          <button
-            className="subscription-response-dismiss"
-            type="button"
-            aria-label="Dismiss subscription message"
-            onClick={() => {
-              setMessage('')
-              setError('')
-            }}
-          >
-            ×
-          </button>
-        </div>
-      )}
+        </span>
+        <input className="honeypot" type="text" name="website" tabIndex={-1} autoComplete="off" />
+        <button className="subscribe-button" type="submit" disabled={loading}>
+          {loading ? 'Sending…' : 'Subscribe'}
+        </button>
+      </form>
     </div>
   )
 }

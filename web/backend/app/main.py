@@ -4,6 +4,7 @@ from typing import Annotated
 from zoneinfo import ZoneInfo
 
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from .data import available_seasons, home_state, prediction_week
@@ -43,5 +44,15 @@ def get_prediction_week(year: int, week: int, limit: Annotated[int, Query(ge=1, 
 
 
 frontend_dist = Path(__file__).resolve().parents[2] / "frontend" / "dist"
+
+
+@app.get("/confirm", include_in_schema=False)
+def confirmation_page() -> FileResponse:
+    index = frontend_dist / "index.html"
+    if not index.exists():
+        raise HTTPException(status_code=404, detail="Frontend build not found")
+    return FileResponse(index)
+
+
 if frontend_dist.exists():
     app.mount("/", StaticFiles(directory=frontend_dist, html=True), name="frontend")

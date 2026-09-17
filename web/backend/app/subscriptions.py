@@ -118,7 +118,7 @@ def request_subscription(payload: SubscriptionRequest, request: Request) -> dict
 
     try:
         token = create_confirmation_token(email)
-        confirmation_url = f"{WEBAPP_URL}/?subscription_token={quote(token)}"
+        confirmation_url = f"{WEBAPP_URL}/confirm?subscription_token={quote(token)}"
         rendered = render_subscription_confirmation_email(confirmation_url)
         ses_service.send_email(
             email,

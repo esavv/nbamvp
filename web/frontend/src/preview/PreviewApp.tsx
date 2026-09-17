@@ -272,6 +272,12 @@ function PreviewApp() {
             ))}
           </select>
         </label>
+        <a
+          href="/preview/confirm"
+          style={{ display: 'block', marginTop: '9px', color: '#c2410c', fontSize: '12px', fontWeight: 700 }}
+        >
+          Preview subscription confirmation
+        </a>
       </aside>
       <App
         key={scenarioName}

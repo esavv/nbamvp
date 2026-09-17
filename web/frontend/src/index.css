@@ -74,6 +74,90 @@ select {
   padding-block: 7px;
 }
 
+.confirmation-app {
+  min-height: 100vh;
+}
+
+.confirmation-main {
+  display: grid;
+  min-height: calc(100vh - 65px);
+  place-items: center;
+  padding: 48px 16px;
+  background: #f8fafc;
+}
+
+.confirmation-panel {
+  width: min(100%, 510px);
+  padding: 38px;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  text-align: center;
+  background: white;
+  box-shadow: 0 20px 55px rgba(15, 23, 42, 0.09);
+}
+
+.confirmation-icon {
+  display: grid;
+  height: 52px;
+  width: 52px;
+  margin: 0 auto 20px;
+  place-items: center;
+  border-radius: 15px;
+  color: #c2410c;
+  background: #fff7ed;
+}
+
+.confirmation-panel-success .confirmation-icon {
+  color: #047857;
+  background: #ecfdf5;
+}
+
+.confirmation-panel-error .confirmation-icon {
+  color: #b91c1c;
+  background: #fef2f2;
+}
+
+.confirmation-icon svg {
+  height: 26px;
+  width: 26px;
+}
+
+.confirmation-panel h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(1.45rem, 4vw, 1.85rem);
+  letter-spacing: -0.025em;
+}
+
+.confirmation-panel p {
+  max-width: 390px;
+  margin: 12px auto 0;
+  color: #64748b;
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.confirmation-button,
+.confirmation-home-link {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 11px 17px;
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+
+.confirmation-home-link {
+  border-radius: 8px;
+  color: white;
+  background: #ea580c;
+  font-weight: 750;
+  box-shadow: 0 5px 14px rgba(234, 88, 12, 0.16);
+}
+
+.confirmation-home-link:hover {
+  background: #c2410c;
+}
+
 .hero-section {
   border-bottom: 1px solid rgba(226, 232, 240, 0.8);
   background: #f8fafc;
@@ -512,25 +596,6 @@ tr.comparison-miss td:first-child {
   align-items: center;
 }
 
-.subscription-card-confirmation {
-  grid-template-columns: max-content minmax(300px, 340px);
-}
-
-.subscription-card h2 {
-  margin: 0;
-  color: #0f172a;
-  font-size: 1rem;
-  font-weight: 750;
-  letter-spacing: -0.01em;
-}
-
-.subscription-card p {
-  margin: 0;
-  color: #64748b;
-  font-size: 0.67rem;
-  line-height: 1.35;
-}
-
 .subscribe-form {
   position: relative;
   display: flex;
@@ -585,43 +650,6 @@ tr.comparison-miss td:first-child {
 .subscribe-button:disabled {
   opacity: 0.58;
   cursor: wait;
-}
-
-.subscription-response {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  grid-column: 1;
-}
-
-.subscription-card-confirmation .subscription-response {
-  grid-column: 2;
-}
-
-.subscription-response p {
-  flex: 1;
-  font-size: 0.67rem;
-  font-weight: 650;
-}
-
-.subscription-response-dismiss {
-  display: grid;
-  height: 20px;
-  width: 20px;
-  flex: 0 0 auto;
-  place-items: center;
-  padding: 0;
-  border: 0;
-  border-radius: 5px;
-  color: #64748b;
-  background: transparent;
-  font-size: 1rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.subscription-response-dismiss:active {
-  color: #0f172a;
 }
 
 .toast-viewport {
@@ -765,17 +793,8 @@ tr.comparison-miss td:first-child {
 }
 
 @media (max-width: 900px) {
-  .subscription-copy {
-    display: none;
-  }
-
   .subscription-card {
     grid-template-columns: minmax(260px, 340px);
-  }
-
-  .subscription-response,
-  .subscription-card-confirmation .subscription-response {
-    grid-column: 1;
   }
 }
 
@@ -795,10 +814,6 @@ tr.comparison-miss td:first-child {
     color: #c2410c;
   }
 
-  .subscription-response-dismiss:hover {
-    color: #0f172a;
-    background: #f1f5f9;
-  }
 }
 
 @media (max-width: 640px) {
@@ -809,6 +824,16 @@ tr.comparison-miss td:first-child {
   .site-header-inner {
     gap: 8px;
     padding-block: 8px;
+  }
+
+  .confirmation-main {
+    min-height: calc(100vh - 57px);
+    align-items: start;
+    padding-top: 40px;
+  }
+
+  .confirmation-panel {
+    padding: 30px 22px;
   }
 
   .toast-viewport {
