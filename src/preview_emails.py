@@ -148,6 +148,51 @@ def subscription_preview():
   return Preview('user', 'subscription-confirmation.html', 'Subscription confirmation', rendered)
 
 
+def preview_label(path):
+  labels = {
+    'weekly-prediction': 'Weekly prediction',
+    'weekly-prediction-test': 'Weekly prediction test',
+    'subscription-confirmation': 'Subscription confirmation',
+    'error': 'Prediction error',
+  }
+  if path.stem in labels:
+    return labels[path.stem]
+
+  match = re.match(
+    r'^(preseason|postseason)-season-dates-(success|not-found)-voting-results-(success|not-found)$',
+    path.stem,
+  )
+  if match:
+    email_type, season_dates_state, voting_results_state = match.groups()
+    return (
+      f'{email_type.title()}: season dates {season_dates_state}, '
+      f'voting results {voting_results_state}'
+    )
+  return path.stem.replace('-', ' ').title()
+
+
+def written_previews():
+  previews = []
+  for audience in ('user', 'admin'):
+    directory = PREVIEW_DIR / audience
+    if not directory.exists():
+      continue
+    for html_path in sorted(directory.glob('*.html')):
+      text_path = html_path.with_suffix('.txt')
+      text_content = text_path.read_text(encoding='utf-8') if text_path.exists() else ''
+      subject_line, _, text = text_content.partition('\n\n')
+      subject = subject_line.removeprefix('Subject: ').strip() or preview_label(html_path)
+      previews.append(
+        Preview(
+          audience,
+          html_path.name,
+          preview_label(html_path),
+          RenderedEmail(subject, html_path.read_text(encoding='utf-8'), text.strip()),
+        )
+      )
+  return previews
+
+
 def all_previews(season, week, final_week):
   previews = weekly_previews(season, week, final_week)
   previews.append(subscription_preview())
@@ -252,7 +297,7 @@ def write_previews(previews):
       encoding='utf-8',
     )
     print(f'Rendered {preview.label}: {html_path}')
-  write_index(previews)
+  write_index(written_previews())
   print(f'Preview index: {PREVIEW_DIR / "index.html"}')
   print('No email sent.')
 
