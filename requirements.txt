@@ -1,7 +1,7 @@
 basketball_reference_web_scraper==4.22.0
 beautifulsoup4==4.12.3
 boto3==1.43.46
-certifi==2025.8.3
+certifi==2026.10.19
 charset-normalizer==3.4.3
 email-validator==2.3.0
 idna==3.15
