@@ -132,7 +132,7 @@ def request_subscription(payload: SubscriptionRequest, request: Request) -> dict
             rendered.subject,
             rendered.html,
             rendered.text,
-            tags={"message_type": "subscription-confirmation"},
+            tags={"message_type": "subscription_confirmation", "audience": "subscriber"},
         )
     except (BotoCoreError, ClientError):
         logger.exception("Unable to send subscription confirmation")

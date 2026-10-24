@@ -177,6 +177,8 @@ This command has no send option. It does not use SES, SSM, Wikipedia, or Basketb
 
 ## Amazon SES Email Management
 
+Email metrics use SES → SNS → Lambda → PostHog. See [email metrics operations](infra/email_metrics/README.md) for resources, events, privacy limits, deployment steps, and optional work. `src/ses_service.py` defaults to the `nbamvp-email-metrics` configuration set. Set `SES_CONFIGURATION_SET` to an empty string to disable tracking for a process. The infrastructure setup does not deploy or restart the EC2 app.
+
 The application sends from `predictions@nba-mvp.com` through SES in `us-east-1`. Public subscribers are stored in the `nba-mvp-prod` contact list under the `weekly-predictions` topic. Administrative and test emails are sent directly to the address stored at `/nbamvp/admin-email` in SSM Parameter Store.
 
 1. **Required SSM parameters**:

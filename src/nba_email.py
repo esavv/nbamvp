@@ -21,12 +21,15 @@ def send_nba_email(prediction_file, year, week, mode, is_last_week):
         rendered.html,
         rendered.text,
         subscription_managed=True,
-        tags={'audience': 'subscriber', 'season': year, 'week': week},
+        tags={'message_type': 'weekly_prediction', 'audience': 'subscriber', 'season': year, 'week': week},
       )
     print(f'  Sent weekly prediction email to {len(recipients)} confirmed subscribers.')
   else:
     rendered = email_rendering.render_weekly_email(prediction_file, year, week, is_last_week)
-    ses_service.send_admin_email('[TEST] ' + rendered.subject, rendered.html)
+    ses_service.send_admin_email(
+      '[TEST] ' + rendered.subject, rendered.html,
+      tags={'message_type': 'weekly_prediction', 'season': year, 'week': week},
+    )
 
 
 def send_preseason_email(

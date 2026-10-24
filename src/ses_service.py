@@ -16,7 +16,7 @@ CONTACT_LIST_NAME = os.getenv('SES_CONTACT_LIST_NAME', 'nba-mvp-prod')
 TOPIC_NAME = os.getenv('SES_TOPIC_NAME', 'weekly-predictions')
 FROM_EMAIL = os.getenv('SES_FROM_EMAIL', 'NBA MVP Predictions <predictions@nba-mvp.com>')
 REPLY_TO_EMAIL = os.getenv('SES_REPLY_TO_EMAIL', '')
-CONFIGURATION_SET = os.getenv('SES_CONFIGURATION_SET', '')
+CONFIGURATION_SET = os.getenv('SES_CONFIGURATION_SET', 'nbamvp-email-metrics')
 ADMIN_EMAIL_PARAMETER = os.getenv('ADMIN_EMAIL_PARAMETER', '/nbamvp/admin-email')
 SUBSCRIPTION_SECRET_PARAMETER = os.getenv(
   'SUBSCRIPTION_SECRET_PARAMETER',
@@ -93,13 +93,13 @@ def send_email(to_address, subject, html, text, *, subscription_managed=False, t
   return ses_client().send_email(**request)
 
 
-def send_admin_email(subject, html, text=None):
+def send_admin_email(subject, html, text=None, *, tags=None):
   return send_email(
     get_admin_email(),
     subject,
     html,
     text or 'NBA MVP Predictions administrative notification.',
-    tags={'audience': 'admin'},
+    tags={'message_type': 'admin_notification', **(tags or {}), 'audience': 'admin'},
   )
 
 
