@@ -164,11 +164,19 @@ def main():
   #   Except, generate predictions if we're in dev mode (for testing)
   prediction_prefix = 'predictions_' + str(target_year) + '_wk' + week_str 
   prediction_path = '../data/mvp_predictions/' + str(target_year)
-  if args.mode == 'prod':                     # confirm we're in 'prod' mode here
-    for file in os.listdir(prediction_path):
-      if file.startswith(prediction_prefix):
-        print('Prediction for this week already exists! Exiting...')
-        exit()
+  try:
+    os.makedirs(prediction_path, exist_ok=True)
+    if mode == 'prod':
+      for file in os.listdir(prediction_path):
+        if file.startswith(prediction_prefix):
+          print('Prediction for this week already exists! Exiting...')
+          return
+  except Exception:
+    print('ERROR: Preparing the prediction directory failed.')
+    traceback_str = traceback.format_exc()
+    print(traceback_str)
+    em.send_error_email(target_year, season_week, traceback_str)
+    raise
 
   # Delete the current year's data
   # TODO - Check to see if this works before the new year. IE target year is 2023, but season starts in 2022.
@@ -280,7 +288,10 @@ def main():
   # Email the results
   print("Emailing the results...")
   try:
-    em.send_nba_email(prediction_file, target_year, season_week, mode, is_last_week)
+    email_mode = 'dev' if args.admin_only else mode
+    if args.admin_only:
+      print('  Admin-only delivery selected. No subscriber emails will be sent.')
+    em.send_nba_email(prediction_file, target_year, season_week, email_mode, is_last_week)
   except Exception:
     # Print a clear error message and exit gracefully
     print(f"ERROR: Emailing the predictions failed.")
@@ -292,6 +303,7 @@ def main():
 # Set up command-line arguments & configure 'prod' and 'dev' modes (via an environment variable).
 parser = argparse.ArgumentParser(description='Toggle between prod and dev modes.')
 parser.add_argument('--mode', choices=['prod', 'dev'], default='dev', help='Set the application mode (prod or dev).')
+parser.add_argument('--admin-only', action='store_true', help='Send results only to the administrator without changing model strength or production filenames.')
 args = parser.parse_args()
 os.environ['MODE'] = args.mode
 
