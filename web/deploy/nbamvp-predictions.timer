@@ -1,0 +1,9 @@
+[Unit]
+Description=Run NBA MVP predictions Wednesdays at 9am Eastern
+
+[Timer]
+OnCalendar=Wed *-*-* 09:00:00 America/New_York
+Unit=nbamvp-predictions.service
+
+[Install]
+WantedBy=timers.target

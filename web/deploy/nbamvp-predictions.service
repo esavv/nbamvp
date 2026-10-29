@@ -1,0 +1,14 @@
+[Unit]
+Description=NBA MVP weekly production predictions
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/home/ubuntu/nbamvp/src
+EnvironmentFile=-/home/ubuntu/nbamvp/.env
+ExecStart=/home/ubuntu/nbamvp/venv/bin/python -u predict_mvp.py --mode prod
+StandardOutput=append:/home/ubuntu/nbamvp/data/logs/prod_job.log
+StandardError=append:/home/ubuntu/nbamvp/data/logs/prod_job.log
+TimeoutStartSec=2h

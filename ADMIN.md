@@ -95,16 +95,16 @@
      pip install -r web/backend/requirements.txt
      deactivate
 
-     # [remote] schedule prod runs with cron (Ubuntu service unit is `cron`)
-     sudo systemctl enable cron
-     sudo systemctl start cron
-     systemctl status cron
+     # [remote, project root] schedule production runs Wednesdays at 9am Eastern
+     sudo cp web/deploy/nbamvp-predictions.service /etc/systemd/system/
+     sudo cp web/deploy/nbamvp-predictions.timer /etc/systemd/system/
+     sudo systemctl daemon-reload
+     sudo systemctl enable --now nbamvp-predictions.timer
+     systemctl list-timers nbamvp-predictions.timer
 
+     # Remove the previous prediction job and its CRON_TZ line, if present.
+     # Keep unrelated cron jobs.
      crontab -e
-
-     CRON_TZ=America/New_York
-     # prod job: weekly Wednesdays 9am ET
-     0 9 * * 3 cd /home/ubuntu/nbamvp/src && /home/ubuntu/nbamvp/venv/bin/python predict_mvp.py --mode 'prod' >> /home/ubuntu/nbamvp/data/logs/prod_job.log 2>&1
      ```
     - If you need a Python version newer than the system `python3`, install it (for example from [deadsnakes](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa) on LTS) and run that interpreter’s `-m venv /home/ubuntu/nbamvp/venv` instead of `python3 -m venv`.
 
@@ -146,6 +146,16 @@
 While the backend and Vite development server are running, open [http://localhost:5173/preview](http://localhost:5173/preview) to select and view each web app status. This route and its fixtures are available only in development and are excluded from production builds.
 
 Open [http://localhost:5173/preview/confirm](http://localhost:5173/preview/confirm) to preview the subscription confirmation route without calling the backend or AWS.
+
+## Admin-only Production Run
+
+From `src`, run the full production model and save a production CSV, but send only to the administrator:
+
+```bash
+../venv/bin/python -u predict_mvp.py --mode prod --admin-only
+```
+
+The existing-prediction check still applies. Once the CSV exists, a later production run skips that week. Subscriber delivery after review must use the saved CSV explicitly, not rerun prediction generation. Never delete the CSV just to retry email delivery.
 
 ## Previewing Emails
 
